@@ -1,0 +1,54 @@
+.registration-page {
+  background-color: #403752;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  justify-items: center;
+  padding: 20px;
+  gap: 40px;
+  box-sizing: border-box;
+}
+
+.form-section,
+.board-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 500px;
+  transition: all 0.3s ease;
+}
+
+
+@media (max-width: 1024px) {
+  .form-section,
+  .board-section {
+    max-width: 400px;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .registration-page {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 20px;
+  }
+
+  .board-section {
+    display: none;
+  }
+
+  .form-section {
+    max-width: 90%;
+  }
+}
+
+
+@media (max-width: 480px) {
+  .form-section {
+    max-width: 100%;
+    padding: 0 10px;
+  }
+}
