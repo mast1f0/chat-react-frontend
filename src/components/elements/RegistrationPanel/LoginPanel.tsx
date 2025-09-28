@@ -1,7 +1,7 @@
-import "./RegistrationPanel.style.css";
+import "./LoginPanel.style.css";
 import { useState } from "react";
 
-export default function RegistrationPanel() {
+export default function LoginPanel() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -47,7 +47,7 @@ export default function RegistrationPanel() {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <a href="/registration">Забыли пароль?</a>
+        <a href="/getPassword">Забыли пароль?</a>
         <label htmlFor="forgot">
           <input type="checkbox" id="forgot" name="" />
           Запомнить меня

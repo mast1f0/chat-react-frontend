@@ -1,15 +1,14 @@
+import "./LoginPage.style.css";
 import AnimatedChessBoard from "../../components/elements/board/Board";
-import RegistrationPanel from "../../components/RegistrationPanel/RegistrationPanel";
-import "./RegistrationPage.style.css";
-
+import LoginPanel from "../../components/elements/RegistrationPanel/LoginPanel";
 export default function RegistrationPage() {
   return (
     <div className="registration-page">
+      <div className="form-section">
+        <LoginPanel />
+      </div>
       <div className="board-section">
         <AnimatedChessBoard />
-      </div>
-      <div className="form-section">
-        <RegistrationPanel />
       </div>
     </div>
   );
