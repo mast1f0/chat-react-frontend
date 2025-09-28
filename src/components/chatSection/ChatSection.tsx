@@ -1,3 +1,3 @@
 export default function ChatSection() {
-  return <main>ew</main>;
+  return <div>ew</div>;
 }

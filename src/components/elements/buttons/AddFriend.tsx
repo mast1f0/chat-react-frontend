@@ -7,8 +7,8 @@ export default function AddFriendButton() {
         display: "flex",
         borderRadius: "50%",
         backgroundColor: "#E1E0E1",
-        height: 64,
-        width: 64,
+        height: 59,
+        width: 59,
         alignItems: "center",
         justifyContent: "center",
       }}

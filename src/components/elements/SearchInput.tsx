@@ -18,10 +18,10 @@ export default function SearchInput() {
         style={{
           border: "none",
           backgroundColor: "transparent",
-          paddingInline: 20,
+          paddingInline: 15,
           flex: 1,
-          width: 290,
-          paddingBlock: 20,
+          width: 190,
+          paddingBlock: 10,
         }}
       />
       <img
