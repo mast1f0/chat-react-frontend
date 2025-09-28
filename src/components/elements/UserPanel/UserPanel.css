@@ -1,0 +1,18 @@
+.panel{
+    display: inline-flex;
+    max-width: 437px;
+    background-color: #403752;
+    height: 40px;
+    width: 100%;
+    border-bottom-left-radius: 40px;
+    border-bottom-right-radius: 40px;
+    padding:0;
+    align-self: flex-start;
+    justify-self:center ;
+    margin-top: -10px;
+    margin-inline: auto;
+}
+
+.panel-active{
+    height: auto;
+}

@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+*{box-sizing:border-box}
+html,body,#root{height:100vh; overflow: hidden;}
+body{margin:0;background:#f5f4f7;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
+input::placeholder{
+    color: #8C8098;
+    font-size: 1.25rem;
+    font-style: italic;
+}
+
+
+input:focus, input::selection {
+    color: #8C8098;
+    font-size: 1.25rem;
+    font-style: italic;
+    outline: none;
+    box-shadow: none; 
+}
