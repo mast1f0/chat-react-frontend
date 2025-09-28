@@ -27,19 +27,18 @@ export default function Aside({ messages = [] }: AsideProps) {
           borderTopLeftRadius: "33px",
         }}
       >
-        <div>
-          <h1
-            style={{
-              color: "white",
-              fontSize: "48px",
-              fontWeight: "900",
-              textAlign: "center",
-              letterSpacing: "0",
-            }}
-          >
-            ПОКА ЗДЕСЬ ПУСТО
-          </h1>
-        </div>
+        <h1
+          style={{
+            color: "white",
+            fontSize: "48px",
+            fontWeight: "900",
+            textAlign: "center",
+            letterSpacing: "0",
+            paddingInline: 20,
+          }}
+        >
+          ПОКА ЗДЕСЬ ПУСТО
+        </h1>
       </aside>
     );
   }
