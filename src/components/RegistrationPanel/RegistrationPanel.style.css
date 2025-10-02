@@ -1,4 +1,4 @@
-.registration-form{
+.registration-form {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -7,31 +7,32 @@
     font-family: Arial, sans-serif;
 }
 
-p, h1, a, h2, label{
+p, h1, a, h2, label {
     color: #fff;
 }
 
-.form__name{
+.form__name {
     font-size: 2.5rem;
     font-style: italic;
     font-weight: 400;
     margin-bottom: 20px;
 }
 
-.form-container{
+.form-container {
     margin-inline: 10%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-width: 410px;
+    max-width: 600px;
     width: 100%;
     padding: 30px 20px;
     border-radius: 15px;
+    box-sizing: border-box;
 }
 
-#login, #password, #repeat-password{
+#login, #password, #repeat-password {
     width: 100%;
-    max-width: 408px;
+    
     padding: 20px 30px;
     margin: 10px 0;
     border: none;
@@ -41,44 +42,42 @@ p, h1, a, h2, label{
     font-size: 1rem;
 }
 
-#password, #repeat-password{
+#password, #repeat-password {
     margin-block: 20px;
 }
 
-#login::placeholder, #password::placeholder, #repeat-password::placeholder{
+#login::placeholder, #password::placeholder, #repeat-password::placeholder {
     color: #303030;
     opacity: 0.6;
     font-weight: 600;
 }
 
-.form-submit{
+.form-submit {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    margin-top: 10px;
     margin-block: 20px;
+    gap: 10px;
+    flex-wrap: wrap;
 }
 
-#forgot{
-    margin-inline:25%;
-}
-
-.form-submit a{
+.form-submit a {
     color: #fff;
     font-size: 0.85rem;
     text-decoration: underline;
 }
 
-.form-submit label{
+.form-submit label {
     display: flex;
     align-items: center;
     gap: 5px;
     font-size: 0.85rem;
     color: #fff;
+    cursor: pointer;
 }
 
-.reg-btn{
+.reg-btn {
     background-color: #B099FF;
     border: none;
     border-radius: 15px;
@@ -88,13 +87,44 @@ p, h1, a, h2, label{
     cursor: pointer;
     color: #fff;
     width: 100%;
+    transition: background 0.3s;
 }
 
-.no-account{
+.reg-btn:hover {
+    background-color: #9779ff;
+}
+
+.no-account {
     font-size: 1.25rem;
     font-weight: 600;
     font-style: italic;
     margin-top: 15px;
 }
 
+@media (max-width: 500px) {
+    .form-container {
+        margin-inline: 5%;
+        padding: 20px 15px;
+    }
 
+    #login, #password, #repeat-password {
+        padding: 15px 20px;
+    }
+
+    .form-submit {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .form-submit a,
+    .form-submit label,
+    .no-account {
+        font-size: 1.2rem; 
+    }
+
+    .reg-btn {
+        font-size: 1.2rem;
+        width: 100%;
+    }
+}

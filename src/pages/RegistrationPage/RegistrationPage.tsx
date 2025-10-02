@@ -5,7 +5,7 @@ import "./RegistrationPage.style.css";
 export default function RegistrationPage() {
   return (
     <div className="registration-page">
-      <div className="board-section">
+      <div className="board-section" style={{ marginLeft: "20%" }}>
         <AnimatedChessBoard />
       </div>
       <div className="form-section">
