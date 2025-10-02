@@ -1,37 +1,40 @@
-.registration-form{
+.registration-form {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
     gap: 15px;
     font-family: Arial, sans-serif;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
-p, h1, a, h2, label{
+p, h1, a, h2, label {
     color: #fff;
 }
 
-.form__name{
+.form__name {
     font-size: 2.5rem;
     font-style: italic;
     font-weight: 400;
     margin-bottom: 20px;
 }
 
-.form-container{
-    margin-left: 50px;
+.form-container {
+    margin-left: auto;
+    margin-right: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-width: 410px;
+    max-width: 600px;
     width: 100%;
     padding: 30px 20px;
     border-radius: 15px;
+    box-sizing: border-box;
 }
 
-#login, #password{
+#login, #password {
     width: 100%;
-    max-width: 408px;
     padding: 20px 30px;
     margin: 10px 0;
     border: none;
@@ -41,48 +44,49 @@ p, h1, a, h2, label{
     font-size: 1rem;
 }
 
-#password{
+#password {
     margin-block: 20px;
 }
 
-#login::placeholder, #password::placeholder{
+#login::placeholder, #password::placeholder {
     color: #303030;
     opacity: 0.6;
     font-weight: 600;
 }
 
-.form-submit{
+.form-submit {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    margin-top: 10px;
     margin-block: 20px;
+    gap: 10px;
+    flex-wrap: wrap;
 }
 
-#forgot{
-    margin-left:25%;
-}
-
-.form-submit{
-    flex-wrap: nowrap;
-}
-
-.form-submit a{
+.form-submit a {
     color: #fff;
     font-size: 0.85rem;
     text-decoration: underline;
 }
 
-.form-submit label{
+.form-submit label {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 8px;
     font-size: 0.85rem;
     color: #fff;
+    cursor: pointer;
+    white-space: nowrap;
 }
 
-.submit-btn{
+.form-submit input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.submit-btn {
     background-color: #B099FF;
     border: none;
     border-radius: 15px;
@@ -91,21 +95,57 @@ p, h1, a, h2, label{
     font-weight: bold;
     cursor: pointer;
     color: #fff;
+    transition: background 0.3s;
 }
 
-.no-account{
+.submit-btn:hover {
+    background-color: #9779ff;
+}
+
+.no-account {
     font-size: 1.25rem;
     font-weight: 600;
     font-style: italic;
     margin-top: 15px;
 }
 
-form > *{
+form > * {
     margin-block: 100px;
 }
 
-label {
-  gap: 1px;           
-  cursor: pointer;
+@media (max-width: 500px) {
+    .form-container {
+        margin-left: 0;
+        padding: 10px 15px;
+    }
 
+    #login, #password {
+        padding: 15px 20px;
+    }
+
+    .form-submit {
+        flex-direction: column;
+        align-items: left;
+        text-align: center;
+        gap: 1px;
+        margin: 0;
+    }
+
+    .form-submit button {
+        width: 100%;
+    }
+
+    .form-submit a {
+        margin-top: 10px;
+    }
+
+    .form-submit a,
+    .form-submit label,
+    .no-account {
+        font-size: 1.2rem;
+    }
+
+    .submit-btn {
+        font-size: 1.2rem;
+    }
 }

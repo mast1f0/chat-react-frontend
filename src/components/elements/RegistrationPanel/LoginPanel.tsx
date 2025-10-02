@@ -33,7 +33,7 @@ export default function LoginPanel() {
   return (
     <div className="form-container">
       <h1 className="form__name">Войти</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="registration-form">
         <input
           id="login"
           type="text"
@@ -42,18 +42,24 @@ export default function LoginPanel() {
         />
         <input
           id="password"
-          type="text"
+          type="password"
           placeholder="Введите пароль"
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <a href="/getPassword">Забыли пароль?</a>
-        <label htmlFor="forgot">
-          <input type="checkbox" id="forgot" name="" />
-          Запомнить меня
-        </label>
         <div className="form-submit">
-          <h2 className="no-account">Нет аккаунта?</h2>
+          <label htmlFor="remember">
+            <input type="checkbox" id="remember" />
+            Запомнить меня
+          </label>
+
+          <a href="/getPassword">Забыли пароль?</a>
+        </div>
+
+        <div className="form-submit">
+          <h2 className="no-account">
+            <a href="">Нет аккаунта?</a>
+          </h2>
           <button type="submit" className="submit-btn">
             Войти
           </button>
