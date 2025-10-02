@@ -1,6 +1,6 @@
 import "./LoginPage.style.css";
 import AnimatedChessBoard from "../../components/elements/board/Board";
-import LoginPanel from "../../components/elements/RegistrationPanel/LoginPanel";
+import LoginPanel from "../../components/elements/LoginPanel/LoginPanel";
 export default function RegistrationPage() {
   return (
     <div className="registration-page">

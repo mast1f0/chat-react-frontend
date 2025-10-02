@@ -52,7 +52,10 @@ export default function RegistrationPanel() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(payload),
+          body: JSON.stringify({
+            username: form.username,
+            password: form.password,
+          }),
         }
       );
 
