@@ -9,7 +9,7 @@ export default function LoginPanel() {
     e.preventDefault();
 
     try {
-      const response = await fetch("https://example.com/api/v1/auth/login", {
+      const response = await fetch("http://localhost:8090/api/v1/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -22,7 +22,8 @@ export default function LoginPanel() {
       }
 
       const data = await response.json();
-      console.log("JWT токен:", data.token);
+      console.log("JWT токен:", data.access_token);
+      console.log("Тип токена", data.token_type);
 
       localStorage.setItem("token", data.token);
     } catch (error) {
