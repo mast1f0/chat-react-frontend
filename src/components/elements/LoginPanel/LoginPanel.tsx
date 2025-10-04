@@ -25,8 +25,9 @@ export default function LoginPanel() {
       console.log("JWT токен:", data.access_token);
       console.log("Тип токена", data.token_type);
 
-      localStorage.setItem("acess_token", data.access_token);
+      localStorage.setItem("access_token", data.access_token);
       localStorage.setItem("token_type", data.token_type);
+      window.location.href = "/";
     } catch (error) {
       console.error(error);
     }

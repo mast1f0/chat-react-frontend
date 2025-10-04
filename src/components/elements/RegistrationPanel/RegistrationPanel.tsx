@@ -67,6 +67,7 @@ export default function RegistrationPanel() {
       console.log("Регистрация успешна:", data);
 
       localStorage.setItem("token", data.token);
+      window.location.href = "/";
     } catch (err) {
       console.error(err);
     }

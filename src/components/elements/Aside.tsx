@@ -1,5 +1,3 @@
-// src/components/Sidebar/Sidebar.tsx
-
 interface Message {
   name: string;
   status: string;
@@ -15,7 +13,7 @@ export default function Aside({ messages = [] }: AsideProps) {
     return (
       <aside
         style={{
-          backgroundColor: "#403752",
+          flex: 1,
           maxWidth: "300px",
           display: "flex",
           justifyContent: "center",
@@ -47,14 +45,14 @@ export default function Aside({ messages = [] }: AsideProps) {
     <aside
       style={{
         backgroundColor: "#403752",
-        maxWidth: "400px",
+        flex: 1,
+        maxWidth: "320px",
+        width: "100%",
         display: "flex",
         flexDirection: "column",
         justifyContent: "flex-start",
-        alignItems: "center",
-        margin: "auto",
-        height: "100%",
-        marginTop: "20px",
+        alignItems: "left",
+        height: "100vh",
         float: "right",
         borderTopLeftRadius: "33px",
         padding: "10px",
@@ -68,13 +66,12 @@ export default function Aside({ messages = [] }: AsideProps) {
             color: "#ffffff",
             borderRadius: "12px",
             padding: "10px",
-            paddingInline: "50px",
             marginBottom: "10px",
-            width: "90%",
+            width: "100%",
             display: "flex",
             alignItems: "center",
             gap: "10px",
-            justifyItems: "center",
+            justifyItems: "left",
           }}
         >
           <img
