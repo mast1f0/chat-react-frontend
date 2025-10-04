@@ -52,18 +52,26 @@ export default function LoginPanel() {
         <div className="form-submit">
           <label htmlFor="remember">
             <input type="checkbox" id="remember" />
-            Запомнить меня
+            <p style={{ fontSize: "1.25rem" }}>Запомнить меня</p>
           </label>
 
-          <a href="/getPassword">Забыли пароль?</a>
+          <a href="/getPassword" style={{ fontSize: "1.25rem" }}>
+            Забыли пароль?
+          </a>
         </div>
 
         <div className="form-submit">
           <h2 className="no-account">
-            <a href="">Нет аккаунта?</a>
+            <a
+              href=""
+              className="no-account__btn"
+              style={{ fontSize: "1.25rem" }}
+            >
+              Нет аккаунта?
+            </a>
           </h2>
           <button type="submit" className="submit-btn">
-            Войти
+            <p style={{ fontSize: "1.25rem" }}>Войти</p>
           </button>
         </div>
       </form>

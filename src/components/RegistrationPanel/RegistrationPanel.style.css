@@ -16,7 +16,7 @@ p, h1, a, h2, label {
 
 .form__name {
     font-size: 2.5rem;
-    font-style: italic;
+    /* font-style: italic; */
     font-weight: 400;
     margin-bottom: 20px;
 }
@@ -33,10 +33,11 @@ p, h1, a, h2, label {
     box-sizing: border-box;
 }
 
-#login, #password, #repeat-password {
+.registration-form #login,
+.registration-form #password,
+.registration-form #repeat-password {
     width: 100%;
-    
-    padding: 20px 30px;
+    padding: 25px 30px;
     margin: 10px 0;
     border: none;
     border-radius: 21px;
@@ -53,6 +54,7 @@ p, h1, a, h2, label {
     color: #303030;
     opacity: 0.6;
     font-weight: 600;
+    font-style: normal;
 }
 
 .form-submit {
@@ -100,7 +102,7 @@ p, h1, a, h2, label {
 .no-account {
     font-size: 1.25rem;
     font-weight: 600;
-    font-style: italic;
+    /* font-style: italic; */
     margin-top: 15px;
 }
 

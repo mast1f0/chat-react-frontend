@@ -10,8 +10,8 @@
 }
 
 .chess-board {
-  width: 60vmin;
-  height: 60vmin;
+  width: 50vmin;
+  height: 50vmin;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
