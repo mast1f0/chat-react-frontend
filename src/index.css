@@ -7,10 +7,12 @@ input::placeholder{
     color: #8C8098;
     font-size: 1.25rem;
     font-style: italic;
+    outline: none;
+    box-shadow: none; 
 }
 
 
-input:focus, input::selection {
+input, input:focus, input::selection {
     color: #8C8098;
     font-size: 1.25rem;
     font-style: italic;
