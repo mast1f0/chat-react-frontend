@@ -1,0 +1,73 @@
+.input-message__wrapper{
+    gap: 20px;
+    justify-self: center;
+    flex-direction: row;
+    display: flex;
+}
+
+.input-message{
+    align-items: center;
+    max-width: 752px;
+    min-width: 55%;
+    width: 100%;
+    max-height: 60px;
+    background-color: white;
+    border-radius: 40px;
+    height: 100%;
+    align-items: center;
+    position: relative; 
+    margin-bottom: 10%;
+    overflow: hidden;
+    margin-left: 25%;
+}
+
+#message::placeholder, #message:focus, #message::selection{
+    color: #8C8098;
+    font-size: 1.25rem;
+    font-style: italic;
+    outline: none;
+    box-shadow: none; 
+}
+
+#message{
+    border:none;
+    width: 100%;
+    padding-right: 70px; 
+    margin-left: 5%;
+    margin-block: auto;
+    align-items: center;
+    align-self: center;
+    margin-top: 10px; /*переделать*/
+}
+
+.input__icons{
+    position: absolute;
+    right: 15px;
+    display: flex;
+    gap: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.input__icons img{
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+}
+
+
+.send-btn{
+    background-color: white;
+    border: none;
+    border-radius: 50%;
+    justify-items: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+}
+
+.send-btn:hover{
+    width: 80px;
+    height: 80px;
+    margin-bottom:20px;
+}
