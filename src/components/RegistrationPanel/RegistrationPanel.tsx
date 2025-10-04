@@ -39,10 +39,10 @@ export default function RegistrationPanel() {
 
     setError(null);
 
-    const payload = {
-      username: form.username,
-      password: form.password,
-    };
+    // const payload = {
+    //   username: form.username,
+    //   password: form.password,
+    // };
 
     try {
       const response = await fetch(
