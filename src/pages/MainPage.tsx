@@ -17,22 +17,54 @@ export default function MainPage() {
             name: "Ivan",
             status: "online",
             image: "https://i.pravatar.cc/40?img=1",
+            lastMsg: "Последнее полученной сообщение",
           },
           {
             name: "Мария",
             status: "2d ago",
             image: "https://i.pravatar.cc/40?img=2",
+            lastMsg: "dsadsa",
           },
           {
             name: "Алексей",
             status: "typing",
             image: "https://i.pravatar.cc/40?img=1",
+            lastMsg: "dsadsa",
           },
           {
             name: "Мария",
             status: "now",
 
             image: "https://i.pravatar.cc/40?img=23",
+            lastMsg: "dsadsafjdsabhgahbhfahjgfbhgbefjfgdbh",
+          },
+          {
+            name: "Мария",
+            status: "now",
+
+            image: "https://i.pravatar.cc/40?img=23",
+            lastMsg: "dsadsafjdsabhgahbhfahjgfbhgbefjfgdbh",
+          },
+          {
+            name: "Мария",
+            status: "now",
+
+            image: "https://i.pravatar.cc/40?img=23",
+            lastMsg: "dsadsafjdsabhgahbhfahjgfbhgbefjfgdbh",
+          },
+          {
+            name: "Мария",
+            status: "now",
+
+            image: "https://i.pravatar.cc/40?img=23",
+            lastMsg: "dsadsafjdsabhgahbhfahjgfbhgbefjfgdbh",
+          },
+          {
+            name: "Мария",
+            status: "now",
+
+            image: "https://i.pravatar.cc/40?img=23",
+            lastMsg: "dsadsafjdsabhgahbhfahjgfbhgbefjfgdbh",
           },
         ]}
       />

@@ -2,6 +2,7 @@ interface Message {
   name: string;
   status: string;
   image: string;
+  lastMsg: string;
 }
 
 interface AsideProps {
@@ -57,6 +58,7 @@ export default function Aside({ messages = [] }: AsideProps) {
         borderTopLeftRadius: "33px",
         padding: "10px",
         overflowY: "auto",
+        gap: 10,
       }}
     >
       {messages.map((msg, index) => (
@@ -66,33 +68,64 @@ export default function Aside({ messages = [] }: AsideProps) {
             color: "#ffffff",
             borderRadius: "12px",
             padding: "10px",
-            marginBottom: "10px",
+            // marginBottom: "10px",
             width: "100%",
             display: "flex",
             alignItems: "center",
             gap: "10px",
             justifyItems: "left",
+            paddingInline: "10px",
           }}
         >
           <img
             src={msg.image}
             alt={msg.name}
-            style={{ width: "60px", height: "60px", borderRadius: "50%" }}
+            style={{
+              width: "80px",
+              height: "80px",
+              borderRadius: "50%",
+              marginRight: "8%",
+            }}
           />
-          <div>
-            <strong style={{ fontSize: "32px", fontWeight: "300" }}>
+          <div style={{ display: "block", flex: 1 }}>
+            <strong style={{ fontSize: "2.5rem", fontWeight: "300" }}>
               {msg.name}
             </strong>
-            <p
+            <div
               style={{
-                margin: 0,
-                fontSize: "14px",
-                color: "#BCBCBC",
-                fontStyle: "italic",
+                display: "flex",
+                justifyContent: "space-between",
+                flex: 1,
+                alignItems: "center",
               }}
             >
-              {msg.status}
-            </p>
+              <p
+                style={{
+                  margin: 0,
+                  fontSize: "1rem",
+                  color: "#BCBCBC",
+                  fontStyle: "italic",
+                  float: "left",
+                  whiteSpace: "normal",
+                  wordBreak: "break-word",
+                  textOverflow: "ellipsis",
+                  maxHeight: "10",
+                }}
+              >
+                {msg.lastMsg.length === 0 ? "Тишина" : msg.lastMsg}
+              </p>
+              <p
+                style={{
+                  marginLeft: 10,
+                  fontSize: "1rem",
+                  color: "#BCBCBC",
+                  fontStyle: "italic",
+                  justifySelf: "flex-start",
+                }}
+              >
+                {msg.status}
+              </p>
+            </div>
           </div>
         </div>
       ))}
