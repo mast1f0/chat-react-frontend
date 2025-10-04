@@ -1,9 +1,9 @@
-import SettingsButton from "../elements/buttons/SettingsButton";
-import ThreeDots from "../elements/buttons/Three-dots";
-import UserPanel from "../elements/UserPanel/UserPanel";
-import SearchInput from "../elements/SearchInput";
+import SettingsButton from "../../buttons/SettingsButton";
+import ThreeDots from "../../buttons/Three-dots";
+import UserPanel from "../UserPanel/UserPanel";
+import SearchInput from "../SearchInput";
 import "./Header.style.css";
-import AddFriendButton from "../elements/buttons/AddFriend";
+import AddFriendButton from "../../buttons/AddFriend";
 
 export default function Header() {
   return (
