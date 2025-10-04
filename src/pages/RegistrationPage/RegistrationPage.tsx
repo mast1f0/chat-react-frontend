@@ -1,5 +1,5 @@
 import AnimatedChessBoard from "../../components/elements/board/Board";
-import RegistrationPanel from "../../components/RegistrationPanel/RegistrationPanel";
+import RegistrationPanel from "../../components/elements/RegistrationPanel/RegistrationPanel";
 import "./RegistrationPage.style.css";
 
 export default function RegistrationPage() {

@@ -9,7 +9,7 @@ export default function LoginPanel() {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:8090/api/v1/auth/login", {
+      const response = await fetch("http://localhost:8090/api/v1/auth/login/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -25,7 +25,8 @@ export default function LoginPanel() {
       console.log("JWT токен:", data.access_token);
       console.log("Тип токена", data.token_type);
 
-      localStorage.setItem("token", data.token);
+      localStorage.setItem("acess_token", data.access_token);
+      localStorage.setItem("token_type", data.token_type);
     } catch (error) {
       console.error(error);
     }
@@ -51,18 +52,26 @@ export default function LoginPanel() {
         <div className="form-submit">
           <label htmlFor="remember">
             <input type="checkbox" id="remember" />
-            Запомнить меня
+            <p style={{ fontSize: "1.25rem" }}>Запомнить меня</p>
           </label>
 
-          <a href="/getPassword">Забыли пароль?</a>
+          <a href="/getPassword" style={{ fontSize: "1.25rem" }}>
+            Забыли пароль?
+          </a>
         </div>
 
         <div className="form-submit">
           <h2 className="no-account">
-            <a href="">Нет аккаунта?</a>
+            <a
+              href=""
+              className="no-account__btn"
+              style={{ fontSize: "1.25rem" }}
+            >
+              Нет аккаунта?
+            </a>
           </h2>
           <button type="submit" className="submit-btn">
-            Войти
+            <p style={{ fontSize: "1.25rem" }}>Войти</p>
           </button>
         </div>
       </form>

@@ -1,6 +1,6 @@
-import Header from "../components/header/Header";
+import Header from "../components/elements/header/Header";
 import Aside from "../components/elements/Aside";
-import ChatSection from "../components/chatSection/ChatSection";
+import ChatSection from "../components/elements/chatSection/ChatSection";
 //тестовые данные
 export default function MainPage() {
   return (
