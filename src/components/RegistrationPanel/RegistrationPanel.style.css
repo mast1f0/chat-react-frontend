@@ -5,6 +5,9 @@
     text-align: center;
     gap: 15px;
     font-family: Arial, sans-serif;
+    margin: 0;
+    max-width: 410px;
+    width: 100%;
 }
 
 p, h1, a, h2, label {
@@ -103,6 +106,8 @@ p, h1, a, h2, label {
 
 @media (max-width: 500px) {
     .form-container {
+        justify-content: center;
+        align-content: center;
         margin-inline: 5%;
         padding: 20px 15px;
     }

@@ -31,7 +31,6 @@
 
 @media (max-width: 768px) {
   .registration-page {
-    grid-template-columns: 1fr;
     justify-items: center;
     gap: 20px;
   }
@@ -42,13 +41,34 @@
 
   .form-section {
     max-width: 90%;
+    margin: auto;
   }
 }
 
 
 @media (max-width: 480px) {
+  .registration-page{
+    display: grid;
+    columns: 1fr;
+    margin-inline: -20px;
+  }
   .form-section {
     max-width: 100%;
     padding: 0 10px;
+  }
+}
+@media (max-width: 413px) {
+  .form-section {
+    padding: 0 5px;
+  }
+
+  input,
+  button {
+    font-size: 0.85rem;
+    padding: 8px 10px;
+  }
+
+  h1.form__name {
+    font-size: 1.6rem;
   }
 }
