@@ -80,9 +80,6 @@ p, h1, a, h2, label {
     white-space: nowrap;
 }
 
-.rem1{
-    font-size: 1.5rem;
-}
 
 .form-submit input[type="checkbox"] {
     width: 16px;
