@@ -1,7 +1,7 @@
 import Header from "../components/elements/header/Header";
 import Aside from "../components/elements/Aside";
 import ChatSection from "../components/elements/chatSection/ChatSection";
-// import { Message } from "../components/elements/Aside";
+
 export default function MainPage() {
   const isLogged = (): boolean => {
     return localStorage.getItem("access_token") !== null;
