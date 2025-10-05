@@ -69,6 +69,7 @@ p, h1, a, h2, label {
     color: #fff;
     font-size: 0.85rem;
     text-decoration: underline;
+    align-self: center;
 }
 
 .form-submit label {
@@ -92,7 +93,7 @@ p, h1, a, h2, label {
     background-color: #B099FF;
     border: none;
     border-radius: 15px;
-    padding: 2px 60px;
+    padding: 10px 40px;
     font-size: 1rem;
     font-weight: bold;
     cursor: pointer;
@@ -107,8 +108,7 @@ p, h1, a, h2, label {
 .no-account {
     font-size: 1.25rem;
     font-weight: 600;
-    /* font-style: italic; */
-    margin-top: 15px;
+    margin-top: 0;
 }
 
 form > * {

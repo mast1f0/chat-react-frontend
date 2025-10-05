@@ -79,7 +79,7 @@ export default function LoginPanel() {
         <div className="form-submit">
           <h2 className="no-account">
             <a
-              href="registration"
+              href="/registration"
               className="no-account__btn"
               style={{ fontSize: "1.25rem" }}
             >

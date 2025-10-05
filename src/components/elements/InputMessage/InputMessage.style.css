@@ -9,6 +9,7 @@
 
 .input-message{
     align-items: center;
+    align-content: center;
     max-width: 600px;
     width: 100%;
     max-height: 60px;

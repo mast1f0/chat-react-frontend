@@ -32,30 +32,35 @@ p, h1, a, h2, label {
     border-radius: 15px;
     box-sizing: border-box;
 }
-
-.registration-form #login,
-.registration-form #password,
-.registration-form #repeat-password {
+#login,
+#password,
+#repeat-password {
+    color:#8C8098 ;
+    font-weight: 600;
     width: 100%;
-    padding: 25px 30px;
+    padding: 20px 30px;
     margin: 10px 0;
     border: none;
     border-radius: 21px;
     box-sizing: border-box;
     outline: none;
-    font-size: 1rem;
-    color:#303030;
+    font-size: 1.25rem;
+    font-style: italic;
+    outline: none;
+    box-shadow: none; 
 }
 
 #password, #repeat-password {
     margin-block: 20px;
 }
 
-.registration-form #login::placeholder, .registration-form #password::placeholder, .registration-form #repeat-password::placeholder {
-    color: #303030;
-    opacity: 0.6;
-    font-weight: 600;
-    font-style: normal;
+#login::placeholder, #password::placeholder, #repeat-password::placeholder {
+    color: #838383;
+    font-size: 1.25rem;
+    font-style: italic;
+    outline: none;
+    box-shadow: none;
+    font-weight: 600; 
 }
 
 .form-submit {
