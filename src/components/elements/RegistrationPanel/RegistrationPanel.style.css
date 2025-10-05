@@ -44,13 +44,14 @@ p, h1, a, h2, label {
     box-sizing: border-box;
     outline: none;
     font-size: 1rem;
+    color:#303030;
 }
 
 #password, #repeat-password {
     margin-block: 20px;
 }
 
-#login::placeholder, #password::placeholder, #repeat-password::placeholder {
+.registration-form #login::placeholder, .registration-form #password::placeholder, .registration-form #repeat-password::placeholder {
     color: #303030;
     opacity: 0.6;
     font-weight: 600;
