@@ -1,8 +1,10 @@
-interface Message {
+export interface Message {
+  id: string;
   name: string;
-  status: string;
-  image: string;
-  lastMsg: string;
+  owner_id: string;
+  // status: string;
+  // image: string;
+  // lastMsg: string;
 }
 
 interface AsideProps {
@@ -12,6 +14,8 @@ interface AsideProps {
 export default function Aside({ messages = [] }: AsideProps) {
   if (messages.length === 0) {
     return (
+      // <aside className="flex flex-1 max-w-[300px] justify-center items-center m-auto h-full mt-5 float-right rounded-tl-[33px]">
+
       <aside
         style={{
           flex: 1,
@@ -20,10 +24,11 @@ export default function Aside({ messages = [] }: AsideProps) {
           justifyContent: "center",
           alignItems: "center",
           margin: "auto",
-          height: "100%",
+          height: "100vh",
           marginTop: "20px",
           float: "right",
           borderTopLeftRadius: "33px",
+          backgroundColor: "#403752",
         }}
       >
         <h1
@@ -77,7 +82,7 @@ export default function Aside({ messages = [] }: AsideProps) {
             paddingInline: "10px",
           }}
         >
-          <img
+          {/* <img
             src={msg.image}
             alt={msg.name}
             style={{
@@ -86,7 +91,7 @@ export default function Aside({ messages = [] }: AsideProps) {
               borderRadius: "50%",
               marginRight: "8%",
             }}
-          />
+          /> */}
           <div style={{ display: "block", flex: 1 }}>
             <strong style={{ fontSize: "2.5rem", fontWeight: "300" }}>
               {msg.name}
@@ -112,7 +117,7 @@ export default function Aside({ messages = [] }: AsideProps) {
                   maxHeight: "10",
                 }}
               >
-                {msg.lastMsg.length === 0 ? "Тишина" : msg.lastMsg}
+                {/* {msg.lastMsg.length === 0 ? "Тишина" : msg.lastMsg} */}
               </p>
               <p
                 style={{
@@ -123,7 +128,7 @@ export default function Aside({ messages = [] }: AsideProps) {
                   justifySelf: "flex-start",
                 }}
               >
-                {msg.status}
+                {/* {msg.status} */}
               </p>
             </div>
           </div>

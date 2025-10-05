@@ -1,73 +1,40 @@
 import Header from "../components/elements/header/Header";
 import Aside from "../components/elements/Aside";
 import ChatSection from "../components/elements/chatSection/ChatSection";
+// import { Message } from "../components/elements/Aside";
 export default function MainPage() {
   const isLogged = (): boolean => {
     return localStorage.getItem("access_token") !== null;
   };
 
   if (!isLogged) window.location.href = "/login";
+
+  //получаем чаты для панельки сбоку
+  async function getChats() {
+    try {
+      const response = await fetch("http://localhost:8090/api/v1/chats/all", {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`${response.status}`);
+      }
+
+      const chats = await response.json();
+      console.log(chats);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  getChats();
   return (
     <div>
       <Header />
 
-      <Aside
-        messages={[
-          {
-            name: "Ivan",
-            status: "online",
-            image: "https://i.pravatar.cc/40?img=1",
-            lastMsg: "Последнее полученной сообщение",
-          },
-          {
-            name: "Мария",
-            status: "2d ago",
-            image: "https://i.pravatar.cc/40?img=2",
-            lastMsg: "dsadsa",
-          },
-          {
-            name: "Алексей",
-            status: "typing",
-            image: "https://i.pravatar.cc/40?img=1",
-            lastMsg: "dsadsa",
-          },
-          {
-            name: "Мария",
-            status: "now",
-
-            image: "https://i.pravatar.cc/40?img=23",
-            lastMsg: "dsadsafjdsabhgahbhfahjgfbhgbefjfgdbh",
-          },
-          {
-            name: "Мария",
-            status: "now",
-
-            image: "https://i.pravatar.cc/40?img=23",
-            lastMsg: "dsadsafjdsabhgahbhfahjgfbhgbefjfgdbh",
-          },
-          {
-            name: "Мария",
-            status: "now",
-
-            image: "https://i.pravatar.cc/40?img=23",
-            lastMsg: "dsadsafjdsabhgahbhfahjgfbhgbefjfgdbh",
-          },
-          {
-            name: "Мария",
-            status: "now",
-
-            image: "https://i.pravatar.cc/40?img=23",
-            lastMsg: "dsadsafjdsabhgahbhfahjgfbhgbefjfgdbh",
-          },
-          {
-            name: "Мария",
-            status: "now",
-
-            image: "https://i.pravatar.cc/40?img=23",
-            lastMsg: "dsadsafjdsabhgahbhfahjgfbhgbefjfgdbh",
-          },
-        ]}
-      />
+      <Aside />
       <ChatSection />
     </div>
   );
