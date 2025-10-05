@@ -59,7 +59,7 @@ export default function RegistrationPanel() {
       }
 
       const data = await response.json();
-      console.log("Регистрация успешна:", data.access_token);
+      console.log("Регистрация успешна:", data.message);
       window.location.href = "/";
     } catch (err) {
       console.error(err);
@@ -76,6 +76,7 @@ export default function RegistrationPanel() {
           placeholder="Придумайте логин"
           value={form.username}
           onChange={(e) => setForm({ ...form, username: e.target.value })}
+          className="bg-white"
         />
         <input
           id="password"
@@ -83,6 +84,7 @@ export default function RegistrationPanel() {
           placeholder="Придумайте пароль"
           value={form.password}
           onChange={(e) => setForm({ ...form, password: e.target.value })}
+          className="bg-white"
         />
         <input
           id="repeat-password"
@@ -90,6 +92,7 @@ export default function RegistrationPanel() {
           placeholder="Повторите пароль"
           value={form.repeatPassword}
           onChange={(e) => setForm({ ...form, repeatPassword: e.target.value })}
+          className="bg-white"
         />
 
         {error && <p style={{ color: "red", fontSize: "0.9rem" }}>{error}</p>}
