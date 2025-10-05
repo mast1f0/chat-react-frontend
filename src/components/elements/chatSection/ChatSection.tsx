@@ -7,7 +7,7 @@ export default function ChatSection() {
       style={{ display: "flex", flexDirection: "column", height: "100vh" }}
       className="main-section"
     >
-      <div style={{ maxHeight: "80%", flex: 1 }}></div>
+      <div style={{ maxHeight: "77%", flex: 1 }}></div>
       <InputMessage />
     </div>
   );

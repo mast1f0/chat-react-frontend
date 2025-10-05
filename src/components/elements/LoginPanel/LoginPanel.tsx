@@ -2,9 +2,14 @@ import "./LoginPanel.style.css";
 import { useState } from "react";
 
 export default function LoginPanel() {
+  const [isChecked, setIsChecked] = useState(false); // запоминать пароль или нет
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setIsChecked(event.target.checked); // при проверке инвертировать
+    console.log(!isChecked ? "да" : "нет");
+  };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -25,11 +30,16 @@ export default function LoginPanel() {
       console.log("JWT токен:", data.access_token);
       console.log("Тип токена", data.token_type);
 
-      localStorage.setItem("access_token", data.access_token);
-      localStorage.setItem("token_type", data.token_type);
+      if (!isChecked) {
+        localStorage.setItem("access_token", data.access_token);
+        localStorage.setItem("token_type", data.token_type);
+      } else {
+        sessionStorage.setItem("access_token", data.access_token);
+        sessionStorage.setItem("token_type", data.token_type);
+      }
       window.location.href = "/";
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
 
@@ -52,7 +62,12 @@ export default function LoginPanel() {
 
         <div className="form-submit">
           <label htmlFor="remember">
-            <input type="checkbox" id="remember" />
+            <input
+              type="checkbox"
+              id="remember"
+              checked={isChecked}
+              onChange={handleCheckboxChange}
+            />
             <p style={{ fontSize: "1.25rem" }}>Запомнить меня</p>
           </label>
 
@@ -64,7 +79,7 @@ export default function LoginPanel() {
         <div className="form-submit">
           <h2 className="no-account">
             <a
-              href="registration"
+              href="/registration"
               className="no-account__btn"
               style={{ fontSize: "1.25rem" }}
             >
