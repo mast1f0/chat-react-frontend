@@ -1,3 +1,5 @@
+import React, { useState, useEffect, useRef } from "react";
+
 export interface Message {
   id: string;
   name: string;
@@ -12,59 +14,109 @@ interface AsideProps {
 }
 
 export default function Aside({ messages = [] }: AsideProps) {
+  const sidebarRef = useRef<HTMLDivElement>(null);
+  const [isResizing, setIsResizing] = useState(false);
+  const [sidebarWidth, setSidebarWidth] = useState(268);
+
+  const startResizing = React.useCallback(() => {
+    setIsResizing(true);
+  }, []);
+
+  const stopResizing = React.useCallback(() => {
+    setIsResizing(false);
+  }, []);
+
+  const resize = React.useCallback(
+    (mouseMoveEvent: MouseEvent) => {
+      if (isResizing && sidebarRef.current) {
+        const sidebarRight = sidebarRef.current.getBoundingClientRect().right;
+        const newWidth = sidebarRight - mouseMoveEvent.clientX;
+        if (newWidth > 180 && newWidth < 1000) {
+          setSidebarWidth(newWidth);
+        }
+      }
+    },
+    [isResizing]
+  );
+
+  useEffect(() => {
+    window.addEventListener("mousemove", resize);
+    window.addEventListener("mouseup", stopResizing);
+    return () => {
+      window.removeEventListener("mousemove", resize);
+      window.removeEventListener("mouseup", stopResizing);
+    };
+  }, [resize, stopResizing]);
+
+  // если нет сообщений
   if (messages.length === 0) {
     return (
-      // <aside className="flex flex-1 max-w-[300px] justify-center items-center m-auto h-full mt-5 float-right rounded-tl-[33px]">
-
-      <aside
+      <div
+        ref={sidebarRef}
         style={{
-          flex: 1,
-          maxWidth: "300px",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          margin: "auto",
+          width: sidebarWidth,
+          backgroundColor: "#403752",
           height: "100vh",
-          marginTop: "20px",
           float: "right",
           borderTopLeftRadius: "33px",
-          backgroundColor: "#403752",
+          position: "relative",
         }}
       >
-        <h1
+        <div
           style={{
-            color: "white",
-            fontSize: "48px",
-            fontWeight: "900",
-            textAlign: "center",
-            letterSpacing: "0",
-            paddingInline: 20,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
           }}
         >
-          ПОКА ЗДЕСЬ ПУСТО
-        </h1>
-      </aside>
+          <h1
+            style={{
+              color: "white",
+              fontSize: "48px",
+              fontWeight: "900",
+              textAlign: "center",
+              paddingInline: 20,
+              userSelect: "none",
+            }}
+          >
+            ПОКА ЗДЕСЬ ПУСТО
+          </h1>
+        </div>
+        <div
+          onMouseDown={startResizing}
+          style={{
+            position: "absolute",
+            left: 0,
+            top: 0,
+            width: "10px",
+            height: "100%",
+            cursor: "ew-resize",
+          }}
+        />
+      </div>
     );
   }
 
   return (
     <aside
+      ref={sidebarRef}
       style={{
         backgroundColor: "#403752",
-        flex: 1,
-        maxWidth: "320px",
-        width: "100%",
+        width: sidebarWidth,
         display: "flex",
         flexDirection: "column",
         justifyContent: "flex-start",
-        alignItems: "left",
         height: "100vh",
         float: "right",
         borderTopLeftRadius: "33px",
         padding: "10px",
         overflowY: "auto",
         gap: 10,
+        position: "relative",
+        userSelect: isResizing ? "none" : "auto",
       }}
+      onMouseDown={(e) => e.preventDefault()}
     >
       {messages.map((msg, index) => (
         <div
@@ -73,25 +125,12 @@ export default function Aside({ messages = [] }: AsideProps) {
             color: "#ffffff",
             borderRadius: "12px",
             padding: "10px",
-            // marginBottom: "10px",
             width: "100%",
             display: "flex",
             alignItems: "center",
             gap: "10px",
-            justifyItems: "left",
-            paddingInline: "10px",
           }}
         >
-          {/* <img
-            src={msg.image}
-            alt={msg.name}
-            style={{
-              width: "80px",
-              height: "80px",
-              borderRadius: "50%",
-              marginRight: "8%",
-            }}
-          /> */}
           <div style={{ display: "block", flex: 1 }}>
             <strong style={{ fontSize: "2.5rem", fontWeight: "300" }}>
               {msg.name}
@@ -110,14 +149,10 @@ export default function Aside({ messages = [] }: AsideProps) {
                   fontSize: "1rem",
                   color: "#BCBCBC",
                   fontStyle: "italic",
-                  float: "left",
-                  whiteSpace: "normal",
                   wordBreak: "break-word",
-                  textOverflow: "ellipsis",
-                  maxHeight: "10",
                 }}
               >
-                {/* {msg.lastMsg.length === 0 ? "Тишина" : msg.lastMsg} */}
+                {/* {msg.lastMsg?.length === 0 ? "Тишина" : msg.lastMsg} */}
               </p>
               <p
                 style={{
@@ -125,7 +160,6 @@ export default function Aside({ messages = [] }: AsideProps) {
                   fontSize: "1rem",
                   color: "#BCBCBC",
                   fontStyle: "italic",
-                  justifySelf: "flex-start",
                 }}
               >
                 {/* {msg.status} */}
@@ -134,6 +168,19 @@ export default function Aside({ messages = [] }: AsideProps) {
           </div>
         </div>
       ))}
+
+      <div
+        onMouseDown={startResizing}
+        style={{
+          position: "absolute",
+          left: 0,
+          top: 0,
+          width: "5px",
+          height: "100%",
+          cursor: "ew-resize",
+          color: "transparent",
+        }}
+      />
     </aside>
   );
 }
