@@ -7,15 +7,17 @@ export default function MainPage() {
     return localStorage.getItem("access_token") !== null;
   };
 
-  // if (!isLogged()) window.location.href = "/login";
+  if (!isLogged()) window.location.href = "/login";
 
   //получаем чаты для панельки сбоку
   async function getChats() {
+    const token = localStorage.getItem("access_token");
     try {
       const response = await fetch("http://localhost:8090/api/v1/chats/all", {
         method: "GET",
         headers: {
           "Content-type": "application/json",
+          Authorization: `${token}`,
         },
       });
 

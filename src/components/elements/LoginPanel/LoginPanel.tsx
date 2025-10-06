@@ -31,11 +31,9 @@ export default function LoginPanel() {
       console.log("Тип токена", data.token_type);
 
       if (!isChecked) {
-        localStorage.setItem("access_token", data.access_token);
-        localStorage.setItem("token_type", data.token_type);
+        localStorage.setItem("access_token", data);
       } else {
-        sessionStorage.setItem("access_token", data.access_token);
-        sessionStorage.setItem("token_type", data.token_type);
+        sessionStorage.setItem("access_token", data);
       }
       window.location.href = "/";
     } catch (error) {

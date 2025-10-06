@@ -5,7 +5,13 @@ module.exports = {
   purge: [],
   darkMode: false, // or 'media' or 'class'
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'custom-purple': '#403752',
+        // Or use a more descriptive name
+        'deep-purple': '#403752',
+      }
+    }
   },
   variants: {
     extend: {},
