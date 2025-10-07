@@ -13,7 +13,7 @@ export default function MainPage() {
   async function getChats() {
     const token = localStorage.getItem("access_token");
     try {
-      const response = await fetch("http://localhost:8090/api/v1/chats/all", {
+      const response = await fetch("http://localhost:8091/api/v1/chats/all", {
         method: "GET",
         headers: {
           "Content-type": "application/json",
