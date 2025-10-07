@@ -2,7 +2,7 @@ import "./LoginPanel.style.css";
 import { useState } from "react";
 
 export default function LoginPanel() {
-  const [isChecked, setIsChecked] = useState(false); // запоминать пароль или нет
+  const [isChecked, setIsChecked] = useState(false); // запоминать токен или нет
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -30,10 +30,10 @@ export default function LoginPanel() {
       console.log("JWT токен:", data.access_token);
       console.log("Тип токена", data.token_type);
 
-      if (!isChecked) {
-        localStorage.setItem("access_token", data);
+      if (isChecked) {
+        localStorage.setItem("access_token", data.access_token);
       } else {
-        sessionStorage.setItem("access_token", data);
+        sessionStorage.setItem("access_token", data.access_token);
       }
       window.location.href = "/";
     } catch (error) {
