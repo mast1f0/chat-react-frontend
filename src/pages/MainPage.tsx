@@ -17,7 +17,7 @@ export default function MainPage() {
         method: "GET",
         headers: {
           "Content-type": "application/json",
-          Authorization: `${token}`,
+          Authorization: `Bearier ${token}`,
         },
       });
 
