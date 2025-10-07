@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
+import React from "react";
 
 export interface Message {
   id: string;
@@ -13,7 +14,9 @@ interface AsideProps {
 export default function Aside({ messages = [] }: AsideProps) {
   const sidebarRef = useRef<HTMLDivElement>(null);
   const [isResizing, setIsResizing] = useState(false);
-  const [width, setWidth] = useState(268);
+  const [width, setWidth] = useState<number>(
+    () => Number(localStorage.getItem("asideWidth")) || 268
+  );
 
   const startResizing = useCallback(() => setIsResizing(true), []);
   const stopResizing = useCallback(() => setIsResizing(false), []);
@@ -26,6 +29,10 @@ export default function Aside({ messages = [] }: AsideProps) {
     },
     [isResizing]
   );
+
+  useEffect(() => {
+    localStorage.setItem("asideWidth", String(width));
+  }, [width]);
 
   useEffect(() => {
     window.addEventListener("mousemove", resize);
