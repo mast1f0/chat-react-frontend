@@ -2,5 +2,18 @@
     flex: 1;
     padding-inline: 50px;
     position: relative;
-    /* overflow-y:scroll; */
+    gap: 10px;
+}
+
+.chat-section{
+    max-height: 77%;
+    flex: 1;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    align-self: center;
+    width: 70%;
+}
+.chat-section > *{
+    margin-block: 20px;
 }
