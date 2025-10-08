@@ -1,9 +1,8 @@
-# React + TypeScript + Vite
+# React + TypeScript + Vite + Tailwind
 
 simple chat on react
 
-
-## Running 
+## Running
 
 ```bash
 git clone https://github.com/mast1f0/chat-react-frontend.git

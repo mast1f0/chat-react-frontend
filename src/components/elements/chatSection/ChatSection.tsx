@@ -32,10 +32,7 @@ const messages: Message[] = [
 
 export default function ChatSection() {
   return (
-    <div
-      style={{ display: "flex", flexDirection: "column", height: "100vh" }}
-      className="main-section"
-    >
+    <div className="main-section flex flex-col h-screen">
       <div className="chat-section">
         {messages.map((msg) =>
           msg.owner_id === currentUserId ? (

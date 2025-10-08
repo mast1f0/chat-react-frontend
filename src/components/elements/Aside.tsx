@@ -64,23 +64,8 @@ export default function Aside({ messages = [] }: AsideProps) {
   if (messages.length === 0)
     return (
       <div ref={sidebarRef} style={baseStyle}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100%",
-          }}
-        >
-          <h1
-            style={{
-              color: "#fff",
-              fontSize: 48,
-              fontWeight: 900,
-              textAlign: "center",
-              userSelect: "none",
-            }}
-          >
+        <div className="flex justify-center items-center h-[100%]">
+          <h1 className="text-[#fff] font-black text-5xl text-center select-none">
             ПОКА ЗДЕСЬ ПУСТО
           </h1>
         </div>
@@ -104,19 +89,10 @@ export default function Aside({ messages = [] }: AsideProps) {
       {messages.map((msg) => (
         <div
           key={msg.id}
-          style={{
-            color: "#fff",
-            borderRadius: 12,
-            padding: 10,
-            display: "flex",
-            alignItems: "center",
-            gap: 10,
-          }}
+          className="text-white rounded-[12px] p-2.5 flex items-center gap-2.5"
         >
           <div style={{ flex: 1 }}>
-            <strong style={{ fontSize: "2rem", fontWeight: 300 }}>
-              {msg.name}
-            </strong>
+            <strong className="text-[2rem] font-light">{msg.name}</strong>
           </div>
         </div>
       ))}

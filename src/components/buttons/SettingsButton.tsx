@@ -5,15 +5,7 @@ export default function SettingsButton() {
     <a
       href="/settings"
       aria-label="Настройки"
-      style={{
-        width: 32,
-        height: 32,
-        borderRadius: 8,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        textDecoration: "none",
-      }}
+      className="w-8 h-8 rounded-b-lg flex items-center justify-center no-underline"
     >
       <ReactSVG
         className="btn-icon"
