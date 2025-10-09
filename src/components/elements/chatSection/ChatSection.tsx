@@ -1,8 +1,8 @@
 import "./ChatSection.style.css";
 import InputMessage from "../InputMessage/InputMessage";
-import UserMessage from "../UserMessage/UserMessage";
+import UserMessage from "../UserMessage";
 import OtherMessage from "../OtherMessage";
-import type { Message } from "../UserMessage/UserMessage";
+import type { Message } from "../UserMessage";
 
 const currentUserId = "user-123";
 export const messages: Message[] = [
@@ -10,7 +10,7 @@ export const messages: Message[] = [
     id: "1",
     chat_id: "chat-123",
     content: "Привет! Как дела?",
-    timestamp: "2024-01-15T10:30:00.000Z",
+    timestamp: "10:30",
     read: true,
     edited: false,
     edited_time: "",
@@ -20,7 +20,7 @@ export const messages: Message[] = [
     id: "2",
     chat_id: "chat-123",
     content: "Привет! Все отлично, спасибо! А у тебя?",
-    timestamp: "2024-01-15T10:32:15.000Z",
+    timestamp: "10:32",
     read: true,
     edited: false,
     edited_time: "",
@@ -30,10 +30,10 @@ export const messages: Message[] = [
     id: "3",
     chat_id: "chat-123",
     content: "Тоже хорошо! Смотри, что я нашел...",
-    timestamp: "2024-01-15T10:33:45.000Z",
+    timestamp: "10:30",
     read: true,
     edited: true,
-    edited_time: "2024-01-15T10:34:00.000Z",
+    edited_time: "10:34",
     owner_id: "user-456"
   }]
 export default function ChatSection() {

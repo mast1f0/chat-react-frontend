@@ -1,33 +1,18 @@
 export default function SearchInput() {
   return (
-    <div
-      style={{
-        display: "flex",
-        backgroundColor: "#E1E0E1",
-        borderRadius: 44,
-        justifyContent: "center",
-        alignItems: "center",
-        paddingBlock: 10,
-      }}
+    <div className="flex bg-[#E1E0E1] rounded-[44px] justify-center items-center py-[10px]"
     >
       <input
         type="text"
         name=""
         id="search-message"
         placeholder="Поиск"
-        style={{
-          border: "none",
-          backgroundColor: "transparent",
-          paddingInline: 15,
-          flex: 1,
-          width: 190,
-          paddingBlock: 10,
-        }}
+        className="border-none bg-[transparent] py-[10px] flex-1 w-[190px] px-[10px]"
       />
       <img
         src="./src/assets/glass.png"
         alt=""
-        style={{ maxHeight: 30, maxWidth: 30, marginRight: 10 }}
+        className="max-h-[30px] max-w-[30px] mr-[10px]"
       />
     </div>
   );
