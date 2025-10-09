@@ -6,7 +6,6 @@ export interface Message {
   read: boolean;
   edited: boolean;
   edited_time: string;
-  owner_id: string;
 }
 
 export default function UserMessage({ message }: { message: Message }) {
