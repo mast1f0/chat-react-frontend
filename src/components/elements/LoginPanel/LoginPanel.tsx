@@ -32,6 +32,7 @@ export default function LoginPanel() {
 
       if (isChecked) {
         localStorage.setItem("access_token", data.access_token);
+        localStorage.setItem("username", data.username);
       } else {
         sessionStorage.setItem("access_token", data.access_token);
       }

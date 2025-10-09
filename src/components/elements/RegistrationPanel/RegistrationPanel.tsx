@@ -61,6 +61,7 @@ export default function RegistrationPanel() {
       const data = await response.json();
       console.log("Регистрация успешна:", data.message);
       window.location.href = "/";
+      localStorage.setItem("username", data.username);
     } catch (err) {
       console.error(err);
     }
