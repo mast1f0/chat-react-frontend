@@ -8,7 +8,6 @@ export default function LoginPanel() {
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setIsChecked(event.target.checked); // при проверке инвертировать
-    console.log(isChecked ? "да" : "нет");
   };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

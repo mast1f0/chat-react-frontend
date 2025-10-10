@@ -1,24 +1,47 @@
 import { useEffect, useState } from "react";
 import FontSizeControl from "../components/elements/FontSizeEdit";
-export interface UserInfo {
-  name: string;
-  id: string;
+import { jwtDecode } from "jwt-decode";
+
+export interface JWT {
+  sub?: string;
+  access_token: string;
+  username: string;
+  exp?: number;
+  iat?: number;
 }
 
 export default function SettingsPage() {
-  const [user, setUser] = useState<UserInfo>({ name: "", id: "" });
+  const token =
+    localStorage.getItem("access_token") ||
+    sessionStorage.getItem("access_token");
+
+  let jwtDecoded: JWT = { access_token: "", username: "" };
+
+  if (token) {
+    try {
+      jwtDecoded = jwtDecode<JWT>(token);
+    } catch (err) {
+      console.error(err);
+    }
+  } else {
+    console.log("Нет токена");
+  }
+
+  const [user, setUser] = useState<JWT>(jwtDecoded);
   const [edit, isEditing] = useState<boolean>(false);
   const [newName, setNewName] = useState("");
 
   useEffect(() => {
-    const getName = localStorage.getItem("username") || "Имя";
-    const getId = "id"; // потом дописать айдишник
-    setUser({ name: getName, id: getId });
-    setNewName(getName);
+    if (!token) {
+      const getName = localStorage.getItem("username") || "Имя";
+      const getId = `@${getName}`;
+      setUser({ username: getName, access_token: getId });
+      setNewName(getName);
+    }
   }, []);
 
   const saveChanges = () => {
-    setUser({ ...user, name: newName });
+    setUser({ ...user, username: newName });
     localStorage.setItem("username", newName);
     isEditing(false);
   };
@@ -50,7 +73,7 @@ export default function SettingsPage() {
               style={{ color: "black" }}
               className="text-black text-3xl font-semibold mb-1"
             >
-              {user.name}
+              {user.username}
             </h1>
           )}
 
@@ -82,7 +105,7 @@ export default function SettingsPage() {
           </>
         ) : null}
 
-        <h3 className="text-gray-600 text-lg mb-6">{user.id}</h3>
+        <h3 className="text-gray-600 text-lg mb-6">{`@${user.username}`}</h3>
 
         <button
           onClick={exitButton}
@@ -92,7 +115,7 @@ export default function SettingsPage() {
         </button>
       </div>
 
-      <FontSizeControl/>
+      <FontSizeControl />
     </div>
   );
 }
