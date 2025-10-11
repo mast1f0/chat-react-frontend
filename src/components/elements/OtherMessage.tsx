@@ -2,7 +2,7 @@ import type { Message } from "./UserMessage";
 
 export default function OtherMessage({ message }: { message: Message }) {
   return (
-    <div className="bg-white relative max-w-[500px] p-4 my-2 rounded-3xl rounded-bl-sm inline-flex">
+    <div className="bg-white relative max-w-[500px] min-w-[100px] p-4 my-2 rounded-3xl rounded-bl-sm inline-flex">
       <p style={{ color: "black" }} className="text-2xs break-words mb-5">
         {message.content}
       </p>

@@ -1,10 +1,28 @@
- import "./InputMessage.style.css";
+import "./InputMessage.style.css";
+import { useState } from "react";
 
-export default function InputMessage() {
+interface InputMessageProps {
+  onSendMessage: (text: string) => void;
+}
+
+export default function InputMessage({ onSendMessage }: InputMessageProps) {
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (content.trim() === "") return;
+    onSendMessage(content);
+    setContent("");
+  };
+
+  const [content, setContent] = useState("");
   return (
-    <div className="input-message__wrapper">
+    <form onSubmit={handleSubmit} className="input-message__wrapper">
       <div className="input-message">
-        <input type="text" id="message" placeholder="Напишите сообщение" />
+        <input
+          type="text"
+          id="message"
+          placeholder="Напишите сообщение"
+          onChange={(e) => setContent(e.target.value)}
+        />
         <div className="input__icons">
           <img src="src/assets/mic.svg" alt="Голосовое" />
           <img src="src/assets/scrap.svg" alt="Прикрепить файл" />
@@ -14,6 +32,6 @@ export default function InputMessage() {
       <button className="send-btn">
         <img src="src/assets/airplane.svg" alt="" />
       </button>
-    </div>
+    </form>
   );
 }
