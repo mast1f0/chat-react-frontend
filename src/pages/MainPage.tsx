@@ -33,7 +33,7 @@ export default function MainPage() {
   }
   getChats();
   return (
-    <div>
+    <div className="h-screen">
       <Header />
 
       <Aside />

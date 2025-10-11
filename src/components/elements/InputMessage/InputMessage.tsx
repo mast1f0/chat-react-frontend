@@ -8,9 +8,7 @@ interface InputMessageProps {
 export default function InputMessage({ onSendMessage }: InputMessageProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (content.trim() === "") return;
     onSendMessage(content);
-    setContent("");
   };
 
   const [content, setContent] = useState("");
