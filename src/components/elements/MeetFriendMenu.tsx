@@ -6,9 +6,27 @@ interface IsOpened {
 }
 
 export default function MeetFriendMenu({ isOpen, onClose }: IsOpened) {
+  const [chatName, setChatName] = useState("");
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch(
+        "http://localhost:8091/api/v1/chats/create/",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name: chatName }),
+        }
+      );
+      const data = await response.json(); // над ответом сервера пока думаю
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const [tab, setTab] = useState(0);
   if (!isOpen) return null;
-  //пофиксить адаптивность
+  //пофиксить адаптивность и баги
   return (
     <>
       <div className="fixed inset-0 bg-[#403752]/20 z-40" onClick={onClose} />
@@ -46,10 +64,12 @@ export default function MeetFriendMenu({ isOpen, onClose }: IsOpened) {
             <input
               type="text"
               placeholder={tab === 0 ? "Название чата" : "ID друга"}
+              onChange={(e) => setChatName(e.target.value)}
               className="flex-1 px-4 py-3 border border-b-gray-200 rounded-[40px] focus:outline-none focus:ring-2 focus:ring-[#403752] text-[#403752] placeholder-[#8C8098]"
             />
             <button
               type="submit"
+              onClick={handleSubmit}
               className="px-6 py-3 bg-[#403752] text-white rounded-[40px] hover:bg-[#403752]/90 transition-colors"
             >
               {tab === 0 ? "Создать" : "Добавить"}
