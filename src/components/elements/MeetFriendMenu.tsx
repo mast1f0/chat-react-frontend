@@ -8,14 +8,13 @@ interface IsOpened {
 export default function MeetFriendMenu({ isOpen, onClose }: IsOpened) {
   const [tab, setTab] = useState(0);
   if (!isOpen) return null;
-
+  //пофиксить адаптивность
   return (
     <>
       <div className="fixed inset-0 bg-[#403752]/20 z-40" onClick={onClose} />
 
       <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-[40px] max-w-[500px] w-full h-auto z-50 p-6">
         <div className="flex flex-wrap items-center gap-2 mb-6">
-          {/* вкладки */}
           <button
             onClick={() => setTab(0)}
             className={`px-4 max-h-12 py-2 rounded-[40px] text-sm transition-colors ${
@@ -37,15 +36,12 @@ export default function MeetFriendMenu({ isOpen, onClose }: IsOpened) {
             Друг
           </button>
 
-          {/* крестик */}
           <button
             onClick={onClose}
             className="text-[#8C8098] hover:text-[#403752] self-center ml-auto"
           >
             ✕
           </button>
-
-          {/* форма */}
           <form className="flex flex-1 min-w-full gap-3 mt-2">
             <input
               type="text"
