@@ -5,7 +5,11 @@ import SearchInput from "../SearchInput";
 import "./Header.style.css";
 import AddFriendButton from "../../buttons/AddFriend";
 
-export default function Header() {
+interface HeaderProps {
+  onToggleMenu: () => void;
+}
+
+export default function Header({ onToggleMenu }: HeaderProps) {
   return (
     <header className="header">
       <SettingsButton />
@@ -13,7 +17,7 @@ export default function Header() {
       <ThreeDots />
       <div className="search-section">
         <SearchInput />
-        <AddFriendButton />
+        <AddFriendButton onToggleMenu={onToggleMenu} />
       </div>
     </header>
   );

@@ -1,8 +1,14 @@
 import Header from "../components/elements/header/Header";
 import Aside from "../components/elements/Aside";
 import ChatSection from "../components/elements/chatSection/ChatSection";
+import MeetFriendMenu from "../components/elements/MeetFriendMenu";
+import { useState } from "react";
 
 export default function MainPage() {
+  const [menuActive, setMenuActive] = useState(false);
+  const toggleMenu = () => {
+    setMenuActive(!menuActive);
+  };
   const isLogged = (): boolean => {
     return localStorage.getItem("access_token") !== null;
   };
@@ -34,10 +40,13 @@ export default function MainPage() {
   getChats();
   return (
     <div className="h-screen">
-      <Header />
-
+      <Header onToggleMenu={toggleMenu} />
       <Aside />
       <ChatSection />
+      <MeetFriendMenu
+        isOpen={menuActive}
+        onClose={() => setMenuActive(false)}
+      />{" "}
     </div>
   );
 }
