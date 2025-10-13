@@ -2,16 +2,21 @@ import Header from "../components/elements/header/Header";
 import Aside from "../components/elements/Aside";
 import ChatSection from "../components/elements/chatSection/ChatSection";
 import MeetFriendMenu from "../components/elements/MeetFriendMenu";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function MainPage() {
+  const [screenSize, setScreenSize] = useState({width: window.innerWidth, height: window.innerHeight});
   const [menuActive, setMenuActive] = useState(false);
+
   const toggleMenu = () => {
     setMenuActive(!menuActive);
   };
   const isLogged = (): boolean => {
     return localStorage.getItem("access_token") !== null;
   };
+  useEffect( () => {
+    setScreenSize({width: window.innerWidth, height:window.innerHeight});
+  }, []);
 
   // if (!isLogged()) window.location.href = "/login";
 
@@ -40,7 +45,7 @@ export default function MainPage() {
   getChats();
   return (
     <div className="h-screen">
-      <Header onToggleMenu={toggleMenu} />
+      { screenSize.width > 1000 ? <Header onToggleMenu={toggleMenu} /> :null }
       <Aside />
       <ChatSection />
       <MeetFriendMenu

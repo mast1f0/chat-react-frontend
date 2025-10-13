@@ -11,7 +11,7 @@ interface HeaderProps {
 
 export default function Header({ onToggleMenu }: HeaderProps) {
   return (
-    <header className="header">
+    <header className="header xl:invisible">
       <SettingsButton />
       <UserPanel />
       <ThreeDots />
