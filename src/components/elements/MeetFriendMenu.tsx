@@ -66,7 +66,7 @@ export default function MeetFriendMenu({ isOpen, onClose }: IsOpened) {
               type="text"
               placeholder={tab === 0 ? "Название чата" : "ID друга"}
               onChange={(e) => setChatName(e.target.value)}
-              className="px-4 border border-solid border-b-gray-200 rounded-[40px] focus:outline-none focus:ring-2 focus:ring-[#403752] text-[#403752] placeholder-[#8C8098]"
+              className="px-4 border border-solid border-gray-400 rounded-[40px] focus:outline-none focus:ring-2 focus:ring-[#403752] text-[#403752] placeholder-[#8C8098]"
             />
             <button
               type="submit"
