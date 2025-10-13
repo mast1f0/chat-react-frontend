@@ -13,7 +13,7 @@ export default function MainPage() {
     return localStorage.getItem("access_token") !== null;
   };
 
-  if (!isLogged()) window.location.href = "/login";
+  // if (!isLogged()) window.location.href = "/login";
 
   //получаем чаты для панельки сбоку
   async function getChats() {

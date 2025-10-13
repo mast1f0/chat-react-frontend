@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import FontSizeControl from "../components/elements/FontSizeEdit";
 import { jwtDecode } from "jwt-decode";
+import BackToMainButton from "../components/buttons/BackToMainButton";
 
 export interface JWT {
   sub?: string;
@@ -51,7 +52,8 @@ export default function SettingsPage() {
     window.location.href = "/login";
   };
 
-  return (
+  return (<>
+  <BackToMainButton/>
     <div className="bg-[#f5f4f7] h-screen flex flex-col items-center pt-10">
       <div className="flex flex-col items-center bg-white rounded-2xl shadow-lg p-6 w-[90%]">
         <img
@@ -117,5 +119,6 @@ export default function SettingsPage() {
 
       <FontSizeControl />
     </div>
+    </>
   );
 }
