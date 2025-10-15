@@ -44,14 +44,14 @@ export default function MainPage() {
   }
   getChats();
   return (
-    <div className="h-screen">
-      { screenSize.width > 1000 ? <Header onToggleMenu={toggleMenu} /> :null }
+    <>
+      <Header onToggleMenu={toggleMenu}/>
       <Aside />
-      <ChatSection />
+      {screenSize.width <= 768 ? null : <ChatSection />}
       <MeetFriendMenu
         isOpen={menuActive}
         onClose={() => setMenuActive(false)}
       />{" "}
-    </div>
+      </>
   );
 }

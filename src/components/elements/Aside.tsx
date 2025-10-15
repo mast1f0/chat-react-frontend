@@ -12,6 +12,7 @@ interface AsideProps {
 }
 
 export default function Aside({ messages = [] }: AsideProps) {
+  const [screenSize, setScreenSize] = useState({ width: window.innerWidth, height: window.innerHeight });
   const sidebarRef = useRef<HTMLDivElement>(null);
   const [isResizing, setIsResizing] = useState(false);
   const [width, setWidth] = useState<number>(
@@ -34,6 +35,17 @@ export default function Aside({ messages = [] }: AsideProps) {
     localStorage.setItem("asideWidth", String(width));
   }, [width]);
 
+
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenSize({ width: window.innerWidth, height: window.innerHeight });
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+
   useEffect(() => {
     window.addEventListener("mousemove", resize);
     window.addEventListener("mouseup", stopResizing);
@@ -42,15 +54,6 @@ export default function Aside({ messages = [] }: AsideProps) {
       window.removeEventListener("mouseup", stopResizing);
     };
   }, [resize, stopResizing]);
-
-  const baseStyle: React.CSSProperties = {
-    backgroundColor: "#403752",
-    width,
-    height: "100vh",
-    float: "right",
-    borderTopLeftRadius: 33,
-    position: "relative",
-  };
 
   const resizerStyle: React.CSSProperties = {
     position: "absolute",
@@ -63,7 +66,7 @@ export default function Aside({ messages = [] }: AsideProps) {
 
   if (messages.length === 0)
     return (
-      <div ref={sidebarRef} style={baseStyle}>
+      <div ref={sidebarRef} className="bg-[#403752] h-screen md:float-right rounded-tl-[33px] md:rounded-tr-[0px] relative rounded-tr-[33px]" style={{ width: screenSize.width <= 768 ? "100%" : `${width}px` }}>
         <div className="flex justify-center items-center h-[100%]">
           <h1 className="text-[#fff] font-black text-5xl text-center select-none">
             ПОКА ЗДЕСЬ ПУСТО
@@ -76,15 +79,10 @@ export default function Aside({ messages = [] }: AsideProps) {
   return (
     <aside
       ref={sidebarRef}
-      style={{
-        ...baseStyle,
-        display: "flex",
-        flexDirection: "column",
-        padding: 10,
-        overflowY: "auto",
-        gap: 10,
-        userSelect: isResizing ? "none" : "auto",
-      }}
+      className="bg-[#403752] h-screen float-right rounded-tl-[33px] relative flex flex-col p-2.5 overflow-y-auto gap-2.5 ${
+            isResizing ? 'select-none' : 'select-auto'
+          }"
+      style={{width}}
     >
       {messages.map((msg) => (
         <div
