@@ -1,4 +1,4 @@
-.header{
+.header {
     display: flex;
     flex-direction: row;
     width: 100%;
@@ -9,18 +9,25 @@
     align-content: center;
     align-items: center;
     flex: 1;
-    padding-bottom:40px;
+    padding-bottom: 40px;
 }
 
-.header > *{
+.header>* {
     padding-inline: 20px;
 }
 
-.search-section{
+.search-section {
     padding-right: 0;
     float: right;
     display: flex;
     align-items: center;
     gap: 10px;
     width: auto;
+}
+
+@media (width < 768px) {
+    .header {
+        visibility: hidden;
+        display: none;
+    }
 }

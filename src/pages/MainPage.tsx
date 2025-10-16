@@ -5,17 +5,17 @@ import MeetFriendMenu from "../components/elements/MeetFriendMenu";
 import { useEffect, useState } from "react";
 
 export default function MainPage() {
-  const [screenSize, setScreenSize] = useState({width: window.innerWidth, height: window.innerHeight});
+  const [screenSize, setScreenSize] = useState({ width: window.innerWidth, height: window.innerHeight });
   const [menuActive, setMenuActive] = useState(false);
 
   const toggleMenu = () => {
     setMenuActive(!menuActive);
   };
-  const isLogged = (): boolean => {
-    return localStorage.getItem("access_token") !== null;
-  };
-  useEffect( () => {
-    setScreenSize({width: window.innerWidth, height:window.innerHeight});
+  // const isLogged = (): boolean => {
+  //   return localStorage.getItem("access_token") !== null;
+  // };
+  useEffect(() => {
+    setScreenSize({ width: window.innerWidth, height: window.innerHeight });
   }, []);
 
   // if (!isLogged()) window.location.href = "/login";
@@ -45,13 +45,13 @@ export default function MainPage() {
   getChats();
   return (
     <>
-      <Header onToggleMenu={toggleMenu}/>
+      <Header onToggleMenu={toggleMenu} />
       <Aside />
       {screenSize.width <= 768 ? null : <ChatSection />}
       <MeetFriendMenu
         isOpen={menuActive}
         onClose={() => setMenuActive(false)}
       />{" "}
-      </>
+    </>
   );
 }

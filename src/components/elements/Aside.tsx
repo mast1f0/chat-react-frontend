@@ -16,7 +16,7 @@ export default function Aside({ messages = [] }: AsideProps) {
   const sidebarRef = useRef<HTMLDivElement>(null);
   const [isResizing, setIsResizing] = useState(false);
   const [width, setWidth] = useState<number>(
-    () => Number(localStorage.getItem("asideWidth")) || 268
+    () => Number(localStorage.getItem("asideWidth")) || 413
   );
 
   const startResizing = useCallback(() => setIsResizing(true), []);
@@ -82,7 +82,7 @@ export default function Aside({ messages = [] }: AsideProps) {
       className="bg-[#403752] h-screen float-right rounded-tl-[33px] relative flex flex-col p-2.5 overflow-y-auto gap-2.5 ${
             isResizing ? 'select-none' : 'select-auto'
           }"
-      style={{width}}
+      style={{ width }}
     >
       {messages.map((msg) => (
         <div

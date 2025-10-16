@@ -4,6 +4,8 @@ import UserPanel from "../UserPanel/UserPanel";
 import SearchInput from "../SearchInput";
 import "./Header.style.css";
 import AddFriendButton from "../../buttons/AddFriend";
+import MobileHeader from "../MobileHeader";
+
 
 interface HeaderProps {
   onToggleMenu: () => void;
@@ -11,14 +13,18 @@ interface HeaderProps {
 
 export default function Header({ onToggleMenu }: HeaderProps) {
   return (
-    <header className="header">
-      <SettingsButton />
-      <UserPanel />
-      <ThreeDots />
-      <div className="search-section">
-        <SearchInput />
-        <AddFriendButton onToggleMenu={onToggleMenu} />
-      </div>
-    </header>
+    <>
+      <header className="header">
+        <SettingsButton />
+        <UserPanel />
+        <ThreeDots />
+        <div className="search-section">
+          <SearchInput />
+          <AddFriendButton onToggleMenu={onToggleMenu} />
+        </div>
+      </header>
+
+      <MobileHeader />
+    </>
   );
 }
