@@ -45,8 +45,8 @@ export default function MainPage() {
   getChats();
   return (
     <>
-      <Header onToggleMenu={toggleMenu} />
-      <Aside />
+      <Header />
+      <Aside onToggleMenu={toggleMenu} />
       {screenSize.width <= 768 ? null : <ChatSection />}
       <MeetFriendMenu
         isOpen={menuActive}

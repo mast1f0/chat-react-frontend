@@ -1,13 +1,13 @@
 export default function SearchInput() {
   return (
-    <div className="flex w-full bg-[#E1E0E1] rounded-[44px] justify-between items-center py-[10px]"
+    <div className="flex w-full bg-[#E1E0E1] min-w-0 rounded-[44px] justify-between items-center py-[10px]"
     >
       <input
         type="text"
         name=""
         id="search-message"
         placeholder="Поиск"
-        className="border-none bg-[transparent] py-[10px] flex-1 px-[10px]"
+        className="border-none bg-[transparent] py-[10px]  min-w-0 flex-1 px-[10px]"
       />
       <img
         src="./src/assets/glass.png"

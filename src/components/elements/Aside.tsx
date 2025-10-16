@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import React from "react";
+import SearchInput from "./SearchInput";
+import AddFriendButton from "../buttons/AddFriend";
 
 export interface Message {
   id: string;
@@ -9,9 +11,11 @@ export interface Message {
 
 interface AsideProps {
   messages?: Message[];
+  onToggleMenu: () => void;
 }
 
-export default function Aside({ messages = [] }: AsideProps) {
+
+export default function Aside({ messages = [], onToggleMenu }: AsideProps) {
   const [screenSize, setScreenSize] = useState({ width: window.innerWidth, height: window.innerHeight });
   const sidebarRef = useRef<HTMLDivElement>(null);
   const [isResizing, setIsResizing] = useState(false);
@@ -66,13 +70,19 @@ export default function Aside({ messages = [] }: AsideProps) {
 
   if (messages.length === 0)
     return (
-      <div ref={sidebarRef} className="bg-[#403752] h-screen md:float-right rounded-tl-[33px] md:rounded-tr-[0px] relative rounded-tr-[33px]" style={{ width: screenSize.width <= 768 ? "100%" : `${width}px` }}>
-        <div className="flex justify-center items-center h-[100%]">
-          <h1 className="text-[#fff] font-black text-5xl text-center select-none">
-            ПОКА ЗДЕСЬ ПУСТО
-          </h1>
+      <div className={`w-${width} h-screen flex-col flex float-right`}>
+        <div className={`pr-0 float-right flex items-center gap-2 w-${width}  my-[20px]`}>
+          <SearchInput />
+          <AddFriendButton onToggleMenu={onToggleMenu} />
         </div>
-        <div onMouseDown={startResizing} style={resizerStyle} />
+        <div ref={sidebarRef} className="bg-[#403752] h-screen md:float-right md:ml-auto rounded-tl-[33px] md:rounded-tr-[0px] relative rounded-t-10px" style={{ width: screenSize.width <= 768 ? "100%" : `${width}px` }}>
+          <div className="flex justify-center items-center h-[100%]">
+            <h1 className="text-[#fff] font-black text-5xl text-center select-none">
+              ПОКА ЗДЕСЬ ПУСТО
+            </h1>
+          </div>
+          <div onMouseDown={startResizing} style={resizerStyle} />
+        </div>
       </div>
     );
 
