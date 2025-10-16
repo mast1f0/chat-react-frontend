@@ -70,12 +70,13 @@ export default function Aside({ messages = [], onToggleMenu }: AsideProps) {
 
   if (messages.length === 0)
     return (
-      <div className={`w-${width} h-screen flex-col flex float-right`}>
-        <div className={`pr-0 float-right flex items-center gap-2 w-${width}  my-[20px]`}>
+      <div className={`h-[100%] flex-col flex flex-none`}>
+        <div className={`pr-0 flex  ml-auto items-center gap-2 my-[20px]`}
+          style={{ width: width }}>
           <SearchInput />
           <AddFriendButton onToggleMenu={onToggleMenu} />
         </div>
-        <div ref={sidebarRef} className="bg-[#403752] h-screen md:float-right md:ml-auto rounded-tl-[33px] md:rounded-tr-[0px] relative rounded-t-10px" style={{ width: screenSize.width <= 768 ? "100%" : `${width}px` }}>
+        <div ref={sidebarRef} className="bg-[#403752] h-screen md:ml-auto rounded-tl-[33px] md:rounded-tr-[0px] relative rounded-t-10px" style={{ width: screenSize.width <= 768 ? "100%" : `${width}px` }}>
           <div className="flex justify-center items-center h-[100%]">
             <h1 className="text-[#fff] font-black text-5xl text-center select-none">
               ПОКА ЗДЕСЬ ПУСТО
@@ -89,7 +90,7 @@ export default function Aside({ messages = [], onToggleMenu }: AsideProps) {
   return (
     <aside
       ref={sidebarRef}
-      className="bg-[#403752] h-screen float-right rounded-tl-[33px] relative flex flex-col p-2.5 overflow-y-auto gap-2.5 ${
+      className="bg-[#403752] h-screen ml-auto rounded-tl-[33px] relative flex flex-col p-2.5 overflow-y-auto gap-2.5 ${
             isResizing ? 'select-none' : 'select-auto'
           }"
       style={{ width }}

@@ -44,14 +44,16 @@ export default function MainPage() {
   }
   getChats();
   return (
-    <>
-      <Header />
+    <div className="flex flex-col h-screen max-w-1000px">
+      <div className="flex-1 ">
+        <Header />
+        {screenSize.width <= 768 ? null : <ChatSection />}
+      </div>
       <Aside onToggleMenu={toggleMenu} />
-      {screenSize.width <= 768 ? null : <ChatSection />}
       <MeetFriendMenu
         isOpen={menuActive}
         onClose={() => setMenuActive(false)}
       />{" "}
-    </>
+    </div>
   );
 }

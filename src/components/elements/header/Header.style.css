@@ -1,28 +1,18 @@
 .header {
     display: flex;
-    flex-direction: row;
     width: 100%;
-    padding-left: 50px;
+    /* padding-left: 50px;
     padding-right: 10px;
-    padding-block: 10px;
+    padding-block: 10px; */
     justify-content: space-between;
     align-content: center;
     align-items: center;
     flex: 1;
-    padding-bottom: 40px;
+    /* padding-bottom: 40px; */
 }
 
 .header>* {
     padding-inline: 20px;
-}
-
-.search-section {
-    padding-right: 0;
-    float: right;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    width: auto;
 }
 
 @media (width < 768px) {
