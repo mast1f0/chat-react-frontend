@@ -1,14 +1,12 @@
 .header {
     display: flex;
     width: 100%;
-    /* padding-left: 50px;
-    padding-right: 10px;
-    padding-block: 10px; */
     justify-content: space-between;
     align-content: center;
     align-items: center;
     flex: 1;
-    /* padding-bottom: 40px; */
+    max-height: 80px;
+    padding-inline: 20px;
 }
 
 .header>* {

@@ -21,31 +21,35 @@ export default function MainPage() {
   // if (!isLogged()) window.location.href = "/login";
 
   //получаем чаты для панельки сбоку
-  async function getChats() {
-    const token = localStorage.getItem("access_token");
-    try {
-      const response = await fetch("http://localhost:8091/api/v1/chats/all/", {
-        method: "GET",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+  useEffect(() => {
+    async function getChats() {
+      const token = localStorage.getItem("access_token");
+      if (!token) return;
 
-      if (!response.ok) {
-        throw new Error(`${response.status}`);
+      try {
+        const response = await fetch("http://localhost:8091/api/v1/chats/all/", {
+          method: "GET",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`${response.status}`);
+        }
+
+        const chats = await response.json();
+        console.log(chats);
+      } catch (error) {
+        console.log(error);
       }
-
-      const chats = await response.json();
-      console.log(chats);
-    } catch (error) {
-      console.log(error);
     }
-  }
-  getChats();
+    getChats();
+  }, []);
   return (
-    <div className="flex flex-col h-screen max-w-1000px">
-      <div className="flex-1 ">
+    <div className="flex h-screen">
+      <div className="flex flex-col flex-1">
         <Header />
         {screenSize.width <= 768 ? null : <ChatSection />}
       </div>
@@ -53,7 +57,7 @@ export default function MainPage() {
       <MeetFriendMenu
         isOpen={menuActive}
         onClose={() => setMenuActive(false)}
-      />{" "}
+      />
     </div>
   );
 }

@@ -11,14 +11,24 @@ const token =
   localStorage.getItem("access_token") ||
   sessionStorage.getItem("access_token");
 
+let decoded: JWT | null = null;
 if (token) {
-  var decoded: JWT = jwtDecode(token);
+  try {
+    decoded = jwtDecode(token);
+  } catch (error) {
+    console.error("Ошибка декодирования JWT:", error);
+  }
 }
 
 export default function ChatSection() {
   const [messages, setMessages] = useState<Message[]>([]); // крч это наверное пока временно (визуал и тест)
 
   const handleSendMessage = async (content: string) => {
+    if (!decoded) {
+      console.error("JWT токен не декодирован");
+      return;
+    }
+    
     const newMessage: Message = {
       id: crypto.randomUUID(), //из запроса
       chat_id: "chat-1", //из запроса
@@ -52,7 +62,7 @@ export default function ChatSection() {
     <div className="main-section flex flex-col h-screen">
       <div className="chat-section flex-1 overflow-y-auto">
         {messages.map((msg) =>
-          msg.sender_id === decoded.username ? (
+          msg.sender_id === decoded?.username ? (
             <UserMessage key={msg.id} message={msg} />
           ) : (
             <OtherMessage key={msg.id} message={msg} />

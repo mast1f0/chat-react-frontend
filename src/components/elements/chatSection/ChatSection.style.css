@@ -1,12 +1,14 @@
-.main-section{
+.main-section {
     flex: 1;
     padding-inline: 50px;
     position: relative;
     gap: 10px;
+    display: flex;
+    flex-direction: column;
 }
 
-.chat-section{
-    max-height: 77%;
+.chat-section {
+    height: 90%;
     flex: 1;
     overflow-y: scroll;
     -ms-overflow-style: none;
@@ -14,6 +16,7 @@
     align-self: center;
     width: 80%;
 }
-.chat-section > *{
+
+.chat-section>* {
     margin-block: 20px;
 }
