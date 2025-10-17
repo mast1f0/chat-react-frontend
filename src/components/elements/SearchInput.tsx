@@ -1,6 +1,6 @@
 export default function SearchInput() {
   return (
-    <div className="flex w-full bg-[#E1E0E1] min-w-0 rounded-[44px] justify-between items-center mr-2.5"
+    <div className="flex w-full bg-[#E1E0E1] min-w-0 rounded-[44px] justify-between items-center"
     >
       <input
         type="text"
@@ -12,7 +12,7 @@ export default function SearchInput() {
       <img
         src="./src/assets/glass.png"
         alt=""
-        className="max-h-[30px] max-w-[30px] mr-[10px]"
+        className="max-h-[30px] max-w-[30px] md:select-none mr-[10px]"
       />
     </div>
   );

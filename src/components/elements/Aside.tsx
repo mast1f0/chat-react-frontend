@@ -70,8 +70,8 @@ export default function Aside({ messages = [], onToggleMenu }: AsideProps) {
 
   if (messages.length === 0)
     return (
-      <div className={`h-full flex-col flex flex-none`}>
-        <div className={`pr-0 flex  ml-auto items-center gap-2 mt-[10px] mb-[20px]`}
+      <div className={`md:h-full flex-col flex md:flex-none`}>
+        <div className={`md:pr-0 md:flex md:ml-auto md:items-center md:gap-[1px] md:mt-[10px] md:mb-[20px] hidden`}
           style={{ width: width }}>
           <SearchInput />
           <AddFriendButton onToggleMenu={onToggleMenu} />

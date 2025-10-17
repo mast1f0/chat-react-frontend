@@ -22,13 +22,13 @@ export default function InputMessage({ onSendMessage }: InputMessageProps) {
           onChange={(e) => setContent(e.target.value)}
         />
         <div className="input__icons">
-          <img src="src/assets/mic.svg" alt="Голосовое" />
-          <img src="src/assets/scrap.svg" alt="Прикрепить файл" />
+          <img src="src/assets/mic.svg" className="md:select-none" alt="Голосовое" />
+          <img src="src/assets/scrap.svg" className="md:select-none" alt="Прикрепить файл" />
         </div>
       </div>
 
       <button className="send-btn">
-        <img src="src/assets/airplane.svg" alt="" />
+        <img src="src/assets/airplane.svg" className="md:select-none" alt="" />
       </button>
     </form>
   );
