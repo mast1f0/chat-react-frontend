@@ -42,18 +42,18 @@ input::placeholder {
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-    background: #F5F4F7;
+    background: #403752;
     border-radius: 4px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: #403752;
+    background: #f5f4f7;
     border-radius: 4px;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    min-height: 30px;
-    height: 30px;
+    min-height: 20px;
+    height: 20px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #2a1f2e;
+    background: #E1E0E1;
 }
