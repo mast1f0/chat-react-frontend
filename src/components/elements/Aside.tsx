@@ -102,7 +102,7 @@ export default function Aside({ messages = [], onToggleMenu }: AsideProps) {
       </div>
       <aside
         ref={sidebarRef}
-        className={`bg-[#403752] h-full md:ml-auto rounded-t-[50px] md:rounded-tl-[33px] md:rounded-tr-[0px] relative rounded-t-10px flex flex-col p-2.5 overflow-y-auto gap-2.5 custom-scrollbar ${isResizing ? 'select-none' : 'select-auto'
+        className={`bg-[#403752] h-full md:ml-auto rounded-t-[50px] md:rounded-tl-[33px] md:rounded-tr-[0px] relative rounded-t-10px flex flex-col overflow-y-auto gap-2.5 custom-scrollbar ${isResizing ? 'select-none' : 'select-auto'
           }`}
         style={{
           width: screenSize.width <= 768 ? "100%" : `${width}px`,
@@ -113,7 +113,7 @@ export default function Aside({ messages = [], onToggleMenu }: AsideProps) {
           <div
             key={msg.id}
             onClick={() => handleChatClick(msg.id)}
-            className={`text-white rounded-[12px] p-2.5 flex items-center gap-2.5 cursor-pointer transition-all duration-200 hover:bg-[#F5F4F7] hover:rounded-r-4xl hover:text-[#403752] ${selectedChat === msg.id ? 'bg-white/20' : ''
+            className={`text-white p-2.5 flex items-center gap-2.5 cursor-pointer transition-all duration-200 hover:bg-[#F5F4F7] hover:rounded-r-4xl hover:text-[#403752] ${selectedChat === msg.id ? 'bg-white/20' : ''
               }`}
           >
             <div style={{ flex: 1 }}>
