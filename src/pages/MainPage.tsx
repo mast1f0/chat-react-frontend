@@ -2,6 +2,7 @@ import Header from "../components/elements/header/Header";
 import Aside from "../components/elements/Aside";
 import ChatSection from "../components/elements/chatSection/ChatSection";
 import MeetFriendMenu from "../components/elements/MeetFriendMenu";
+import { MobileMenuProvider } from "../contexts/MobileMenuContext";
 import { useEffect, useState } from "react";
 
 export default function MainPage() {
@@ -67,18 +68,20 @@ export default function MainPage() {
     getChats();
   }, []);
   return (
-    <div className="flex h-full md:h-screen flex-col md:flex-row">
-      <div className="flex flex-col md:flex-1">
-        <Header />
-        {screenSize.width <= 768 ? null : <ChatSection />}
+    <MobileMenuProvider>
+      <div className="flex h-full md:h-screen flex-col md:flex-row">
+        <div className="flex flex-col md:flex-1">
+          <Header />
+          {screenSize.width <= 768 ? null : <ChatSection />}
+        </div>
+        <div className="flex-1 md:flex-none">
+          <Aside messages={testMessages} onToggleMenu={toggleMenu} />
+        </div>
+        <MeetFriendMenu
+          isOpen={menuActive}
+          onClose={() => setMenuActive(false)}
+        />
       </div>
-      <div className="flex-1 md:flex-none">
-        <Aside messages={testMessages} onToggleMenu={toggleMenu} />
-      </div>
-      <MeetFriendMenu
-        isOpen={menuActive}
-        onClose={() => setMenuActive(false)}
-      />
-    </div>
+    </MobileMenuProvider>
   );
 }

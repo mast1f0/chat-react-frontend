@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import React from "react";
 import SearchInput from "./SearchInput";
 import AddFriendButton from "../buttons/AddFriend";
+import { useMobileMenu } from "../../contexts/MobileMenuContext";
 
 export interface Message {
   id: string;
@@ -14,9 +15,12 @@ interface AsideProps {
   onToggleMenu: () => void;
 }
 
-
 export default function Aside({ messages = [], onToggleMenu }: AsideProps) {
-  const [screenSize, setScreenSize] = useState({ width: window.innerWidth, height: window.innerHeight });
+  const { isMobileMenuOpen } = useMobileMenu();
+  const [screenSize, setScreenSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
   const sidebarRef = useRef<HTMLDivElement>(null);
   const [isResizing, setIsResizing] = useState(false);
   const [selectedChat, setSelectedChat] = useState<string | null>(null);
@@ -24,9 +28,10 @@ export default function Aside({ messages = [], onToggleMenu }: AsideProps) {
     () => Number(localStorage.getItem("asideWidth")) || 413
   );
 
-  const handleChatClick = (chatId: string) => { //пока заглушечка
+  const handleChatClick = (chatId: string) => {
+    //пока заглушечка
     setSelectedChat(chatId);
-    console.log('Выбран чат:', chatId);
+    console.log("Выбран чат:", chatId);
   };
 
   const startResizing = useCallback(() => setIsResizing(true), []);
@@ -45,7 +50,6 @@ export default function Aside({ messages = [], onToggleMenu }: AsideProps) {
     localStorage.setItem("asideWidth", String(width));
   }, [width]);
 
-
   useEffect(() => {
     const handleResize = () => {
       setScreenSize({ width: window.innerWidth, height: window.innerHeight });
@@ -54,7 +58,6 @@ export default function Aside({ messages = [], onToggleMenu }: AsideProps) {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
 
   useEffect(() => {
     window.addEventListener("mousemove", resize);
@@ -77,12 +80,20 @@ export default function Aside({ messages = [], onToggleMenu }: AsideProps) {
   if (messages.length === 0)
     return (
       <div className={`h-full flex-col flex md:flex-none`}>
-        <div className={`md:pr-0 md:flex md:ml-auto md:items-center md:gap-[1px] md:mt-[10px] md:mb-[20px] hidden`}
-          style={{ width: width }}>
+        <div
+          className={`md:pr-0 md:flex md:ml-auto md:items-center md:gap-[1px] md:mt-[10px] md:mb-[20px] hidden`}
+          style={{ width: width }}
+        >
           <SearchInput />
           <AddFriendButton onToggleMenu={onToggleMenu} />
         </div>
-        <div ref={sidebarRef} className="bg-[#403752] h-full md:ml-auto rounded-t-[50px] md:rounded-tl-[33px] md:rounded-tr-[0px] relative rounded-t-10px" style={{ width: screenSize.width <= 768 ? "100%" : `${width}px` }}>
+        <div
+          ref={sidebarRef}
+          className={`bg-[#403752] h-full md:ml-auto rounded-t-[50px] md:rounded-tl-[33px] md:rounded-tr-[0px] relative rounded-t-10px transition-transform duration-300 ${
+            isMobileMenuOpen ? 'md:translate-y-0 translate-y-20' : 'translate-y-0'
+          }`}
+          style={{ width: screenSize.width <= 768 ? "100%" : `${width}px` }}
+        >
           <div className="flex justify-center items-center h-[100%]">
             <h1 className="text-[#fff] font-black text-5xl text-center select-none">
               ПОКА ЗДЕСЬ ПУСТО
@@ -95,26 +106,32 @@ export default function Aside({ messages = [], onToggleMenu }: AsideProps) {
 
   return (
     <div className={`h-full flex-col flex md:flex-none`}>
-      <div className={`md:pr-0 md:flex md:ml-auto md:items-center md:gap-[1px] md:mt-[10px] md:mb-[20px] hidden`}
-        style={{ width: width }}>
+      <div
+        className={`md:pr-0 md:flex md:ml-auto md:items-center md:gap-[1px] md:mt-[10px] md:mb-[20px] hidden`}
+        style={{ width: width }}
+      >
         <SearchInput />
         <AddFriendButton onToggleMenu={onToggleMenu} />
       </div>
       <aside
         ref={sidebarRef}
-        className={`bg-[#403752] h-full md:ml-auto rounded-t-[50px] md:rounded-tl-[33px] md:rounded-tr-[0px] relative rounded-t-10px flex flex-col overflow-y-auto gap-2.5 custom-scrollbar ${isResizing ? 'select-none' : 'select-auto'
-          }`}
+        className={`bg-[#403752] h-full md:ml-auto rounded-t-[50px] md:rounded-tl-[33px] md:rounded-tr-[0px] relative rounded-t-10px flex flex-col overflow-y-auto gap-2.5 custom-scrollbar transition-transform duration-300 ${
+          isResizing ? "select-none" : "select-auto"
+        } ${
+          isMobileMenuOpen ? 'md:translate-y-0 translate-y-20' : 'translate-y-0'
+        }`}
         style={{
           width: screenSize.width <= 768 ? "100%" : `${width}px`,
-          borderRadius: screenSize.width <= 768 ? '71px' : undefined
+          borderRadius: screenSize.width <= 768 ? "71px" : undefined,
         }}
       >
         {messages.map((msg) => (
           <div
             key={msg.id}
             onClick={() => handleChatClick(msg.id)}
-            className={`text-white p-2.5 flex items-center gap-2.5 cursor-pointer transition-all duration-200 hover:bg-[#F5F4F7] hover:rounded-r-4xl hover:text-[#403752] ${selectedChat === msg.id ? 'bg-white/20' : ''
-              }`}
+            className={`text-white p-2.5 flex items-center gap-2.5 cursor-pointer transition-all duration-200 hover:bg-[#F5F4F7] hover:rounded-r-4xl hover:text-[#403752] ${
+              selectedChat === msg.id ? "bg-white/20" : ""
+            }`}
           >
             <div style={{ flex: 1 }}>
               <strong className="text-[2rem] font-light">{msg.name}</strong>
