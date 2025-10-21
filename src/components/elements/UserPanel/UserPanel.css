@@ -16,3 +16,10 @@
 .panel-active{
     height: auto;
 }
+
+@media (width < 768px) {
+    .panel{
+        max-width: 300px;
+        justify-self: center;
+    }
+}

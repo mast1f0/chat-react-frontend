@@ -1,5 +1,4 @@
 import "./ChatSection.style.css";
-import InputMessage from "../InputMessage/InputMessage";
 import UserMessage from "../UserMessage";
 import OtherMessage from "../OtherMessage";
 import type { Message } from "../UserMessage";
@@ -20,7 +19,11 @@ if (token) {
   }
 }
 
-export default function ChatSection() {
+interface ChatSectionProps {
+  onSendMessage?: (content: string) => void;
+}
+
+export default function ChatSection({ onSendMessage }: ChatSectionProps) {
   const [messages, setMessages] = useState<Message[]>([]); // крч это наверное пока временно (визуал и тест)
 
   const handleSendMessage = async (content: string) => {
@@ -28,7 +31,7 @@ export default function ChatSection() {
       console.error("JWT токен не декодирован");
       return;
     }
-    
+
     const newMessage: Message = {
       id: crypto.randomUUID(), //из запроса
       chat_id: "chat-1", //из запроса
@@ -40,6 +43,12 @@ export default function ChatSection() {
       timestamp: new Date().toISOString(),
     };
     setMessages((prev) => [...prev, newMessage]);
+    
+    // Call the parent's onSendMessage if provided
+    if (onSendMessage) {
+      onSendMessage(content);
+    }
+    
     //отправка на сервер
     await fetch("http://localhost:8091/api/v1/messages/", {
       //ручку потом переделаю
@@ -59,7 +68,7 @@ export default function ChatSection() {
   }, [messages]);
 
   return (
-    <div className="main-section flex flex-col h-screen">
+    <div className="main-section flex flex-col h-full">
       <div className="chat-section flex-1 overflow-y-auto">
         {messages.map((msg) =>
           msg.sender_id === decoded?.username ? (
@@ -70,7 +79,6 @@ export default function ChatSection() {
         )}
         <div className="w-[1px] h-[1px]" ref={bottomRef} id="bottom"></div>
       </div>
-      <InputMessage onSendMessage={handleSendMessage} />
     </div>
   );
 }

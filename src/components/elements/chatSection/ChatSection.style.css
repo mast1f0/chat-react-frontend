@@ -1,20 +1,20 @@
 .main-section {
     flex: 1;
-    padding-inline: 50px;
+    padding-inline: 20px;
     position: relative;
     gap: 10px;
     display: flex;
     flex-direction: column;
+    height: 100%;
 }
 
 .chat-section {
-    height: 90%;
     flex: 1;
-    overflow-y: scroll;
+    overflow-y: auto;
     -ms-overflow-style: none;
     scrollbar-width: none;
-    align-self: center;
-    width: 80%;
+    width: 100%;
+    padding: 10px 0;
 }
 
 .chat-section>* {

@@ -1,6 +1,6 @@
 export default function BackToMainButton() {
   return (
-    <div className="my-10 self-start ml-[4%]">
+    <div className="my-5 md:my-10 self-start ml-[4%]">
       <a
         href="/"
         aria-label="Настройки"
