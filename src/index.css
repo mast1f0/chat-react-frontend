@@ -30,6 +30,7 @@ input::placeholder {
     font-style: italic;
     outline: none;
     box-shadow: none;
+    align-self: center;
 }
 
 .custom-scrollbar {
