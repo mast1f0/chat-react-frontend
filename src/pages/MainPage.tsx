@@ -16,14 +16,14 @@ export default function MainPage() {
   const toggleMenu = () => {
     setMenuActive(!menuActive);
   };
-  // const isLogged = (): boolean => {
-  //   return localStorage.getItem("access_token") !== null;
-  // };
+  const isLogged = (): boolean => {
+    return localStorage.getItem("access_token") !== null;
+  };
   useEffect(() => {
     setScreenSize({ width: window.innerWidth, height: window.innerHeight });
   }, []);
 
-  // if (!isLogged()) window.location.href = "/login";
+  if (!isLogged()) window.location.href = "/login";
 
   //получаем чаты для панельки сбоку
   useEffect(() => {

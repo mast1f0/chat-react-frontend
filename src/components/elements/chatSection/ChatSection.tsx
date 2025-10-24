@@ -43,12 +43,11 @@ export default function ChatSection({ onSendMessage }: ChatSectionProps) {
       timestamp: new Date().toISOString(),
     };
     setMessages((prev) => [...prev, newMessage]);
-    
-    // Call the parent's onSendMessage if provided
+
     if (onSendMessage) {
       onSendMessage(content);
     }
-    
+
     //отправка на сервер
     await fetch("http://localhost:8091/api/v1/messages/", {
       //ручку потом переделаю
