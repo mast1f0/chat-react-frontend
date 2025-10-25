@@ -7,10 +7,6 @@ import { MobileMenuProvider } from "../contexts/MobileMenuContext";
 import { useEffect, useState } from "react";
 
 export default function MainPage() {
-  const [screenSize, setScreenSize] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight,
-  });
   const [menuActive, setMenuActive] = useState(false);
   const [chats, setChats] = useState<Chat[]>([]);
   const [currentMessages, setCurrentMessages] = useState<any[]>([]);
@@ -27,10 +23,6 @@ export default function MainPage() {
   const isLogged = (): boolean => {
     return localStorage.getItem("access_token") !== null;
   };
-  useEffect(() => {
-    setScreenSize({ width: window.innerWidth, height: window.innerHeight });
-  }, []);
-
   if (!isLogged()) window.location.href = "/login";
 
   //получаем чаты для панельки сбоку
@@ -69,12 +61,12 @@ export default function MainPage() {
       <div className="flex h-full md:h-screen flex-col md:flex-row">
         <div className="flex flex-col md:flex-1">
           <Header />
-          {screenSize.width <= 768 ? null : (
+          <div className="hidden md:block">
             <ChatSection
               messages={currentMessages}
               chatId={currentChatId || undefined}
             />
-          )}
+          </div>
         </div>
         <div className="flex-1 md:flex-none">
           <Aside

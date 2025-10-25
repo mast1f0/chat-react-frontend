@@ -82,7 +82,7 @@ export default function Aside({
 
   if (chats.length === 0)
     return (
-      <div className="flex flex-col h-full md:flex-none">
+      <div className="flex flex-col h-full">
         <div
           className="hidden md:flex md:ml-auto md:items-center md:gap-1 md:mt-2 md:mb-5"
           style={{ width: width }}
