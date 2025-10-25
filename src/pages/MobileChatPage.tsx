@@ -3,7 +3,12 @@ import { useState, useRef } from "react";
 import BackToMainButton from "../components/buttons/BackToMainButton";
 import UserPanel from "../components/elements/UserPanel/UserPanel";
 
-export default function MobileChatPage() {
+interface MobileChatPageProps {
+  messages?: any[];
+  chatId?: string;
+}
+
+export default function MobileChatPage({ messages, chatId }: MobileChatPageProps) {
   const [msg, setMsg] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -34,7 +39,10 @@ export default function MobileChatPage() {
       </div>
 
       <div className="flex-1 overflow-hidden">
-        <ChatSection />
+        <ChatSection 
+          messages={messages} 
+          chatId={chatId}
+        />
       </div>
 
       <div className="flex items-center px-2 sm:px-4 gap-2 sm:gap-3 py-2 sm:py-3 bg-white border-t border-gray-200 min-h-[60px] sm:min-h-[70px]">

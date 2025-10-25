@@ -1,5 +1,6 @@
 import Header from "../components/elements/header/Header";
 import Aside from "../components/elements/Aside";
+import type { Chat } from "../components/elements/Aside";
 import ChatSection from "../components/elements/chatSection/ChatSection";
 import MeetFriendMenu from "../components/elements/MeetFriendMenu";
 import { MobileMenuProvider } from "../contexts/MobileMenuContext";
@@ -11,10 +12,17 @@ export default function MainPage() {
     height: window.innerHeight,
   });
   const [menuActive, setMenuActive] = useState(false);
-  const [chats, setChats] = useState([]);
+  const [chats, setChats] = useState<Chat[]>([]);
+  const [currentMessages, setCurrentMessages] = useState<any[]>([]);
+  const [currentChatId, setCurrentChatId] = useState<string | null>(null);
 
   const toggleMenu = () => {
     setMenuActive(!menuActive);
+  };
+
+  const handleMessagesLoaded = (chatId: string, messages: any[]) => {
+    setCurrentChatId(chatId);
+    setCurrentMessages(messages);
   };
   const isLogged = (): boolean => {
     return localStorage.getItem("access_token") !== null;
@@ -61,10 +69,19 @@ export default function MainPage() {
       <div className="flex h-full md:h-screen flex-col md:flex-row">
         <div className="flex flex-col md:flex-1">
           <Header />
-          {screenSize.width <= 768 ? null : <ChatSection />}
+          {screenSize.width <= 768 ? null : (
+            <ChatSection
+              messages={currentMessages}
+              chatId={currentChatId || undefined}
+            />
+          )}
         </div>
         <div className="flex-1 md:flex-none">
-          <Aside messages={chats} onToggleMenu={toggleMenu} />
+          <Aside
+            chats={chats}
+            onToggleMenu={toggleMenu}
+            onMessagesLoaded={handleMessagesLoaded}
+          />
         </div>
         <MeetFriendMenu
           isOpen={menuActive}

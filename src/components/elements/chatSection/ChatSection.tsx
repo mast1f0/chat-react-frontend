@@ -21,10 +21,19 @@ if (token) {
 
 interface ChatSectionProps {
   onSendMessage?: (content: string) => void;
+  messages?: Message[];
+  chatId?: string;
 }
 
-export default function ChatSection({ onSendMessage }: ChatSectionProps) {
-  const [messages, setMessages] = useState<Message[]>([]); // крч это наверное пока временно (визуал и тест)
+export default function ChatSection({ onSendMessage, messages: externalMessages, chatId }: ChatSectionProps) {
+  const [messages, setMessages] = useState<Message[]>([]);
+
+  // Обновляем сообщения при изменении внешних сообщений или chatId
+  useEffect(() => {
+    if (externalMessages) {
+      setMessages(externalMessages);
+    }
+  }, [externalMessages, chatId]);
 
   const handleSendMessage = async (content: string) => {
     if (!decoded) {

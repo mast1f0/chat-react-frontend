@@ -3,19 +3,25 @@ import React from "react";
 import SearchInput from "./SearchInput";
 import AddFriendButton from "../buttons/AddFriend";
 import { useMobileMenu } from "../../contexts/MobileMenuContext";
+import { useNavigate } from "react-router-dom";
 
-export interface Message {
+export interface Chat {
   id: string;
   name: string;
-  owner_id: string;
+  type_chat: "group" | "private";
 }
 
 interface AsideProps {
-  messages?: Message[];
+  chats?: Chat[];
   onToggleMenu: () => void;
+  onMessagesLoaded?: (chatId: string, messages: any[]) => void;
 }
 
-export default function Aside({ messages = [], onToggleMenu }: AsideProps) {
+export default function Aside({
+  chats = [],
+  onToggleMenu,
+  onMessagesLoaded,
+}: AsideProps) {
   const { isMobileMenuOpen } = useMobileMenu();
   const [screenSize, setScreenSize] = useState({
     width: window.innerWidth,
@@ -28,10 +34,38 @@ export default function Aside({ messages = [], onToggleMenu }: AsideProps) {
     () => Number(localStorage.getItem("asideWidth")) || 413
   );
 
-  const handleChatClick = (chatId: string) => {
-    //пока заглушечка
+  const navigate = useNavigate();
+  const handleChatClick = async (chatId: string) => {
     setSelectedChat(chatId);
-    console.log("Выбран чат:", chatId);
+    navigate(`/?chat=${chatId}&&`);
+
+    //запрос сообщений чата
+    const token = localStorage.getItem("access_token"); // мб сделать систему передачи токенов
+    if (!token) return;
+
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:8091/api/v1/chats/messages/all/?chat_id=${chatId}&time=${Date.now()}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.ok) {
+        const messagesData = await response.json();
+        console.log("Messages loaded for chat:", chatId, messagesData);
+
+        onMessagesLoaded?.(chatId, messagesData);
+      } else {
+        console.error(response.status);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const startResizing = useCallback(() => setIsResizing(true), []);
@@ -77,7 +111,7 @@ export default function Aside({ messages = [], onToggleMenu }: AsideProps) {
     cursor: "ew-resize",
   };
 
-  if (messages.length === 0)
+  if (chats.length === 0)
     return (
       <div className={`h-full flex-col flex md:flex-none`}>
         <div
@@ -90,7 +124,9 @@ export default function Aside({ messages = [], onToggleMenu }: AsideProps) {
         <div
           ref={sidebarRef}
           className={`bg-[#403752] h-full md:ml-auto rounded-t-[50px] md:rounded-tl-[33px] md:rounded-tr-[0px] relative rounded-t-10px transition-transform duration-300 ${
-            isMobileMenuOpen ? 'md:translate-y-0 translate-y-20' : 'translate-y-0'
+            isMobileMenuOpen
+              ? "md:translate-y-0 translate-y-20"
+              : "translate-y-0"
           }`}
           style={{ width: screenSize.width <= 768 ? "100%" : `${width}px` }}
         >
@@ -118,23 +154,26 @@ export default function Aside({ messages = [], onToggleMenu }: AsideProps) {
         className={`bg-[#403752] h-full md:ml-auto rounded-t-[50px] md:rounded-tl-[33px] md:rounded-tr-[0px] relative rounded-t-10px flex flex-col overflow-y-auto gap-2.5 custom-scrollbar transition-transform duration-300 ${
           isResizing ? "select-none" : "select-auto"
         } ${
-          isMobileMenuOpen ? 'md:translate-y-0 translate-y-20' : 'translate-y-0'
+          isMobileMenuOpen ? "md:translate-y-0 translate-y-20" : "translate-y-0"
         }`}
         style={{
           width: screenSize.width <= 768 ? "100%" : `${width}px`,
           borderRadius: screenSize.width <= 768 ? "71px" : undefined,
         }}
       >
-        {messages.map((msg) => (
+        {chats.map((chat) => (
           <div
-            key={msg.id}
-            onClick={() => handleChatClick(msg.id)}
+            key={chat.id}
+            onClick={() => handleChatClick(chat.id)}
             className={`text-white p-2.5 flex items-center gap-2.5 cursor-pointer transition-all duration-200 hover:bg-[#F5F4F7] hover:rounded-r-4xl hover:text-[#403752] ${
-              selectedChat === msg.id ? "bg-white/20" : ""
+              selectedChat === chat.id ? "bg-white/20" : ""
             }`}
           >
             <div style={{ flex: 1 }}>
-              <strong className="text-[2rem] font-light">{msg.name}</strong>
+              <strong className="text-[2rem] font-light">{chat.name}</strong>
+              <div className="text-sm text-gray-300 mt-1">
+                {chat.type_chat === "group" ? "Группа" : "Личный чат"}
+              </div>
             </div>
           </div>
         ))}
