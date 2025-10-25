@@ -128,7 +128,7 @@ export default function Aside({
               ? "md:translate-y-0 translate-y-20"
               : "translate-y-0"
           }`}
-          style={{ width: screenSize.width <= 768 ? "100%" : `${width}px` }}
+          style={{ width: screenSize.width < 768 ? "100%" : `${width}px` }}
         >
           <div className="flex justify-center items-center h-[100%]">
             <h1 className="text-[#fff] font-black text-5xl text-center select-none">
