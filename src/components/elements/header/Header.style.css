@@ -7,17 +7,14 @@
     flex: 1;
     max-height: 80px;
     padding-inline: 20px;
-    flex: 1;
 }
 
-.header>* {
+.header > * {
     padding-inline: 20px;
 }
 
-@media (width < 768px) {
+@media (max-width: 768px) {
     .header {
-        visibility: hidden;
         display: none;
-        flex: 0;
     }
 }
