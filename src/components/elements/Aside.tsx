@@ -24,6 +24,7 @@ export default function Aside({
   const { isMobileMenuOpen } = useMobileMenu();
   const sidebarRef = useRef<HTMLDivElement>(null);
   const [isResizing, setIsResizing] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [selectedChat, setSelectedChat] = useState<string | null>(null);
   const [width, setWidth] = useState<number>(
     () => Number(localStorage.getItem("asideWidth")) || 413
@@ -80,6 +81,13 @@ export default function Aside({
     };
   }, [resize, stopResizing]);
 
+  //для адаптивности
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
   if (chats.length === 0)
     return (
       <div className="flex flex-col h-full">
@@ -97,9 +105,9 @@ export default function Aside({
               ? "translate-y-20 md:translate-y-0"
               : "translate-y-0"
           }`}
-          style={{ width }}
+          style={{ width: isMobile ? "100%" : width }}
         >
-          <div className="flex justify-center items-center h-full">
+          <div className="flex justify-center w-full items-center h-full">
             <h1 className="text-white font-black text-5xl text-center select-none">
               ПОКА ЗДЕСЬ ПУСТО
             </h1>
