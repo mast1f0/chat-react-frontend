@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import React from "react";
 import SearchInput from "./SearchInput";
 import AddFriendButton from "../buttons/AddFriend";
 import { useMobileMenu } from "../../contexts/MobileMenuContext";
@@ -23,26 +22,19 @@ export default function Aside({
   onMessagesLoaded,
 }: AsideProps) {
   const { isMobileMenuOpen } = useMobileMenu();
-  const [screenSize, setScreenSize] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight,
-  });
   const sidebarRef = useRef<HTMLDivElement>(null);
   const [isResizing, setIsResizing] = useState(false);
   const [selectedChat, setSelectedChat] = useState<string | null>(null);
   const [width, setWidth] = useState<number>(
     () => Number(localStorage.getItem("asideWidth")) || 413
   );
-
   const navigate = useNavigate();
+
   const handleChatClick = async (chatId: string) => {
     setSelectedChat(chatId);
     navigate(`/?chat=${chatId}&&`);
-
-    //запрос сообщений чата
-    const token = localStorage.getItem("access_token"); // мб сделать систему передачи токенов
+    const token = localStorage.getItem("access_token");
     if (!token) return;
-
     try {
       const response = await fetch(
         `http://127.0.0.1:8091/api/v1/chats/messages/all/?chat_id=${chatId}&time=${Date.now()}`,
@@ -54,14 +46,9 @@ export default function Aside({
           },
         }
       );
-
       if (response.ok) {
         const messagesData = await response.json();
-        console.log("Messages loaded for chat:", chatId, messagesData);
-
         onMessagesLoaded?.(chatId, messagesData);
-      } else {
-        console.error(response.status);
       }
     } catch (error) {
       console.error(error);
@@ -85,15 +72,6 @@ export default function Aside({
   }, [width]);
 
   useEffect(() => {
-    const handleResize = () => {
-      setScreenSize({ width: window.innerWidth, height: window.innerHeight });
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  useEffect(() => {
     window.addEventListener("mousemove", resize);
     window.addEventListener("mouseup", stopResizing);
     return () => {
@@ -102,20 +80,11 @@ export default function Aside({
     };
   }, [resize, stopResizing]);
 
-  const resizerStyle: React.CSSProperties = {
-    position: "absolute",
-    left: 0,
-    top: 0,
-    width: 8,
-    height: "100%",
-    cursor: "ew-resize",
-  };
-
   if (chats.length === 0)
     return (
-      <div className={`h-full flex-col flex md:flex-none`}>
+      <div className="flex flex-col h-full md:flex-none">
         <div
-          className={`md:pr-0 md:flex md:ml-auto md:items-center md:gap-[1px] md:mt-[10px] md:mb-[20px] hidden`}
+          className="hidden md:flex md:ml-auto md:items-center md:gap-1 md:mt-2 md:mb-5"
           style={{ width: width }}
         >
           <SearchInput />
@@ -123,27 +92,30 @@ export default function Aside({
         </div>
         <div
           ref={sidebarRef}
-          className={`bg-[#403752] h-full md:ml-auto rounded-t-[50px] md:rounded-tl-[33px] md:rounded-tr-[0px] relative rounded-t-10px transition-transform duration-300 ${
+          className={`bg-[#403752] h-full md:ml-auto relative transition-transform duration-300 rounded-t-[71px] md:rounded-tl-[33px] md:rounded-tr-[0px] ${
             isMobileMenuOpen
-              ? "md:translate-y-0 translate-y-20"
+              ? "translate-y-20 md:translate-y-0"
               : "translate-y-0"
           }`}
-          style={{ width: screenSize.width < 768 ? "100%" : `${width}px` }}
+          style={{ width }}
         >
-          <div className="flex justify-center items-center h-[100%]">
-            <h1 className="text-[#fff] font-black text-5xl text-center select-none">
+          <div className="flex justify-center items-center h-full">
+            <h1 className="text-white font-black text-5xl text-center select-none">
               ПОКА ЗДЕСЬ ПУСТО
             </h1>
           </div>
-          <div onMouseDown={startResizing} style={resizerStyle} />
+          <div
+            onMouseDown={startResizing}
+            className="absolute left-0 top-0 w-2 h-full cursor-ew-resize"
+          />
         </div>
       </div>
     );
 
   return (
-    <div className={`h-full flex-col flex md:flex-none`}>
+    <div className="flex flex-col h-full md:flex-none">
       <div
-        className={`md:pr-0 md:flex md:ml-auto md:items-center md:gap-[1px] md:mt-[10px] md:mb-[20px] hidden`}
+        className="hidden md:flex md:ml-auto md:items-center md:gap-1 md:mt-2 md:mb-5"
         style={{ width: width }}
       >
         <SearchInput />
@@ -151,15 +123,12 @@ export default function Aside({
       </div>
       <aside
         ref={sidebarRef}
-        className={`bg-[#403752] h-full md:ml-auto rounded-t-[50px] md:rounded-tl-[33px] md:rounded-tr-[0px] relative rounded-t-10px flex flex-col overflow-y-auto gap-2.5 custom-scrollbar transition-transform duration-300 ${
+        className={`bg-[#403752] flex flex-col h-full md:ml-auto overflow-y-auto gap-2.5 custom-scrollbar transition-transform duration-300 relative rounded-t-[71px] md:rounded-tl-[33px] md:rounded-tr-[0px] ${
           isResizing ? "select-none" : "select-auto"
         } ${
-          isMobileMenuOpen ? "md:translate-y-0 translate-y-20" : "translate-y-0"
+          isMobileMenuOpen ? "translate-y-20 md:translate-y-0" : "translate-y-0"
         }`}
-        style={{
-          width: screenSize.width <= 768 ? "100%" : `${width}px`,
-          borderRadius: screenSize.width <= 768 ? "71px" : undefined,
-        }}
+        style={{ width }}
       >
         {chats.map((chat) => (
           <div
@@ -169,15 +138,18 @@ export default function Aside({
               selectedChat === chat.id ? "bg-white/20" : ""
             }`}
           >
-            <div style={{ flex: 1 }}>
-              <strong className="text-[2rem] font-light">{chat.name}</strong>
+            <div className="flex-1">
+              <strong className="text-2xl font-light">{chat.name}</strong>
               <div className="text-sm text-gray-300 mt-1">
                 {chat.type_chat === "group" ? "Группа" : "Личный чат"}
               </div>
             </div>
           </div>
         ))}
-        <div onMouseDown={startResizing} style={resizerStyle} />
+        <div
+          onMouseDown={startResizing}
+          className="absolute left-0 top-0 w-2 h-full cursor-ew-resize"
+        />
       </aside>
     </div>
   );
