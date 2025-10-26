@@ -5,9 +5,10 @@ import { useMobileMenu } from "../../contexts/MobileMenuContext";
 import { useNavigate } from "react-router-dom";
 
 export interface Chat {
-  id: string;
+  Id: string;
   Name: string;
-  type_chat: "group" | "private";
+  ChatType: string;
+  OwnerId: number;
 }
 
 interface AsideProps {
@@ -142,10 +143,10 @@ export default function Aside({
       >
         {chats.map((chat, index) => (
           <div
-            key={chat.id}
-            onClick={() => handleChatClick(chat.id)}
+            key={chat.Id}
+            onClick={() => handleChatClick(chat.Id)}
             className={`text-white p-2.5 flex items-center gap-2.5 cursor-pointer transition-all duration-200 hover:bg-[#F5F4F7] hover:text-[#403752] hover:rounded-r-4xl ${
-              selectedChat === chat.id ? "bg-white/20" : ""
+              selectedChat === chat.Id ? "bg-white/20" : ""
             } ${index === 0 ? "mt-4" : ""}`}
           >
             <div className="flex-1">

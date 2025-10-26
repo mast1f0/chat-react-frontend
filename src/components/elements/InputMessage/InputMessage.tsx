@@ -8,7 +8,10 @@ interface InputMessageProps {
 export default function InputMessage({ onSendMessage }: InputMessageProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSendMessage(content);
+    if (content.trim()) {
+      onSendMessage(content);
+      setContent("");
+    }
   };
 
   const [content, setContent] = useState("");
@@ -18,12 +21,21 @@ export default function InputMessage({ onSendMessage }: InputMessageProps) {
         <input
           type="text"
           id="message"
+          value={content}
           placeholder="Напишите сообщение"
           onChange={(e) => setContent(e.target.value)}
         />
         <div className="input__icons">
-          <img src="src/assets/mic.svg" className="md:select-none" alt="Голосовое" />
-          <img src="src/assets/scrap.svg" className="md:select-none" alt="Прикрепить файл" />
+          <img
+            src="src/assets/mic.svg"
+            className="md:select-none"
+            alt="Голосовое"
+          />
+          <img
+            src="src/assets/scrap.svg"
+            className="md:select-none"
+            alt="Прикрепить файл"
+          />
         </div>
       </div>
 
