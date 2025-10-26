@@ -24,7 +24,7 @@ export default function Header() {
       <header className="header">
         <SettingsButton />
         {/* немного костылей из-за тайпскрипта */}
-        <UserPanel user={decoded?.username || "Аноним"} />
+        <UserPanel user={decoded?.username || ""} />
         <ThreeDots />
       </header>
       <MobileHeader />

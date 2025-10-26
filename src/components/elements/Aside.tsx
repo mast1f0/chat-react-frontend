@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 export interface Chat {
   id: string;
-  name: string;
+  Name: string;
   type_chat: "group" | "private";
 }
 
@@ -123,7 +123,7 @@ export default function Aside({
     );
 
   return (
-    <div className="flex flex-col h-full md:flex-none">
+    <div className="flex flex-col h-full">
       <div
         className="hidden md:flex md:ml-auto md:items-center md:gap-1 md:mt-2 md:mb-5"
         style={{ width: width }}
@@ -138,20 +138,19 @@ export default function Aside({
         } ${
           isMobileMenuOpen ? "translate-y-20 md:translate-y-0" : "translate-y-0"
         }`}
-        style={{ width }}
+        style={{ width: isMobile ? "100%" : width }}
       >
-        {chats.map((chat) => (
+        {chats.map((chat, index) => (
           <div
             key={chat.id}
             onClick={() => handleChatClick(chat.id)}
-            className={`text-white p-2.5 flex items-center gap-2.5 cursor-pointer transition-all duration-200 hover:bg-[#F5F4F7] hover:rounded-r-4xl hover:text-[#403752] ${
+            className={`text-white p-2.5 flex items-center gap-2.5 cursor-pointer transition-all duration-200 hover:bg-[#F5F4F7] hover:text-[#403752] hover:rounded-r-4xl ${
               selectedChat === chat.id ? "bg-white/20" : ""
-            }`}
+            } ${index === 0 ? "mt-4" : ""}`}
           >
             <div className="flex-1">
-              <strong className="text-2xl font-light">{chat.name}</strong>
-              <div className="text-sm text-gray-300 mt-1">
-                {chat.type_chat === "group" ? "Группа" : "Личный чат"}
+              <div className="text-sm mt-1">
+                <strong className="text-[2rem] font-light ">{chat.Name}</strong>
               </div>
             </div>
           </div>
