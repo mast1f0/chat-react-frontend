@@ -23,9 +23,15 @@ interface ChatSectionProps {
   onSendMessage?: (content: string) => void;
   messages?: Message[];
   chatId?: string;
+  onBackToChatList?: () => void;
 }
 
-export default function ChatSection({ onSendMessage, messages: externalMessages, chatId }: ChatSectionProps) {
+export default function ChatSection({
+  onSendMessage,
+  messages: externalMessages,
+  chatId,
+  onBackToChatList,
+}: ChatSectionProps) {
   const [messages, setMessages] = useState<Message[]>([]);
 
   // Обновляем сообщения при изменении внешних сообщений или chatId
@@ -65,7 +71,7 @@ export default function ChatSection({ onSendMessage, messages: externalMessages,
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ chat_id: "chat-1", content }),
+      body: JSON.stringify({ chat_id: chatId, content }),
     });
   };
 
@@ -77,6 +83,22 @@ export default function ChatSection({ onSendMessage, messages: externalMessages,
 
   return (
     <div className="main-section flex flex-col h-full">
+      {onBackToChatList && (
+        <div className="flex items-center justify-between px-4 py-2 bg-white border-b border-gray-200 min-h-[60px]">
+          <button
+            onClick={onBackToChatList}
+            className="w-8 h-8 rounded-b-lg flex items-center justify-center no-underline transform transition-transform duration-200 hover:scale-125 bg-transparent border-none cursor-pointer"
+          >
+            <img
+              className="btn-icon"
+              src="./src/assets/Back.svg"
+              style={{ maxWidth: 51, maxHeight: 51 }}
+            />
+          </button>
+          <h2 className="text-lg font-semibold text-gray-800">Чат</h2>
+          <div className="w-8"></div>
+        </div>
+      )}
       <div className="chat-section flex-1 overflow-y-auto">
         {messages.map((msg) =>
           msg.sender_id === decoded?.username ? (

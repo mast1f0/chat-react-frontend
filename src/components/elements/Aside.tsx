@@ -34,7 +34,9 @@ export default function Aside({
   const handleChatClick = async (chatId: string) => {
     setSelectedChat(chatId);
     navigate(`/?chat=${chatId}&&`);
-    const token = localStorage.getItem("access_token");
+    const token =
+      localStorage.getItem("access_token") ||
+      sessionStorage.getItem("access_token");
     if (!token) return;
     try {
       const response = await fetch(
@@ -42,8 +44,8 @@ export default function Aside({
         {
           method: "GET",
           headers: {
-            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
           },
         }
       );
@@ -81,7 +83,7 @@ export default function Aside({
     };
   }, [resize, stopResizing]);
 
-  //для адаптивности
+  //для адаптивности, без него надо страницу обновлять для переключения десктоп/мобила
   useEffect(() => {
     const onResize = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener("resize", onResize);

@@ -11,6 +11,8 @@ export default function MainPage() {
   const [chats, setChats] = useState<Chat[]>([]);
   const [currentMessages, setCurrentMessages] = useState<any[]>([]);
   const [currentChatId, setCurrentChatId] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [showChatOnMobile, setShowChatOnMobile] = useState(false);
 
   const toggleMenu = () => {
     setMenuActive(!menuActive);
@@ -19,6 +21,13 @@ export default function MainPage() {
   const handleMessagesLoaded = (chatId: string, messages: any[]) => {
     setCurrentChatId(chatId);
     setCurrentMessages(messages);
+    if (isMobile) {
+      setShowChatOnMobile(true);
+    }
+  };
+
+  const handleBackToChatList = () => {
+    setShowChatOnMobile(false);
   };
   const isLogged = (): boolean => {
     return localStorage.getItem("access_token") !== null;
@@ -56,19 +65,34 @@ export default function MainPage() {
     }
     getChats();
   }, []);
+
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
   return (
     <MobileMenuProvider>
       <div className="flex h-full md:h-screen flex-col md:flex-row">
         <div className="flex flex-col md:flex-1">
           <Header />
-          <div className="hidden md:block">
+          <div
+            className={`${
+              isMobile && showChatOnMobile ? "block" : "hidden"
+            } md:block`}
+          >
             <ChatSection
               messages={currentMessages}
               chatId={currentChatId || undefined}
+              onBackToChatList={isMobile ? handleBackToChatList : undefined}
             />
           </div>
         </div>
-        <div className="flex-1 md:flex-none">
+        <div
+          className={`${
+            isMobile && showChatOnMobile ? "hidden" : "flex-1"
+          } md:flex-none`}
+        >
           <Aside
             chats={chats}
             onToggleMenu={toggleMenu}
@@ -78,6 +102,9 @@ export default function MainPage() {
         <MeetFriendMenu
           isOpen={menuActive}
           onClose={() => setMenuActive(false)}
+          onChatCreated={(chat) => {
+            console.log("Новый чат создан:", chat); // для теста
+          }}
         />
       </div>
     </MobileMenuProvider>
