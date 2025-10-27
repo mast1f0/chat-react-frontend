@@ -6,7 +6,11 @@ import MobileHeader from "../MobileHeader";
 import type { JWT } from "../../../pages/SettingsPage";
 import { jwtDecode } from "jwt-decode";
 
-export default function Header() {
+interface HeaderProps {
+  wsConnected?: boolean;
+}
+
+export default function Header({ wsConnected = false }: HeaderProps) {
   const token =
     localStorage.getItem("access_token") ||
     sessionStorage.getItem("access_token");
@@ -25,6 +29,21 @@ export default function Header() {
         <SettingsButton />
         {/* немного костылей из-за тайпскрипта */}
         <UserPanel user={decoded?.username || ""} />
+
+        <div
+          className={`flex items-center gap-[8px] bg-[${
+            wsConnected ? "#4ade80" : "#ef4444"
+          }]`}
+        >
+          <div
+            className={`w-2 h-2 rounded-full bg-[${
+              wsConnected ? "#4ade80" : "#ef4444"
+            }]`}
+          ></div>
+          <p className="text-[0.75rem]" style={{ color: "black" }}>
+            {wsConnected ? "Online" : "Offline"}
+          </p>
+        </div>
         <ThreeDots />
       </header>
       <MobileHeader />
