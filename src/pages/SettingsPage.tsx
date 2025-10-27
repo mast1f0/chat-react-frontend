@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import FontSizeControl from "../components/elements/FontSizeEdit";
-import { jwtDecode } from "jwt-decode";
 import BackToMainButton from "../components/buttons/BackToMainButton";
+// import getToken from "../components/scripts/GetToken";
+import getDecodedToken from "../components/scripts/GetDecodedToken";
+import logout from "../components/scripts/Logout";
 
 export interface JWT {
   sub?: string;
@@ -12,28 +14,19 @@ export interface JWT {
 }
 
 export default function SettingsPage() {
-  const token =
-    localStorage.getItem("access_token") ||
-    sessionStorage.getItem("access_token");
-
-  let jwtDecoded: JWT = { access_token: "", username: "" };
-
-  if (token) {
-    try {
-      jwtDecoded = jwtDecode<JWT>(token);
-    } catch (err) {
-      console.error(err);
-    }
-  } else {
-    console.log("Нет токена");
-  }
-
-  const [user, setUser] = useState<JWT>(jwtDecoded);
+  const [user, setUser] = useState<JWT>({ access_token: "", username: "" });
   const [edit, isEditing] = useState<boolean>(false);
   const [newName, setNewName] = useState("");
 
   useEffect(() => {
-    if (!token) {
+    // const token = getToken();
+    const decodedToken = getDecodedToken();
+
+    if (decodedToken) {
+      setUser(decodedToken);
+      setNewName(decodedToken.username);
+    } else {
+      // Fallback для случая, когда нет токена
       const getName = localStorage.getItem("username") || "Имя";
       const getId = `@${getName}`;
       setUser({ username: getName, access_token: getId });
@@ -48,8 +41,7 @@ export default function SettingsPage() {
   };
 
   const exitButton = () => {
-    localStorage.removeItem("access_token");
-    window.location.href = "/login";
+    logout();
   };
 
   return (

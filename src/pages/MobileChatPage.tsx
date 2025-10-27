@@ -2,16 +2,20 @@ import ChatSection from "../components/elements/chatSection/ChatSection";
 import { useState, useRef, useEffect } from "react";
 import BackToMainButton from "../components/buttons/BackToMainButton";
 import UserPanel from "../components/elements/UserPanel/UserPanel";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom"; // usenavigate
+import fetchWithAuth from "../components/scripts/FetchWithAuth";
 
 interface MobileChatPageProps {
   messages?: any[];
   chatId?: string;
 }
 
-export default function MobileChatPage({ messages: externalMessages, chatId: externalChatId }: MobileChatPageProps) {
+export default function MobileChatPage({
+  messages: externalMessages,
+  chatId: externalChatId,
+}: MobileChatPageProps) {
   const { chatId: urlChatId } = useParams<{ chatId: string }>();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [messages, setMessages] = useState<any[]>([]);
   const [currentChatId, setCurrentChatId] = useState<string | null>(null);
   const [msg, setMsg] = useState("");
@@ -25,26 +29,14 @@ export default function MobileChatPage({ messages: externalMessages, chatId: ext
     if (!actualChatId) return;
 
     setCurrentChatId(actualChatId);
-    
-    const loadMessages = async () => {
-      const token = localStorage.getItem("access_token");
-      if (!token) return;
 
+    const loadMessages = async () => {
       try {
-        const response = await fetch(
-          `http://127.0.0.1:8091/api/v1/chats/messages/all/?chat_id=${actualChatId}&time=${Date.now()}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
+        const response = await fetchWithAuth(
+          `http://127.0.0.1:8091/api/v1/chats/messages/all/?chat_id=${actualChatId}&time=${Date.now()}`
         );
-        if (response.ok) {
-          const messagesData = await response.json();
-          setMessages(messagesData);
-        }
+        const messagesData = await response.json();
+        setMessages(messagesData);
       } catch (error) {
         console.error("Ошибка загрузки сообщений:", error);
       }
@@ -75,35 +67,22 @@ export default function MobileChatPage({ messages: externalMessages, chatId: ext
   const handleSendMessage = async (content: string) => {
     if (!actualChatId) return;
 
-    const token = localStorage.getItem("access_token");
-    if (!token) return;
-
     try {
-      const response = await fetch("http://127.0.0.1:8091/api/v1/messages/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ chat_id: actualChatId, content }),
-      });
+      const response = await fetchWithAuth(
+        "http://127.0.0.1:8091/api/v1/messages/",
+        {
+          method: "POST",
+          body: JSON.stringify({ chat_id: actualChatId, content }),
+        }
+      );
 
       if (response.ok) {
         // Перезагружаем сообщения после отправки
-        const messagesResponse = await fetch(
-          `http://127.0.0.1:8091/api/v1/chats/messages/all/?chat_id=${actualChatId}&time=${Date.now()}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
+        const messagesResponse = await fetchWithAuth(
+          `http://127.0.0.1:8091/api/v1/chats/messages/all/?chat_id=${actualChatId}&time=${Date.now()}`
         );
-        if (messagesResponse.ok) {
-          const messagesData = await messagesResponse.json();
-          setMessages(messagesData);
-        }
+        const messagesData = await messagesResponse.json();
+        setMessages(messagesData);
       }
     } catch (error) {
       console.error("Ошибка отправки сообщения:", error);
@@ -133,13 +112,13 @@ export default function MobileChatPage({ messages: externalMessages, chatId: ext
       </div>
 
       <div className="flex-1 overflow-hidden">
-        <ChatSection 
-          messages={messages} 
-          chatId={actualChatId}
-        />
+        <ChatSection messages={messages} chatId={actualChatId} />
       </div>
 
-      <form onSubmit={handleSubmit} className="flex items-center px-2 sm:px-4 gap-2 sm:gap-3 py-2 sm:py-3 bg-white border-t border-gray-200 min-h-[60px] sm:min-h-[70px]">
+      <form
+        onSubmit={handleSubmit}
+        className="flex items-center px-2 sm:px-4 gap-2 sm:gap-3 py-2 sm:py-3 bg-white border-t border-gray-200 min-h-[60px] sm:min-h-[70px]"
+      >
         <button
           type="button"
           onClick={handleFileSelect}
@@ -165,7 +144,7 @@ export default function MobileChatPage({ messages: externalMessages, chatId: ext
           onChange={(e) => setMsg(e.target.value)}
           placeholder="Сообщение"
         />
-        <button 
+        <button
           type="submit"
           className="w-10 h-10 sm:w-12 sm:h-12 flex-shrink-0 bg-[#8C8098] rounded-full flex items-center justify-center transform transition-transform duration-200 hover:scale-125"
         >

@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { apiService } from "../services/api";
 import { webSocketService } from "../services/websocket";
 import isLogged from "../components/scripts/IsLogged";
+import fetchWithAuth from "../components/scripts/FetchWithAuth";
 
 export default function MainPage() {
   const [menuActive, setMenuActive] = useState(false);
@@ -72,25 +73,10 @@ export default function MainPage() {
   //получаем чаты для панельки сбоку
   useEffect(() => {
     async function getChats() {
-      const token = localStorage.getItem("access_token");
-      if (!token) return;
-
       try {
-        const response = await fetch(
-          "http://localhost:8091/api/v1/chats/all/",
-          {
-            method: "GET",
-            headers: {
-              "Content-type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
+        const response = await fetchWithAuth(
+          "http://localhost:8091/api/v1/chats/all/"
         );
-
-        if (!response.ok) {
-          throw new Error(`${response.status}`);
-        }
-
         const chatsData = await response.json();
         setChats(chatsData);
         console.log("Chats loaded");

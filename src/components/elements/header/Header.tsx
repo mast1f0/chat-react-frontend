@@ -3,26 +3,14 @@ import ThreeDots from "../../buttons/Three-dots";
 import UserPanel from "../UserPanel/UserPanel";
 import "./Header.style.css";
 import MobileHeader from "../MobileHeader";
-import type { JWT } from "../../../pages/SettingsPage";
-import { jwtDecode } from "jwt-decode";
+import getDecodedToken from "../../scripts/GetDecodedToken";
 
 interface HeaderProps {
   wsConnected?: boolean;
 }
 
 export default function Header({ wsConnected = false }: HeaderProps) {
-  const token =
-    localStorage.getItem("access_token") ||
-    sessionStorage.getItem("access_token");
-
-  let decoded: JWT | null = null;
-  if (token) {
-    try {
-      decoded = jwtDecode(token);
-    } catch (error) {
-      console.error("Ошибка декодирования JWT:", error);
-    }
-  }
+  let decoded = getDecodedToken();
   return (
     <>
       <header className="header">

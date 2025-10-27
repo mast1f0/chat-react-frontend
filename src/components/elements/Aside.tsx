@@ -3,6 +3,7 @@ import SearchInput from "./SearchInput";
 import AddFriendButton from "../buttons/AddFriend";
 import { useMobileMenu } from "../../contexts/MobileMenuContext";
 import { useNavigate } from "react-router-dom";
+import getToken from "../scripts/GetToken";
 
 export interface Chat {
   Id: string;
@@ -41,10 +42,7 @@ export default function Aside({
     }
 
     navigate(`/?chat=${chatId}&&`);
-    const token =
-      localStorage.getItem("access_token") ||
-      sessionStorage.getItem("access_token");
-    if (!token) return;
+    const token = getToken();
     try {
       const response = await fetch(
         `http://127.0.0.1:8091/api/v1/chats/messages/all/?chat_id=${chatId}&time=${Date.now()}`,
