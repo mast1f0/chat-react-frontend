@@ -9,10 +9,9 @@ import type { JWT } from "../../../pages/SettingsPage";
 import { apiService } from "../../../services/api";
 import { webSocketService } from "../../../services/websocket";
 import type { WebSocketMessage } from "../../../services/api";
+import getToken from "../../scripts/GetToken";
 
-const token =
-  localStorage.getItem("access_token") ||
-  sessionStorage.getItem("access_token");
+const token = getToken();
 
 let decoded: JWT | null = null;
 if (token) {
@@ -39,7 +38,6 @@ export default function ChatSection({
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
 
-  // Загрузка сообщений при выборе чата
   useEffect(() => {
     if (chatId) {
       loadMessages(chatId);
@@ -53,7 +51,6 @@ export default function ChatSection({
     }
   }, [externalMessages]);
 
-  // Обработчик новых сообщений из WebSocket
   useEffect(() => {
     const handleWebSocketMessage = (wsMessage: WebSocketMessage) => {
       // Проверяем, что сообщение для текущего чата
@@ -81,7 +78,7 @@ export default function ChatSection({
     try {
       const response = await apiService.getChatMessages(chatId);
       // Преобразуем типы сообщений для совместимости
-      const convertedMessages: Message[] = response.data.map(msg => ({
+      const convertedMessages: Message[] = response.data.map((msg) => ({
         Id: msg.Id,
         ChatId: msg.ChatId,
         Content: msg.Content,
@@ -107,7 +104,6 @@ export default function ChatSection({
 
     if (!content.trim()) return;
 
-    // Отправляем сообщение через WebSocket
     webSocketService.sendMessage({
       chat_id: chatId,
       content: content.trim(),
@@ -124,10 +120,8 @@ export default function ChatSection({
     bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
   }, [messages]);
 
-  // Получаем ID текущего пользователя из токена
   const getCurrentUserId = (): number | null => {
     if (!decoded) return null;
-    // Предполагаем, что в JWT есть поле с ID пользователя
     return (decoded as any).user_id || (decoded as any).sub || null;
   };
 
@@ -158,7 +152,9 @@ export default function ChatSection({
           </div>
         ) : messages.length === 0 ? (
           <div className="flex justify-center items-center h-full">
-            <div className="text-white text-xl">Выберите чат для начала общения</div>
+            <div className="text-white text-xl">
+              Выберите чат для начала общения
+            </div>
           </div>
         ) : (
           messages.map((msg) =>
