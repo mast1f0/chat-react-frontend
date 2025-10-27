@@ -125,7 +125,7 @@ export default function MainPage() {
           isOpen={menuActive}
           onClose={() => setMenuActive(false)}
           onChatCreated={(chat) => {
-            console.log("Новый чат создан:", chat); // для теста
+            console.log("Новый чат создан:", chat);
           }}
         />
       </div>

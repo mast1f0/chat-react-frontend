@@ -3,7 +3,7 @@ import SearchInput from "./SearchInput";
 import AddFriendButton from "../buttons/AddFriend";
 import { useMobileMenu } from "../../contexts/MobileMenuContext";
 import { useNavigate } from "react-router-dom";
-import getToken from "../scripts/GetToken";
+import fetchWithAuth from "../scripts/FetchWithAuth";
 
 export interface Chat {
   Id: string;
@@ -42,17 +42,19 @@ export default function Aside({
     }
 
     navigate(`/?chat=${chatId}&&`);
-    const token = getToken();
     try {
-      const response = await fetch(
-        `http://127.0.0.1:8091/api/v1/chats/messages/all/?chat_id=${chatId}&time=${Date.now()}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
+      // const response = await fetch(
+      //   `http://127.0.0.1:8091/api/v1/chats/messages/all/?chat_id=${chatId}&time=${Date.now()}`,
+      //   {
+      //     method: "GET",
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //       "Content-Type": "application/json",
+      //     },
+      //   }
+      // );
+      const response = await fetchWithAuth(
+        `http://127.0.0.1:8091/api/v1/chats/messages/all/?chat_id=${chatId}&time=${Date.now()}`
       );
       if (response.ok) {
         const messagesData = await response.json();

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import FontSizeControl from "../components/elements/FontSizeEdit";
 import BackToMainButton from "../components/buttons/BackToMainButton";
-// import getToken from "../components/scripts/GetToken";
 import getDecodedToken from "../components/scripts/GetDecodedToken";
 import logout from "../components/scripts/Logout";
 
@@ -19,7 +18,6 @@ export default function SettingsPage() {
   const [newName, setNewName] = useState("");
 
   useEffect(() => {
-    // const token = getToken();
     const decodedToken = getDecodedToken();
 
     if (decodedToken) {
