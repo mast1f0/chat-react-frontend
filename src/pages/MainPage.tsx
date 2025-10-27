@@ -5,6 +5,9 @@ import ChatSection from "../components/elements/chatSection/ChatSection";
 import MeetFriendMenu from "../components/elements/MeetFriendMenu";
 import { MobileMenuProvider } from "../contexts/MobileMenuContext";
 import { useEffect, useState } from "react";
+import { apiService } from "../services/api";
+import { webSocketService } from "../services/websocket";
+import isLogged from "../components/scripts/IsLogged";
 
 export default function MainPage() {
   const [menuActive, setMenuActive] = useState(false);
@@ -13,6 +16,8 @@ export default function MainPage() {
   const [currentChatId, setCurrentChatId] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [showChatOnMobile, setShowChatOnMobile] = useState(false);
+  const [wsConnected, setWsConnected] = useState(false);
+  const [selectedChatId, setSeletedChatId] = useState<string | null>(null);
 
   const toggleMenu = () => {
     setMenuActive(!menuActive);
@@ -29,11 +34,41 @@ export default function MainPage() {
   const handleBackToChatList = () => {
     setShowChatOnMobile(false);
   };
-  const isLogged = (): boolean => {
-    return localStorage.getItem("access_token") !== null;
-  };
-  if (!isLogged()) window.location.href = "/login";
 
+  useEffect(() => {
+    if (!isLogged) {
+      window.location.href = "/login";
+      return;
+    }
+
+    const loadChats = async () => {
+      try {
+        const chatsData = await apiService.getAllChats();
+        setChats(chatsData);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    // потом добавить console.log
+    loadChats();
+
+    webSocketService.connect();
+
+    const handleConnectionChange = (connected: boolean) => {
+      setWsConnected(connected);
+    };
+
+    webSocketService.addConnectionHandler(handleConnectionChange);
+
+    return () => {
+      webSocketService.removeConnectionHandler(handleConnectionChange);
+      webSocketService.disconnect();
+    };
+  }, []);
+
+  const handleChatSelect = (chatID: string) => {
+    setSeletedChatId(chatID);
+  };
   //получаем чаты для панельки сбоку
   useEffect(() => {
     async function getChats() {
@@ -75,7 +110,7 @@ export default function MainPage() {
     <MobileMenuProvider>
       <div className="flex h-full md:h-screen flex-col md:flex-row">
         <div className="flex flex-col md:flex-1">
-          <Header />
+          <Header wsConnected={wsConnected} />
           <div
             className={`${
               isMobile && showChatOnMobile ? "block" : "hidden"
@@ -95,6 +130,7 @@ export default function MainPage() {
         >
           <Aside
             chats={chats}
+            onChatSelect={handleChatSelect}
             onToggleMenu={toggleMenu}
             onMessagesLoaded={handleMessagesLoaded}
           />

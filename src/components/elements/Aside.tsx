@@ -14,6 +14,7 @@ export interface Chat {
 interface AsideProps {
   chats?: Chat[];
   onToggleMenu: () => void;
+  onChatSelect?: (chatId: string) => void;
   onMessagesLoaded?: (chatId: string, messages: any[]) => void;
 }
 
@@ -21,6 +22,7 @@ export default function Aside({
   chats = [],
   onToggleMenu,
   onMessagesLoaded,
+  onChatSelect,
 }: AsideProps) {
   const { isMobileMenuOpen } = useMobileMenu();
   const sidebarRef = useRef<HTMLDivElement>(null);
@@ -34,6 +36,10 @@ export default function Aside({
 
   const handleChatClick = async (chatId: string) => {
     setSelectedChat(chatId);
+    if (onChatSelect) {
+      onChatSelect(chatId);
+    }
+
     navigate(`/?chat=${chatId}&&`);
     const token =
       localStorage.getItem("access_token") ||
