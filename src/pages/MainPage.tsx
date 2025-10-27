@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 import { apiService } from "../services/api";
 import { webSocketService } from "../services/websocket";
 import isLogged from "../components/scripts/IsLogged";
-import fetchWithAuth from "../components/scripts/FetchWithAuth";
 
 export default function MainPage() {
   const [menuActive, setMenuActive] = useState(false);
@@ -18,7 +17,6 @@ export default function MainPage() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [showChatOnMobile, setShowChatOnMobile] = useState(false);
   const [wsConnected, setWsConnected] = useState(false);
-  const [selectedChatId, setSeletedChatId] = useState<string | null>(null);
 
   const toggleMenu = () => {
     setMenuActive(!menuActive);
@@ -46,11 +44,12 @@ export default function MainPage() {
       try {
         const chatsData = await apiService.getAllChats();
         setChats(chatsData);
+        console.log("Chats loaded");
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     };
-    // потом добавить console.log
+
     loadChats();
 
     webSocketService.connect();
@@ -67,25 +66,6 @@ export default function MainPage() {
     };
   }, []);
 
-  const handleChatSelect = (chatID: string) => {
-    setSeletedChatId(chatID);
-  };
-  //получаем чаты для панельки сбоку
-  useEffect(() => {
-    async function getChats() {
-      try {
-        const response = await fetchWithAuth(
-          "http://localhost:8091/api/v1/chats/all/"
-        );
-        const chatsData = await response.json();
-        setChats(chatsData);
-        console.log("Chats loaded");
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    getChats();
-  }, []);
 
   useEffect(() => {
     const onResize = () => setIsMobile(window.innerWidth < 768);
@@ -116,7 +96,6 @@ export default function MainPage() {
         >
           <Aside
             chats={chats}
-            onChatSelect={handleChatSelect}
             onToggleMenu={toggleMenu}
             onMessagesLoaded={handleMessagesLoaded}
           />

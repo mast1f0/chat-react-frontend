@@ -1,10 +1,14 @@
 import "./ChatSection.style.css";
 import UserMessage from "../UserMessage";
 import OtherMessage from "../OtherMessage";
+import InputMessage from "../InputMessage/InputMessage";
 import type { Message } from "../UserMessage";
 import { useState, useRef, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import type { JWT } from "../../../pages/SettingsPage";
+import { apiService } from "../../../services/api";
+import { webSocketService } from "../../../services/websocket";
+import type { WebSocketMessage } from "../../../services/api";
 
 const token =
   localStorage.getItem("access_token") ||
@@ -33,46 +37,85 @@ export default function ChatSection({
   onBackToChatList,
 }: ChatSectionProps) {
   const [messages, setMessages] = useState<Message[]>([]);
+  const [loading, setLoading] = useState(false);
 
-  // Обновляем сообщения при изменении внешних сообщений или chatId
+  // Загрузка сообщений при выборе чата
+  useEffect(() => {
+    if (chatId) {
+      loadMessages(chatId);
+    }
+  }, [chatId]);
+
+  // Обновляем сообщения при изменении внешних сообщений
   useEffect(() => {
     if (externalMessages) {
       setMessages(externalMessages);
     }
-  }, [externalMessages, chatId]);
+  }, [externalMessages]);
+
+  // Обработчик новых сообщений из WebSocket
+  useEffect(() => {
+    const handleWebSocketMessage = (wsMessage: WebSocketMessage) => {
+      // Проверяем, что сообщение для текущего чата
+      if (wsMessage.chat_id === chatId) {
+        const newMessage: Message = {
+          Id: wsMessage.id,
+          ChatId: wsMessage.chat_id,
+          Content: wsMessage.content,
+          Edited: wsMessage.edited,
+          EditedTime: wsMessage.edited_time,
+          Read: wsMessage.read,
+          SenderId: wsMessage.sender_id.toString(),
+          CreatedAt: wsMessage.timestamp,
+        };
+        setMessages((prev) => [...prev, newMessage]);
+      }
+    };
+
+    webSocketService.addMessageHandler(handleWebSocketMessage);
+    return () => webSocketService.removeMessageHandler(handleWebSocketMessage);
+  }, [chatId]);
+
+  const loadMessages = async (chatId: string) => {
+    setLoading(true);
+    try {
+      const response = await apiService.getChatMessages(chatId);
+      // Преобразуем типы сообщений для совместимости
+      const convertedMessages: Message[] = response.data.map(msg => ({
+        Id: msg.Id,
+        ChatId: msg.ChatId,
+        Content: msg.Content,
+        Edited: msg.Edited,
+        EditedTime: msg.EditedTime,
+        Read: msg.Read,
+        SenderId: msg.SenderId.toString(),
+        CreatedAt: msg.CreatedAt,
+      }));
+      setMessages(convertedMessages);
+    } catch (error) {
+      console.error("Ошибка загрузки сообщений:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleSendMessage = async (content: string) => {
-    if (!decoded) {
-      console.error("JWT токен не декодирован");
+    if (!chatId) {
+      console.error("Не выбран чат");
       return;
     }
 
-    const newMessage: Message = {
-      id: crypto.randomUUID(), //из запроса
-      chat_id: "chat-1", //из запроса
-      content: content,
-      edited: false,
-      edited_time: "",
-      read: false,
-      sender_id: decoded.username,
-      timestamp: new Date().toISOString(),
-    };
-    setMessages((prev) => [...prev, newMessage]);
+    if (!content.trim()) return;
+
+    // Отправляем сообщение через WebSocket
+    webSocketService.sendMessage({
+      chat_id: chatId,
+      content: content.trim(),
+    });
 
     if (onSendMessage) {
       onSendMessage(content);
     }
-
-    //отправка на сервер
-    await fetch("http://localhost:8091/api/v1/messages/", {
-      //ручку потом переделаю
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ chat_id: chatId, content }),
-    });
   };
 
   const bottomRef = useRef<HTMLDivElement | null>(null);
@@ -80,6 +123,15 @@ export default function ChatSection({
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
   }, [messages]);
+
+  // Получаем ID текущего пользователя из токена
+  const getCurrentUserId = (): number | null => {
+    if (!decoded) return null;
+    // Предполагаем, что в JWT есть поле с ID пользователя
+    return (decoded as any).user_id || (decoded as any).sub || null;
+  };
+
+  const currentUserId = getCurrentUserId();
 
   return (
     <div className="main-section flex flex-col h-full">
@@ -100,15 +152,30 @@ export default function ChatSection({
         </div>
       )}
       <div className="chat-section flex-1 overflow-y-auto">
-        {messages.map((msg) =>
-          msg.sender_id === decoded?.username ? (
-            <UserMessage key={msg.id} message={msg} />
-          ) : (
-            <OtherMessage key={msg.id} message={msg} />
+        {loading ? (
+          <div className="flex justify-center items-center h-full">
+            <div className="text-white text-xl">Загрузка сообщений...</div>
+          </div>
+        ) : messages.length === 0 ? (
+          <div className="flex justify-center items-center h-full">
+            <div className="text-white text-xl">Выберите чат для начала общения</div>
+          </div>
+        ) : (
+          messages.map((msg) =>
+            msg.SenderId === currentUserId?.toString() ? (
+              <UserMessage key={msg.Id} message={msg} />
+            ) : (
+              <OtherMessage key={msg.Id} message={msg} />
+            )
           )
         )}
         <div className="w-[1px] h-[1px]" ref={bottomRef} id="bottom"></div>
       </div>
+      {chatId && (
+        <div className="p-4">
+          <InputMessage onSendMessage={handleSendMessage} />
+        </div>
+      )}
     </div>
   );
 }

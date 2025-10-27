@@ -1,56 +1,15 @@
 import ChatSection from "../components/elements/chatSection/ChatSection";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import BackToMainButton from "../components/buttons/BackToMainButton";
 import UserPanel from "../components/elements/UserPanel/UserPanel";
-import { useParams } from "react-router-dom"; // usenavigate
-import fetchWithAuth from "../components/scripts/FetchWithAuth";
+import { useParams } from "react-router-dom";
 
-interface MobileChatPageProps {
-  messages?: any[];
-  chatId?: string;
-}
-
-export default function MobileChatPage({
-  messages: externalMessages,
-  chatId: externalChatId,
-}: MobileChatPageProps) {
+export default function MobileChatPage() {
   const { chatId: urlChatId } = useParams<{ chatId: string }>();
-  // const navigate = useNavigate();
-  const [messages, setMessages] = useState<any[]>([]);
-  const [currentChatId, setCurrentChatId] = useState<string | null>(null);
   const [msg, setMsg] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Определяем актуальный chatId
-  const actualChatId = urlChatId || externalChatId;
-
-  // Загружаем сообщения при изменении chatId
-  useEffect(() => {
-    if (!actualChatId) return;
-
-    setCurrentChatId(actualChatId);
-
-    const loadMessages = async () => {
-      try {
-        const response = await fetchWithAuth(
-          `http://127.0.0.1:8091/api/v1/chats/messages/all/?chat_id=${actualChatId}&time=${Date.now()}`
-        );
-        const messagesData = await response.json();
-        setMessages(messagesData);
-      } catch (error) {
-        console.error("Ошибка загрузки сообщений:", error);
-      }
-    };
-
-    loadMessages();
-  }, [actualChatId]);
-
-  // Обновляем сообщения при изменении внешних сообщений
-  useEffect(() => {
-    if (externalMessages) {
-      setMessages(externalMessages);
-    }
-  }, [externalMessages]);
+  const actualChatId = urlChatId;
 
   const handleFileSelect = () => {
     fileInputRef.current?.click();
@@ -64,35 +23,10 @@ export default function MobileChatPage({
     }
   };
 
-  const handleSendMessage = async (content: string) => {
-    if (!actualChatId) return;
-
-    try {
-      const response = await fetchWithAuth(
-        "http://127.0.0.1:8091/api/v1/messages/",
-        {
-          method: "POST",
-          body: JSON.stringify({ chat_id: actualChatId, content }),
-        }
-      );
-
-      if (response.ok) {
-        // Перезагружаем сообщения после отправки
-        const messagesResponse = await fetchWithAuth(
-          `http://127.0.0.1:8091/api/v1/chats/messages/all/?chat_id=${actualChatId}&time=${Date.now()}`
-        );
-        const messagesData = await messagesResponse.json();
-        setMessages(messagesData);
-      }
-    } catch (error) {
-      console.error("Ошибка отправки сообщения:", error);
-    }
-  };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (msg.trim()) {
-      handleSendMessage(msg.trim());
+      // Очистка поля ввода
       setMsg("");
     }
   };
@@ -112,7 +46,7 @@ export default function MobileChatPage({
       </div>
 
       <div className="flex-1 overflow-hidden">
-        <ChatSection messages={messages} chatId={actualChatId} />
+        <ChatSection chatId={actualChatId} />
       </div>
 
       <form
