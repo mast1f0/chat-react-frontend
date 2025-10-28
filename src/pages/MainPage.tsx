@@ -38,7 +38,7 @@ export default function MainPage() {
   const navigate = useNavigate();
   useEffect(() => {
     if (!isLogged()) {
-      navigate("/", { replace: true });
+      navigate("/login", { replace: true });
       return;
     }
 
@@ -66,7 +66,7 @@ export default function MainPage() {
       webSocketService.removeConnectionHandler(handleConnectionChange);
       webSocketService.disconnect();
     };
-  }, []);
+  }, [navigate]);
 
   useEffect(() => {
     const onResize = () => setIsMobile(window.innerWidth < 768);

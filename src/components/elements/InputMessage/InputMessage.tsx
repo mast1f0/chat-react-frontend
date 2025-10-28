@@ -1,6 +1,8 @@
 import "./InputMessage.style.css";
 import { useState } from "react";
-
+import micIcon from "../../../assets/mic.svg";
+import scrapIcon from "../../../assets/mic.svg";
+import airplaneIcon from "../../../assets/mic.svg";
 interface InputMessageProps {
   onSendMessage: (text: string) => void;
 }
@@ -26,13 +28,9 @@ export default function InputMessage({ onSendMessage }: InputMessageProps) {
           onChange={(e) => setContent(e.target.value)}
         />
         <div className="input__icons">
+          <img src={micIcon} className="md:select-none" alt="Голосовое" />
           <img
-            src="src/assets/mic.svg"
-            className="md:select-none"
-            alt="Голосовое"
-          />
-          <img
-            src="src/assets/scrap.svg"
+            src={scrapIcon}
             className="md:select-none"
             alt="Прикрепить файл"
           />
@@ -40,7 +38,7 @@ export default function InputMessage({ onSendMessage }: InputMessageProps) {
       </div>
 
       <button className="send-btn">
-        <img src="src/assets/airplane.svg" className="md:select-none" alt="" />
+        <img src={airplaneIcon} className="md:select-none" alt="" />
       </button>
     </form>
   );

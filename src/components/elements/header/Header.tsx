@@ -10,7 +10,7 @@ interface HeaderProps {
 }
 
 export default function Header({ wsConnected = false }: HeaderProps) {
-  let decoded = getDecodedToken();
+  const decoded = getDecodedToken();
   return (
     <>
       <header className="header">
