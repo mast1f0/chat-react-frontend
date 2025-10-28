@@ -1,4 +1,4 @@
-import type { Message } from "./UserMessage";
+import type { Message } from "../../services/api";
 import formatTime from "../scripts/FormatTime";
 
 export default function OtherMessage({ message }: { message: Message }) {

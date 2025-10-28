@@ -1,4 +1,10 @@
 // API сервис для работы с чатами и сообщениями
+export const API_CONFIG = {
+  baseUrl: import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8091/api/v1',
+  authUrl: import.meta.env.VITE_AUTH_BASE_URL || 'http://127.0.0.1:8090/api/v1',
+  wsUrl: import.meta.env.VITE_WS_URL || 'ws://127.0.0.1:8091/ws/updates/',
+};
+
 
 export interface Chat {
   Id: string;
@@ -22,16 +28,16 @@ export interface MessagesResponse {
   data: Message[];
 }
 
-export interface WebSocketMessage {
-  id: string;
-  sender_id: number;
-  chat_id: string;
-  content: string;
-  timestamp: string;
-  read: boolean;
-  edited: boolean;
-  edited_time: string;
-}
+// export interface WebSocketMessage {
+//   id: string;
+//   sender_id: number;
+//   chat_id: string;
+//   content: string;
+//   timestamp: string;
+//   read: boolean;
+//   edited: boolean;
+//   edited_time: string;
+// }
 
 export interface SendMessageRequest {
   chat_id: string;

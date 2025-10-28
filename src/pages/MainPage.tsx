@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { apiService } from "../services/api";
 import { webSocketService } from "../services/websocket";
 import isLogged from "../components/scripts/IsLogged";
+import { useNavigate } from "react-router-dom";
 
 export default function MainPage() {
   const [menuActive, setMenuActive] = useState(false);
@@ -34,9 +35,10 @@ export default function MainPage() {
     setShowChatOnMobile(false);
   };
 
+  const navigate = useNavigate();
   useEffect(() => {
-    if (!isLogged) {
-      window.location.href = "/login";
+    if (!isLogged()) {
+      navigate("/", { replace: true });
       return;
     }
 
@@ -65,7 +67,6 @@ export default function MainPage() {
       webSocketService.disconnect();
     };
   }, []);
-
 
   useEffect(() => {
     const onResize = () => setIsMobile(window.innerWidth < 768);

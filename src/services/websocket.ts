@@ -1,8 +1,8 @@
 // WebSocket сервис для работы с сообщениями в реальном времени
 
-import type { WebSocketMessage, SendMessageRequest } from './api';
+import type {Message , SendMessageRequest } from './api';
 
-export type MessageHandler = (message: WebSocketMessage) => void;
+export type MessageHandler = (message: Message) => void;
 export type ConnectionHandler = (connected: boolean) => void;
 
 class WebSocketService {
@@ -55,7 +55,7 @@ class WebSocketService {
 
       this.ws.onmessage = (event) => {
         try {
-          const message: WebSocketMessage = JSON.parse(event.data);
+          const message: Message = JSON.parse(event.data);
           console.log('WebSocket message received:', message);
           this.notifyMessageHandlers(message);
         } catch (error) {
@@ -123,7 +123,7 @@ class WebSocketService {
     this.connectionHandlers.delete(handler);
   }
 
-  private notifyMessageHandlers(message: WebSocketMessage): void {
+  private notifyMessageHandlers(message: Message): void {
     this.messageHandlers.forEach(handler => handler(message));
   }
 

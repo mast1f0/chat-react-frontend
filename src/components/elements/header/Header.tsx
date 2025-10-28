@@ -24,8 +24,8 @@ export default function Header({ wsConnected = false }: HeaderProps) {
           }]`}
         >
           <div
-            className={`w-2 h-2 rounded-full bg-[${
-              wsConnected ? "#4ade80" : "#ef4444"
+            className={`w-2 h-2 rounded-full ${
+              wsConnected ? "bg-green-500" : "bg-red-500"
             }]`}
           ></div>
           <p className="text-[0.75rem]" style={{ color: "black" }}>

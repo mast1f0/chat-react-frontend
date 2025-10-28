@@ -2,13 +2,12 @@ import "./ChatSection.style.css";
 import UserMessage from "../UserMessage";
 import OtherMessage from "../OtherMessage";
 import InputMessage from "../InputMessage/InputMessage";
-import type { Message } from "../UserMessage";
+import type { Message } from "../../../services/api";
 import { useState, useRef, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import type { JWT } from "../../../pages/SettingsPage";
 import { apiService } from "../../../services/api";
 import { webSocketService } from "../../../services/websocket";
-import type { WebSocketMessage } from "../../../services/api";
 import getToken from "../../scripts/GetToken";
 
 const token = getToken();
@@ -52,18 +51,18 @@ export default function ChatSection({
   }, [externalMessages]);
 
   useEffect(() => {
-    const handleWebSocketMessage = (wsMessage: WebSocketMessage) => {
+    const handleWebSocketMessage = (wsMessage: Message) => {
       // Проверяем, что сообщение для текущего чата
-      if (wsMessage.chat_id === chatId) {
+      if (wsMessage.ChatId === chatId) {
         const newMessage: Message = {
-          Id: wsMessage.id,
-          ChatId: wsMessage.chat_id,
-          Content: wsMessage.content,
-          Edited: wsMessage.edited,
-          EditedTime: wsMessage.edited_time,
-          Read: wsMessage.read,
-          SenderId: wsMessage.sender_id.toString(),
-          CreatedAt: wsMessage.timestamp,
+          Id: wsMessage.Id,
+          ChatId: wsMessage.ChatId,
+          Content: wsMessage.Content,
+          Edited: wsMessage.Edited,
+          EditedTime: wsMessage.EditedTime,
+          Read: wsMessage.Read,
+          SenderId: wsMessage.SenderId,
+          CreatedAt: wsMessage.CreatedAt,
         };
         setMessages((prev) => [...prev, newMessage]);
       }
@@ -85,7 +84,7 @@ export default function ChatSection({
         Edited: msg.Edited,
         EditedTime: msg.EditedTime,
         Read: msg.Read,
-        SenderId: msg.SenderId.toString(),
+        SenderId: msg.SenderId,
         CreatedAt: msg.CreatedAt,
       }));
       setMessages(convertedMessages);
@@ -158,7 +157,7 @@ export default function ChatSection({
           </div>
         ) : (
           messages.map((msg) =>
-            msg.SenderId === currentUserId?.toString() ? (
+            msg.SenderId === currentUserId ? (
               <UserMessage key={msg.Id} message={msg} />
             ) : (
               <OtherMessage key={msg.Id} message={msg} />

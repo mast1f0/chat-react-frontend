@@ -1,14 +1,5 @@
 import formatTime from "../scripts/FormatTime";
-export interface Message {
-  Id: string;
-  ChatId: string;
-  Content: string;
-  Edited: boolean;
-  EditedTime: string;
-  Read: boolean;
-  SenderId: string;
-  CreatedAt: string;
-}
+import type { Message } from "../../services/api";
 
 export default function UserMessage({ message }: { message: Message }) {
   return (

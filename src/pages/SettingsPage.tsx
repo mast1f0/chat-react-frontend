@@ -38,19 +38,12 @@ export default function SettingsPage() {
     isEditing(false);
   };
 
-  const exitButton = () => {
-    logout();
-  };
-
   return (
     <div className="bg-[#f5f4f7] h-screen flex flex-col items-center pt-10">
       <BackToMainButton />
       <div className="flex flex-col items-center bg-white rounded-2xl shadow-lg p-6 w-[90%]">
-        <img
-          src=""
-          alt=""
-          className="w-[120px] h-[120px] rounded-full bg-gray-300 mb-4"
-        />
+        {/* for future avatar */}
+        <div className="w-[120px] h-[120px] rounded-full bg-gray-300 mb-4" />
 
         <div className="flex items-center gap-2 mb-2">
           {edit ? (
@@ -100,7 +93,7 @@ export default function SettingsPage() {
         <h3 className="text-gray-600 text-lg mb-6">{`@${user.username}`}</h3>
 
         <button
-          onClick={exitButton}
+          onClick={() => logout()}
           className="bg-[#403752] text-white text-lg px-6 py-2 rounded-xl  transform transition-transform duration-200 hover:bg-red-800  hover:scale-125 "
         >
           Выйти из аккаунта

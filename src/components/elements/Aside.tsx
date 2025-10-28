@@ -43,16 +43,6 @@ export default function Aside({
 
     navigate(`/?chat=${chatId}&&`);
     try {
-      // const response = await fetch(
-      //   `http://127.0.0.1:8091/api/v1/chats/messages/all/?chat_id=${chatId}&time=${Date.now()}`,
-      //   {
-      //     method: "GET",
-      //     headers: {
-      //       Authorization: `Bearer ${token}`,
-      //       "Content-Type": "application/json",
-      //     },
-      //   }
-      // );
       const response = await fetchWithAuth(
         `http://127.0.0.1:8091/api/v1/chats/messages/all/?chat_id=${chatId}&time=${Date.now()}`
       );
