@@ -11,7 +11,7 @@ export default function SearchInput({ query, setQuery }: SearchInputProps) {
         name=""
         id="search-message"
         placeholder="Поиск"
-        className="border-none bg-[transparent] py-[15px]  min-w-0 flex-1 px-[10px]"
+        className="border-none bg-[transparent] py-[15px]  min-w-0 w-full flex-1 px-[10px]"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         style={{ height: "100%", minHeight: "60px" }}

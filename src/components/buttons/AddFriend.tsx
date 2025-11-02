@@ -8,7 +8,7 @@ export default function AddFriendButton({
   onToggleMenu,
 }: AddFriendButtonProps) {
   return (
-    <div className="flex md:mr-5 rounded-full bg-[#E1E0E1] h-[60px] w-[60px] select-none items-center justify-center md:mx-2 transform transition-transform duration-200 hover:scale-125">
+    <div className="flex rounded-full bg-[#E1E0E1] h-[60px] w-[60px] select-none items-center justify-center md:mx-2 transform transition-transform duration-200 hover:scale-125">
       <button
         type="button"
         onClick={onToggleMenu}

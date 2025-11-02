@@ -2,7 +2,6 @@ import SettingsButton from "../../buttons/SettingsButton";
 import ThreeDots from "../../buttons/Three-dots";
 import UserPanel from "../UserPanel/UserPanel";
 import "./Header.style.css";
-import MobileHeader from "../MobileHeader";
 import getDecodedToken from "../../scripts/GetDecodedToken";
 
 interface HeaderProps {
@@ -34,7 +33,6 @@ export default function Header({ wsConnected = false }: HeaderProps) {
         </div>
         <ThreeDots />
       </header>
-      <MobileHeader />
     </>
   );
 }
