@@ -26,6 +26,7 @@ export default function Aside({
   onChatSelect,
 }: AsideProps) {
   const { isMobileMenuOpen } = useMobileMenu();
+  const [query, setQuery] = useState("");
   const sidebarRef = useRef<HTMLDivElement>(null);
   const [isResizing, setIsResizing] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
@@ -94,7 +95,7 @@ export default function Aside({
           className="hidden md:flex md:ml-auto md:items-center md:gap-1 md:mt-2 md:mb-5"
           style={{ width: width }}
         >
-          <SearchInput />
+          <SearchInput query={query} setQuery={setQuery} />
           <AddFriendButton onToggleMenu={onToggleMenu} />
         </div>
         <div
@@ -118,14 +119,13 @@ export default function Aside({
         </div>
       </div>
     );
-
   return (
     <div className="flex flex-col h-full">
       <div
         className="hidden md:flex md:ml-auto md:items-center md:gap-1 md:mt-2 md:mb-5"
         style={{ width: width }}
       >
-        <SearchInput />
+        <SearchInput query={query} setQuery={setQuery} />
         <AddFriendButton onToggleMenu={onToggleMenu} />
       </div>
       <aside
@@ -137,21 +137,27 @@ export default function Aside({
         }`}
         style={{ width: isMobile ? "100%" : width }}
       >
-        {chats.map((chat, index) => (
-          <div
-            key={chat.Id}
-            onClick={() => handleChatClick(chat.Id)}
-            className={`text-white p-2.5 flex items-center gap-2.5 cursor-pointer transition-all duration-200 hover:bg-[#F5F4F7] hover:text-[#403752] hover:rounded-r-4xl ${
-              selectedChat === chat.Id ? "bg-white/20" : ""
-            } ${index === 0 ? "mt-4" : ""}`}
-          >
-            <div className="flex-1">
-              <div className="text-sm mt-1">
-                <strong className="text-[2rem] font-light ">{chat.Name}</strong>
+        {chats
+          .filter((chat) =>
+            chat.Name.toLowerCase().includes(query.toLowerCase())
+          )
+          .map((chat, index) => (
+            <div
+              key={chat.Id}
+              onClick={() => handleChatClick(chat.Id)}
+              className={`text-white p-2.5 flex items-center gap-2.5 cursor-pointer transition-all duration-200 hover:bg-[#F5F4F7] hover:text-[#403752] hover:rounded-r-4xl ${
+                selectedChat === chat.Id ? "bg-white/20" : ""
+              } ${index === 0 ? "mt-4" : ""}`}
+            >
+              <div className="flex-1">
+                <div className="text-sm mt-1">
+                  <strong className="text-[2rem] font-light ">
+                    {chat.Name}
+                  </strong>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
         <div
           onMouseDown={startResizing}
           className="absolute left-0 top-0 w-2 h-full cursor-ew-resize"

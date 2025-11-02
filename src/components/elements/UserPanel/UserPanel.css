@@ -10,6 +10,7 @@
     margin-top: -10px;
     margin-inline: auto;
     justify-content: center;
+    align-self: center;
 }
 
 @media (width < 768px) {

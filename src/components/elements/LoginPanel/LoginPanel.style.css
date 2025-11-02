@@ -7,6 +7,8 @@
     font-family: Arial, sans-serif;
     padding: 20px;
     box-sizing: border-box;
+    max-width: 10000px;
+    width: 100%;
 }
 
 p, h1, a, h2, label {
@@ -26,7 +28,6 @@ p, h1, a, h2, label {
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-width: 600px;
     width: 100%;
     padding: 30px 20px;
     border-radius: 15px;
