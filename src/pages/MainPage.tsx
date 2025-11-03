@@ -81,7 +81,7 @@ export default function MainPage() {
           <div
             className={`${
               isMobile && showChatOnMobile ? "block" : "hidden"
-            } md:block`}
+            } md:block h-full`}
           >
             <ChatSection
               messages={currentMessages}
@@ -90,17 +90,11 @@ export default function MainPage() {
             />
           </div>
         </div>
-        <div
-          className={`${
-            isMobile && showChatOnMobile ? "hidden" : "flex-1"
-          } md:flex-none`}
-        >
-          <Aside
-            chats={chats}
-            onToggleMenu={toggleMenu}
-            onMessagesLoaded={handleMessagesLoaded}
-          />
-        </div>
+        <Aside
+          chats={chats}
+          onToggleMenu={toggleMenu}
+          onMessagesLoaded={handleMessagesLoaded}
+        />
         <MeetFriendMenu
           isOpen={menuActive}
           onClose={() => setMenuActive(false)}

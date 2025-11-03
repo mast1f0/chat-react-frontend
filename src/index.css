@@ -33,6 +33,21 @@ input::placeholder {
     align-self: center;
 }
 
+input:-webkit-autofill, input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  font-size: 1.25rem !important;
+  font-family: inherit !important;
+  -webkit-box-shadow: 0 0 0 30px white inset !important; 
+  -webkit-text-fill-color: #8C8098 !important;
+  caret-color: #8C8098 !important;  
+}
+
+
+input:-webkit-autofill {
+    box-shadow: 0 0 0px 1000px white inset !important;
+}
+
 .custom-scrollbar {
     scrollbar-width: 10px;
     scrollbar-color: #403752 #403752;

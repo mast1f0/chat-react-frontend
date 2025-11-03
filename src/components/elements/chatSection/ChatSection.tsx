@@ -151,8 +151,13 @@ export default function ChatSection({
           </div>
         ) : messages.length === 0 ? (
           <div className="flex justify-center items-center h-full">
-            <div className="text-white text-xl">
-              Выберите чат для начала общения
+            <div className="items-center font-black mx-[20%]">
+              <p className=" text-3xl" style={{ color: "#403752" }}>
+                Ой, а здесь никого нет ,
+              </p>
+              <p className="text-3xl" style={{ color: "#8C8098" }}>
+                но собеседника всегда можно завести
+              </p>
             </div>
           </div>
         ) : (

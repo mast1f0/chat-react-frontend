@@ -64,7 +64,7 @@ export default function Aside({
       if (!isResizing || !sidebarRef.current) return;
       const right = sidebarRef.current.getBoundingClientRect().right;
       const newWidth = right - e.clientX;
-      if (newWidth > 180 && newWidth < 800) setWidth(newWidth);
+      if (newWidth > 250 && newWidth < 800) setWidth(newWidth);
     },
     [isResizing]
   );
@@ -92,7 +92,7 @@ export default function Aside({
   if (chats.length === 0)
     return (
       <div
-        className="flex flex-col h-full"
+        className="flex flex-col h-full float-right"
         style={{ width: isMobile ? "100%" : width }}
       >
         <div className="flex flex-1 gap-2.5 items-center min-w-0 my-4 mx-2 md:mx-0 md:flex md:items-center md:gap-1 md:mt-2 md:mb-5">
@@ -105,7 +105,7 @@ export default function Aside({
         </div>
         <div
           ref={sidebarRef}
-          className={`bg-[#403752] w-full h-full md:ml-auto relative transition-transform duration-300 rounded-t-[71px] md:rounded-tl-[33px] md:rounded-tr-[0px] ${
+          className={`bg-[#403752] w-full h-full relative transition-transform duration-300 rounded-t-[71px] md:rounded-tl-[33px] md:rounded-tr-[0px] ${
             isMobileMenuOpen
               ? "translate-y-20 md:translate-y-0"
               : "translate-y-0"
@@ -124,11 +124,11 @@ export default function Aside({
       </div>
     );
   return (
-    <div className="flex flex-col h-full">
-      <div
-        className="flex flex-1 gap-2.5 items-center min-w-0 mx-4 my-4 md:flex md:ml-auto md:items-center md:gap-1 md:mt-2 md:mb-5"
-        style={{ width: `${width <= 768 ? width : "100%"}` }}
-      >
+    <div
+      className="flex flex-col h-full"
+      style={{ width: isMobile ? "100%" : width }}
+    >
+      <div className="flex flex-1 gap-2.5 items-center min-w-0 mx-2 my-4 md:mx-0 md:flex md:ml-auto md:items-center md:gap-1 md:mt-2 md:mb-5">
         {isMobile ? (
           <MobileOptions />
         ) : (
@@ -142,7 +142,6 @@ export default function Aside({
         } ${
           isMobileMenuOpen ? "translate-y-20 md:translate-y-0" : "translate-y-0"
         }`}
-        style={{ width: isMobile ? "100%" : width }}
       >
         {chats
           .filter((chat) =>

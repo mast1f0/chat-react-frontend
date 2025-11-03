@@ -4,7 +4,6 @@
     align-items: center;
     text-align: center;
     gap: 15px;
-    font-family: Arial, sans-serif;
     padding: 20px;
     box-sizing: border-box;
     max-width: 800px;
@@ -43,7 +42,8 @@ p, h1, a, h2, label {
     border-radius: 21px;
     box-sizing: border-box;
     outline: none;
-    font-size: 1rem;
+    font-size: 1.25rem;
+    color: #8C8098;
 }
 
 #password {
@@ -51,7 +51,6 @@ p, h1, a, h2, label {
 }
 
 #login::placeholder, #password::placeholder {
-    color: #303030;
     opacity: 0.6;
     font-weight: 600;
 }
