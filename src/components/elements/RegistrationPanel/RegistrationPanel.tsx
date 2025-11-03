@@ -1,5 +1,6 @@
 import "./RegistrationPanel.style.css";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 type Form = {
   username: string;
@@ -15,6 +16,7 @@ export default function RegistrationPanel() {
   });
 
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const validatePassword = (pw: string) => {
     if (pw.length < 8) return "Пароль должен быть минимум 8 символов";
@@ -40,6 +42,7 @@ export default function RegistrationPanel() {
     setError(null);
 
     try {
+      // Регистрация
       const response = await fetch(
         "http://localhost:8090/api/v1/auth/registration/",
         {
@@ -55,15 +58,47 @@ export default function RegistrationPanel() {
       );
 
       if (!response.ok) {
-        throw new Error("Ошибка регистрации");
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || "Ошибка регистрации");
       }
 
       const data = await response.json();
       console.log("Регистрация успешна:", data.message);
-      window.location.href = "/";
-      localStorage.setItem("username", data.username);
+
+      // Автоматический логин после регистрации
+      try {
+        const loginResponse = await fetch(
+          "http://localhost:8090/api/v1/auth/login/",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              username: form.username,
+              password: form.password,
+            }),
+          }
+        );
+
+        if (!loginResponse.ok) {
+          throw new Error("Ошибка при авторизации после регистрации");
+        }
+
+        const loginData = await loginResponse.json();
+        console.log("Автоматический логин выполнен");
+
+        localStorage.setItem("access_token", loginData.access_token);
+        localStorage.setItem("username", loginData.username || form.username);
+
+        navigate("/", { replace: true });
+      } catch (loginErr) {
+        console.error("Ошибка при автоматическом логине:", loginErr);
+        setError("Регистрация прошла успешно, но не удалось войти. Попробуйте войти вручную.");
+      }
     } catch (err) {
       console.error(err);
+      setError(err instanceof Error ? err.message : "Ошибка регистрации");
     }
   };
 

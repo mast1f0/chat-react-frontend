@@ -1,16 +1,20 @@
 import "./LoginPanel.style.css";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginPanel() {
   const [isChecked, setIsChecked] = useState(false); // запоминать токен или нет
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setIsChecked(event.target.checked); // при проверке инвертировать
   };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
 
     try {
       const response = await fetch("http://localhost:8090/api/v1/auth/login/", {
@@ -34,10 +38,14 @@ export default function LoginPanel() {
         localStorage.setItem("username", data.username);
       } else {
         sessionStorage.setItem("access_token", data.access_token);
+        if (data.username) {
+          sessionStorage.setItem("username", data.username);
+        }
       }
-      window.location.href = "/";
+      navigate("/", { replace: true });
     } catch (error) {
       console.log(error);
+      setError("Ошибка при авторизации. Проверьте логин и пароль.");
     }
   };
 
@@ -59,6 +67,8 @@ export default function LoginPanel() {
           onChange={(e) => setPassword(e.target.value)}
           autoComplete="current-password webauthn"
         />
+
+        {error && <p style={{ color: "red", fontSize: "0.9rem" }}>{error}</p>}
 
         <div className="form-submit">
           <label htmlFor="remember">
