@@ -161,18 +161,29 @@ export default function ChatSection({
             </div>
           </div>
         ) : (
-          messages.map((msg) =>
-            msg.SenderId === currentUserId ? (
-              <UserMessage key={msg.Id} message={msg} />
+          messages.map((msg, index) => {
+            const prevMessage = index > 0 ? messages[index - 1] : null;
+            const isConsecutive = prevMessage?.SenderId === msg.SenderId;
+
+            return msg.SenderId === currentUserId ? (
+              <UserMessage
+                key={msg.Id}
+                message={msg}
+                isConsecutive={isConsecutive}
+              />
             ) : (
-              <OtherMessage key={msg.Id} message={msg} />
-            )
-          )
+              <OtherMessage
+                key={msg.Id}
+                message={msg}
+                isConsecutive={isConsecutive}
+              />
+            );
+          })
         )}
         <div className="w-[1px] h-[1px]" ref={bottomRef} id="bottom"></div>
       </div>
       {chatId && (
-        <div className="p-4">
+        <div className="px-4 pb-4 pt-2 flex-shrink-0">
           <InputMessage onSendMessage={handleSendMessage} />
         </div>
       )}

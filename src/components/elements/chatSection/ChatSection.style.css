@@ -15,8 +15,5 @@
     scrollbar-width: none;
     width: 100%;
     padding: 10px 0;
-}
-
-.chat-section>* {
-    margin-block: 20px;
+    min-height: 0;
 }

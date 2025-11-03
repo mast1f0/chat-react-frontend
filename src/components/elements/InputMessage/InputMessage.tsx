@@ -1,14 +1,14 @@
 import "./InputMessage.style.css";
 import { useState } from "react";
 import micIcon from "../../../assets/mic.svg";
-import scrapIcon from "../../../assets/mic.svg";
-import airplaneIcon from "../../../assets/mic.svg";
+import scrapIcon from "../../../assets/scrap.svg";
+import airplaneIcon from "../../../assets/airplane.svg";
 interface InputMessageProps {
   onSendMessage: (text: string) => void;
 }
 
 export default function InputMessage({ onSendMessage }: InputMessageProps) {
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (content.trim()) {
       onSendMessage(content);
@@ -28,7 +28,6 @@ export default function InputMessage({ onSendMessage }: InputMessageProps) {
           onChange={(e) => setContent(e.target.value)}
         />
         <div className="input__icons">
-          <img src={micIcon} className="md:select-none" alt="Голосовое" />
           <img
             src={scrapIcon}
             className="md:select-none"
@@ -37,8 +36,12 @@ export default function InputMessage({ onSendMessage }: InputMessageProps) {
         </div>
       </div>
 
-      <button className="send-btn">
-        <img src={airplaneIcon} className="md:select-none" alt="" />
+      <button type="submit" className="send-btn">
+        {content ? (
+          <img src={airplaneIcon} className="md:select-none" alt="" />
+        ) : (
+          <img src={micIcon} className="md:select-none" alt="" />
+        )}
       </button>
     </form>
   );

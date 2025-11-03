@@ -28,30 +28,19 @@ export interface MessagesResponse {
   data: Message[];
 }
 
-// export interface WebSocketMessage {
-//   id: string;
-//   sender_id: number;
-//   chat_id: string;
-//   content: string;
-//   timestamp: string;
-//   read: boolean;
-//   edited: boolean;
-//   edited_time: string;
-// }
-
 export interface SendMessageRequest {
   chat_id: string;
   content: string;
 }
 
 class ApiService {
-  private baseUrl = 'http://127.0.0.1:8091/api/v1';
+  private baseUrl = API_CONFIG.baseUrl;
 
   private getAuthHeaders(): HeadersInit {
     const token = localStorage.getItem('access_token') || sessionStorage.getItem('access_token');
     return {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
     };
   }
 
@@ -75,7 +64,7 @@ class ApiService {
 
   async getChatMessages(chatId: string): Promise<MessagesResponse> {
     try {
-      const response = await fetch(`${this.baseUrl}/messages/all/chat_id=${chatId}`, {
+      const response = await fetch(`${this.baseUrl}/chats/messages/all/?chat_id=${chatId}`, {
         method: 'GET',
         headers: this.getAuthHeaders(),
       });

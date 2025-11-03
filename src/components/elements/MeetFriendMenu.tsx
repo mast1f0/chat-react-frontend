@@ -1,4 +1,5 @@
 import { useState } from "react";
+import getToken from "../scripts/GetToken";
 
 interface IsOpened {
   isOpen: boolean;
@@ -26,13 +27,7 @@ export default function MeetFriendMenu({
     setIsLoading(true);
     setError("");
 
-    const token =
-      localStorage.getItem("access_token") ||
-      sessionStorage.getItem("access_token");
-    if (!token) {
-      setIsLoading(false);
-      return;
-    }
+    const token = getToken();
 
     try {
       if (tab === 0) {

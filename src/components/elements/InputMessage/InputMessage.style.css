@@ -4,22 +4,22 @@
     display: flex;
     gap: 20px;
     max-height: 200px;
+    margin: 0;
+    width: 100%;
 }
 
 .input-message {
+    display: flex;
     align-items: center;
-    align-content: center;
     max-width: 800px;
     width: 100%;
     max-height: 60px;
     background-color: white;
     border-radius: 40px;
-    height: 100%;
-    align-items: center;
+    height: 60px;
     position: relative;
     overflow: hidden;
-    float: right;
-    align-content: center;
+    margin: 0;
 }
 
 #message::placeholder,
@@ -37,6 +37,8 @@
     width: 85%;
     padding-right: 70px;
     margin-left: 5%;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .input__icons {
@@ -70,6 +72,7 @@
     width: 60px;
     height: 60px;
     transition: transform 0.2s ease-in-out;
+    margin-top: 0;
 }
 
 .send-btn:hover {
