@@ -88,87 +88,59 @@ export default function Aside({
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, []);
-
-  if (chats.length === 0)
-    return (
-      <div
-        className="flex flex-col h-full float-right"
-        style={{ width: isMobile ? "100%" : width }}
-      >
-        <div className="flex flex-1 gap-2.5 items-center min-w-0 my-4 mx-2 md:mx-0 md:flex md:items-center md:gap-1 md:mt-2 md:mb-5">
-          <SearchInput query={query} setQuery={setQuery} />
-          {isMobile ? (
-            <MobileOptions />
-          ) : (
-            <AddFriendButton onToggleMenu={onToggleMenu} />
-          )}
-        </div>
-        <div
-          ref={sidebarRef}
-          className={`bg-[#403752] w-full h-full relative transition-transform duration-300 rounded-t-[71px] md:rounded-tl-[33px] md:rounded-tr-[0px] ${
-            isMobileMenuOpen
-              ? "translate-y-20 md:translate-y-0"
-              : "translate-y-0"
-          }`}
-        >
-          <div className="flex justify-center w-full items-center h-full">
-            <h1 className="text-white font-black text-5xl text-center select-none">
-              ПОКА ЗДЕСЬ ПУСТО
-            </h1>
-          </div>
-          <div
-            onMouseDown={startResizing}
-            className="absolute left-0 top-0 w-2 h-full cursor-ew-resize"
-          />
-        </div>
-      </div>
-    );
   return (
     <div
-      className="flex flex-col h-full"
+      className="flex flex-col h-full float-right"
       style={{ width: isMobile ? "100%" : width }}
     >
-      <div className="flex flex-1 gap-2.5 items-center min-w-0 mx-2 my-4 md:mx-0 md:flex md:ml-auto md:items-center md:gap-1 md:mt-2 md:mb-5">
+      <div className="flex flex-1 gap-2.5 items-center min-w-0 my-4 mx-2 md:mx-0 md:flex md:items-center md:gap-1 md:mt-2 md:mb-5">
+        <SearchInput query={query} setQuery={setQuery} />
         {isMobile ? (
           <MobileOptions />
         ) : (
           <AddFriendButton onToggleMenu={onToggleMenu} />
         )}
       </div>
-      <aside
+      <div
         ref={sidebarRef}
-        className={`bg-[#403752] flex flex-col h-full md:ml-auto overflow-y-auto gap-2.5 custom-scrollbar transition-transform duration-300 relative rounded-t-[71px] md:rounded-tl-[33px] md:rounded-tr-[0px] ${
-          isResizing ? "select-none" : "select-auto"
-        } ${
+        className={`bg-[#403752] w-full h-full relative transition-transform duration-300 rounded-t-[71px] md:rounded-tl-[33px] md:rounded-tr-[0px] ${
           isMobileMenuOpen ? "translate-y-20 md:translate-y-0" : "translate-y-0"
         }`}
       >
-        {chats
-          .filter((chat) =>
-            chat.Name.toLowerCase().includes(query.toLowerCase())
-          )
-          .map((chat, index) => (
-            <div
-              key={chat.Id}
-              onClick={() => handleChatClick(chat.Id)}
-              className={`text-white p-2.5 flex items-center gap-2.5 cursor-pointer transition-all duration-200 hover:bg-[#F5F4F7] hover:text-[#403752] hover:rounded-r-4xl ${
-                selectedChat === chat.Id ? "bg-white/20" : ""
-              } ${index === 0 ? "mt-4" : ""}`}
-            >
-              <div className="flex-1">
-                <div className="text-sm mt-1">
-                  <strong className="text-[2rem] font-light ">
-                    {chat.Name}
-                  </strong>
+        {chats.length === 0 ? (
+          <div className="flex justify-center w-full items-center h-full">
+            <h1 className="text-white font-black text-5xl text-center select-none">
+              ПОКА ЗДЕСЬ ПУСТО
+            </h1>
+          </div>
+        ) : (
+          chats
+            .filter((chat) =>
+              chat.Name.toLowerCase().includes(query.toLowerCase())
+            )
+            .map((chat, index) => (
+              <div
+                key={chat.Id}
+                onClick={() => handleChatClick(chat.Id)}
+                className={`text-white p-2.5 flex items-center gap-2.5 cursor-pointer transition-all duration-200 hover:bg-[#F5F4F7] hover:text-[#403752] hover:rounded-r-4xl ${
+                  selectedChat === chat.Id ? "bg-white/20" : ""
+                } ${index === 0 ? "mt-4" : ""}`}
+              >
+                <div className="flex-1">
+                  <div className="text-sm mt-1">
+                    <strong className="text-[2rem] font-light ">
+                      {chat.Name}
+                    </strong>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))
+        )}
         <div
           onMouseDown={startResizing}
           className="absolute left-0 top-0 w-2 h-full cursor-ew-resize"
         />
-      </aside>
+      </div>
     </div>
   );
 }

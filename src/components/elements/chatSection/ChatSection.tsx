@@ -151,7 +151,7 @@ export default function ChatSection({
           </div>
         ) : messages.length === 0 ? (
           <div className="flex justify-center items-center h-full">
-            <div className="items-center font-black mx-[20%]">
+            <div className="items-center font-black mx-[15%] select-none">
               <p className=" text-3xl" style={{ color: "#403752" }}>
                 Ой, а здесь никого нет ,
               </p>
