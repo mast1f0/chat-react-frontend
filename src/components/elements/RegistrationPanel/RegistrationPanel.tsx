@@ -78,6 +78,7 @@ export default function RegistrationPanel() {
           value={form.username}
           onChange={(e) => setForm({ ...form, username: e.target.value })}
           className="bg-white"
+          autoComplete="name webauthn"
         />
         <input
           id="password"
@@ -86,6 +87,7 @@ export default function RegistrationPanel() {
           value={form.password}
           onChange={(e) => setForm({ ...form, password: e.target.value })}
           className="bg-white"
+          autoComplete="new-password webauthn"
         />
         <input
           id="repeat-password"
@@ -94,6 +96,7 @@ export default function RegistrationPanel() {
           value={form.repeatPassword}
           onChange={(e) => setForm({ ...form, repeatPassword: e.target.value })}
           className="bg-white"
+          autoComplete="new-password webauthn"
         />
 
         {error && <p style={{ color: "red", fontSize: "0.9rem" }}>{error}</p>}

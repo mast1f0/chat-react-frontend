@@ -50,12 +50,14 @@ export default function LoginPanel() {
           type="text"
           placeholder="Введите логин"
           onChange={(e) => setUsername(e.target.value)}
+          autoComplete="additional-name webauthn"
         />
         <input
           id="password"
           type="password"
           placeholder="Введите пароль"
           onChange={(e) => setPassword(e.target.value)}
+          autoComplete="current-password webauthn"
         />
 
         <div className="form-submit">
