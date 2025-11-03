@@ -65,7 +65,6 @@ export default function RegistrationPanel() {
       const data = await response.json();
       console.log("Регистрация успешна:", data.message);
 
-      // Автоматический логин после регистрации
       try {
         const loginResponse = await fetch(
           "http://localhost:8090/api/v1/auth/login/",
@@ -89,12 +88,9 @@ export default function RegistrationPanel() {
         console.log("Автоматический логин выполнен");
 
         localStorage.setItem("access_token", loginData.access_token);
-        localStorage.setItem("username", loginData.username || form.username);
-
         navigate("/", { replace: true });
       } catch (loginErr) {
-        console.error("Ошибка при автоматическом логине:", loginErr);
-        setError("Регистрация прошла успешно, но не удалось войти. Попробуйте войти вручную.");
+        console.error(loginErr);
       }
     } catch (err) {
       console.error(err);
@@ -114,6 +110,7 @@ export default function RegistrationPanel() {
           onChange={(e) => setForm({ ...form, username: e.target.value })}
           className="bg-white"
           autoComplete="name webauthn"
+          required
         />
         <input
           id="password"
@@ -123,6 +120,7 @@ export default function RegistrationPanel() {
           onChange={(e) => setForm({ ...form, password: e.target.value })}
           className="bg-white"
           autoComplete="new-password webauthn"
+          required
         />
         <input
           id="repeat-password"
@@ -132,6 +130,7 @@ export default function RegistrationPanel() {
           onChange={(e) => setForm({ ...form, repeatPassword: e.target.value })}
           className="bg-white"
           autoComplete="new-password webauthn"
+          required
         />
 
         {error && <p style={{ color: "red", fontSize: "0.9rem" }}>{error}</p>}

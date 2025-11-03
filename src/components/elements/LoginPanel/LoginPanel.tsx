@@ -35,12 +35,8 @@ export default function LoginPanel() {
 
       if (isChecked) {
         localStorage.setItem("access_token", data.access_token);
-        localStorage.setItem("username", data.username);
       } else {
         sessionStorage.setItem("access_token", data.access_token);
-        if (data.username) {
-          sessionStorage.setItem("username", data.username);
-        }
       }
       navigate("/", { replace: true });
     } catch (error) {
@@ -59,6 +55,7 @@ export default function LoginPanel() {
           placeholder="Введите логин"
           onChange={(e) => setUsername(e.target.value)}
           autoComplete="additional-name webauthn"
+          required
         />
         <input
           id="password"
@@ -66,6 +63,7 @@ export default function LoginPanel() {
           placeholder="Введите пароль"
           onChange={(e) => setPassword(e.target.value)}
           autoComplete="current-password webauthn"
+          required
         />
 
         {error && <p style={{ color: "red", fontSize: "0.9rem" }}>{error}</p>}
