@@ -66,7 +66,11 @@ export default function LoginPanel() {
           required
         />
 
-        {error && <p style={{ color: "red", fontSize: "0.9rem" }}>{error}</p>}
+        {error && (
+          <p style={{ color: "red", fontSize: "0.9rem", marginBlock: 0 }}>
+            {error}
+          </p>
+        )}
 
         <div className="form-submit">
           <label htmlFor="remember">

@@ -133,7 +133,11 @@ export default function RegistrationPanel() {
           required
         />
 
-        {error && <p style={{ color: "red", fontSize: "0.9rem" }}>{error}</p>}
+        {error && (
+          <p style={{ color: "red", fontSize: "0.9rem", marginBlock: 0 }}>
+            {error}
+          </p>
+        )}
 
         <div className="form-submit">
           <button type="submit" className="reg-btn">

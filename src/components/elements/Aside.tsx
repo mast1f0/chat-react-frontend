@@ -107,34 +107,34 @@ export default function Aside({
           isMobileMenuOpen ? "translate-y-20 md:translate-y-0" : "translate-y-0"
         }`}
       >
-        {chats.length === 0 ? (
+        {!chats || chats.length === 0 ? (
           <div className="flex justify-center w-full items-center h-full">
             <h1 className="text-white font-black text-5xl text-center select-none">
               ПОКА ЗДЕСЬ ПУСТО
             </h1>
           </div>
         ) : (
-          chats
-            .filter((chat) =>
-              chat.Name.toLowerCase().includes(query.toLowerCase())
-            )
-            .map((chat, index) => (
-              <div
-                key={chat.Id}
-                onClick={() => handleChatClick(chat.Id)}
-                className={`text-white p-2.5 flex items-center gap-2.5 cursor-pointer transition-all duration-200 hover:bg-[#F5F4F7] hover:text-[#403752] hover:rounded-r-4xl ${
-                  selectedChat === chat.Id ? "bg-white/20" : ""
-                } ${index === 0 ? "mt-4" : ""}`}
-              >
-                <div className="flex-1">
-                  <div className="text-sm mt-1">
+          <div className="h-full overflow-y-auto">
+            {chats
+              .filter((chat) =>
+                chat.Name.toLowerCase().includes(query.toLowerCase())
+              )
+              .map((chat, index) => (
+                <div
+                  key={chat.Id}
+                  onClick={() => handleChatClick(chat.Id)}
+                  className={`text-white p-2.5 flex items-center gap-2.5 cursor-pointer transition-all duration-200 hover:bg-[#F5F4F7] hover:text-[#403752] hover:rounded-r-4xl ${
+                    selectedChat === chat.Id ? "bg-white/20" : ""
+                  } ${index === 0 ? "mt-4" : ""}`}
+                >
+                  <div className="text-sm mt-1 flex-1">
                     <strong className="text-[2rem] font-light ">
                       {chat.Name}
                     </strong>
                   </div>
                 </div>
-              </div>
-            ))
+              ))}
+          </div>
         )}
         <div
           onMouseDown={startResizing}

@@ -44,8 +44,13 @@ export default function ChatSection({
   }, [chatId]);
 
   // Обновляем сообщения при изменении внешних сообщений
+  // useEffect(() => {
+  //   if (externalMessages) {
+  //     setMessages(externalMessages);
+  //   }
+  // }, [externalMessages]);
   useEffect(() => {
-    if (externalMessages) {
+    if (externalMessages && externalMessages.length !== messages.length) {
       setMessages(externalMessages);
     }
   }, [externalMessages]);
@@ -76,7 +81,6 @@ export default function ChatSection({
     setLoading(true);
     try {
       const response = await apiService.getChatMessages(chatId);
-      // Преобразуем типы сообщений для совместимости
       const convertedMessages: Message[] = response.data.map((msg) => ({
         Id: msg.Id,
         ChatId: msg.ChatId,
