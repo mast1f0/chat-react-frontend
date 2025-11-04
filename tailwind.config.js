@@ -10,12 +10,12 @@ module.exports = {
         'custom-purple': '#403752',
         // Or use a more descriptive name
         'deep-purple': '#403752',
-      }
+      },
     }
   },
   variants: {
     extend: {},
   },
-  plugins: [],
-  
+  plugins: []
+
 }
