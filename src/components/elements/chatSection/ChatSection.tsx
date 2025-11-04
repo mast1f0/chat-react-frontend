@@ -36,6 +36,11 @@ export default function ChatSection({
 }: ChatSectionProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
+  const chatIdRef = useRef<string | undefined>(chatId);
+
+  useEffect(() => {
+    chatIdRef.current = chatId;
+  }, [chatId]);
 
   useEffect(() => {
     if (chatId) {
@@ -43,54 +48,82 @@ export default function ChatSection({
     }
   }, [chatId]);
 
-  // Обновляем сообщения при изменении внешних сообщений
-  // useEffect(() => {
-  //   if (externalMessages) {
-  //     setMessages(externalMessages);
-  //   }
-  // }, [externalMessages]);
   useEffect(() => {
-    if (externalMessages && externalMessages.length !== messages.length) {
-      setMessages(externalMessages);
+    if (externalMessages) {
+      // Убеждаемся, что externalMessages является массивом
+      const messagesArray = Array.isArray(externalMessages)
+        ? externalMessages
+        : (externalMessages as any)?.data || [];
+      // Фильтруем пустые сообщения
+      const filteredMessages = messagesArray.filter(
+        (msg: Message) => msg && msg.content && msg.content.trim()
+      );
+      setMessages(filteredMessages);
     }
   }, [externalMessages]);
 
   useEffect(() => {
-    const handleWebSocketMessage = (wsMessage: Message) => {
-      // Проверяем, что сообщение для текущего чата
-      if (wsMessage.ChatId === chatId) {
+    const handleWebSocketMessage = (wsMessage: any) => {
+      const currentChatId = chatIdRef.current;
+
+      const messageChatId = wsMessage.chat_id;
+      const messageId = wsMessage.id;
+      const senderId = wsMessage.sender_id;
+      const content = wsMessage.content;
+      const timestamp = wsMessage.timestamp;
+
+      const messageChatIdStr = String(messageChatId);
+      const currentChatIdStr = currentChatId ? String(currentChatId) : null;
+
+      if (currentChatIdStr && messageChatIdStr === currentChatIdStr) {
+        if (!content || !content.trim()) {
+          return;
+        }
+
         const newMessage: Message = {
-          Id: wsMessage.Id,
-          ChatId: wsMessage.ChatId,
-          Content: wsMessage.Content,
-          Edited: wsMessage.Edited,
-          EditedTime: wsMessage.EditedTime,
-          Read: wsMessage.Read,
-          SenderId: wsMessage.SenderId,
-          CreatedAt: wsMessage.CreatedAt,
+          id: messageId,
+          chat_id: messageChatId,
+          content: content,
+          edited: wsMessage.edited || false,
+          edited_time: wsMessage.edited_time || "",
+          read: wsMessage.read || false,
+          sender_id: senderId,
+          timestamp: timestamp,
         };
-        setMessages((prev) => [...prev, newMessage]);
+        setMessages((prev) => {
+          const exists = prev.some((msg) => msg.id === messageId);
+          if (exists) {
+            return prev;
+          }
+          return [...prev, newMessage];
+        });
       }
     };
 
     webSocketService.addMessageHandler(handleWebSocketMessage);
-    return () => webSocketService.removeMessageHandler(handleWebSocketMessage);
-  }, [chatId]);
+
+    return () => {
+      webSocketService.removeMessageHandler(handleWebSocketMessage);
+    };
+  }, []);
 
   const loadMessages = async (chatId: string) => {
     setLoading(true);
     try {
       const response = await apiService.getChatMessages(chatId);
-      const convertedMessages: Message[] = response.data.map((msg) => ({
-        Id: msg.Id,
-        ChatId: msg.ChatId,
-        Content: msg.Content,
-        Edited: msg.Edited,
-        EditedTime: msg.EditedTime,
-        Read: msg.Read,
-        SenderId: msg.SenderId,
-        CreatedAt: msg.CreatedAt,
-      }));
+      //проблемы со snake_case и camelCase
+      const convertedMessages: Message[] = response.data
+        .map((msg: any) => ({
+          id: msg.id || msg.Id,
+          chat_id: msg.chat_id || msg.ChatId,
+          content: msg.content || msg.Content || "",
+          edited: msg.edited ?? msg.Edited ?? false,
+          edited_time: msg.edited_time || msg.EditedTime || "",
+          read: msg.read ?? msg.Read ?? false,
+          sender_id: msg.sender_id || msg.SenderId,
+          timestamp: msg.timestamp || msg.created_at || msg.CreatedAt || "",
+        }))
+        .filter((msg: Message) => msg.content && msg.content.trim());
       setMessages(convertedMessages);
     } catch (error) {
       console.error("Ошибка загрузки сообщений:", error);
@@ -153,7 +186,7 @@ export default function ChatSection({
           <div className="flex justify-center items-center h-full">
             <div className="text-white text-xl">Загрузка сообщений...</div>
           </div>
-        ) : messages.length === 0 ? (
+        ) : !Array.isArray(messages) || messages.length === 0 ? (
           <div className="flex justify-center items-center h-full">
             <div className="items-center font-black mx-[15%] select-none">
               <p className=" text-3xl" style={{ color: "#403752" }}>
@@ -165,24 +198,33 @@ export default function ChatSection({
             </div>
           </div>
         ) : (
-          messages.map((msg, index) => {
-            const prevMessage = index > 0 ? messages[index - 1] : null;
-            const isConsecutive = prevMessage?.SenderId === msg.SenderId;
+          Array.isArray(messages) &&
+          messages
+            .filter((msg) => msg && msg.content && msg.content.trim())
+            .map((msg, index, filteredMessages) => {
+              const prevMessage =
+                index > 0 ? filteredMessages[index - 1] : null;
+              const isConsecutive = prevMessage?.sender_id === msg.sender_id;
 
-            return msg.SenderId === currentUserId ? (
-              <UserMessage
-                key={msg.Id}
-                message={msg}
-                isConsecutive={isConsecutive}
-              />
-            ) : (
-              <OtherMessage
-                key={msg.Id}
-                message={msg}
-                isConsecutive={isConsecutive}
-              />
-            );
-          })
+              const msgSenderId = Number(msg.sender_id);
+              const currentUserIdNum = currentUserId
+                ? Number(currentUserId)
+                : null;
+
+              return msgSenderId === currentUserIdNum ? (
+                <UserMessage
+                  key={msg.id}
+                  message={msg}
+                  isConsecutive={isConsecutive}
+                />
+              ) : (
+                <OtherMessage
+                  key={msg.id}
+                  message={msg}
+                  isConsecutive={isConsecutive}
+                />
+              );
+            })
         )}
         <div className="w-[1px] h-[1px]" ref={bottomRef} id="bottom"></div>
       </div>

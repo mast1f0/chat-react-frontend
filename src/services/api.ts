@@ -14,14 +14,14 @@ export interface Chat {
 }
 
 export interface Message {
-  Id: string;
-  SenderId: number;
-  ChatId: string;
-  Content: string;
-  CreatedAt: string;
-  Read: boolean;
-  Edited: boolean;
-  EditedTime: string;
+  id: string;
+  sender_id: number;
+  chat_id: string;
+  content: string;
+  timestamp: string;
+  read: boolean;
+  edited: boolean;
+  edited_time: string;
 }
 
 export interface MessagesResponse {

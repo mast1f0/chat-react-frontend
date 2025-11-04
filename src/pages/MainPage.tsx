@@ -8,9 +8,11 @@ import { useEffect, useState } from "react";
 import { apiService } from "../services/api";
 import { webSocketService } from "../services/websocket";
 import isLogged from "../components/scripts/IsLogged";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import fetchWithAuth from "../components/scripts/FetchWithAuth";
 
 export default function MainPage() {
+  const [searchParams] = useSearchParams();
   const [menuActive, setMenuActive] = useState(false);
   const [chats, setChats] = useState<Chat[]>([]);
   const [currentMessages, setCurrentMessages] = useState<any[]>([]);
@@ -23,9 +25,13 @@ export default function MainPage() {
     setMenuActive(!menuActive);
   };
 
-  const handleMessagesLoaded = (chatId: string, messages: any[]) => {
+  const handleMessagesLoaded = (chatId: string, messages: any) => {
     setCurrentChatId(chatId);
-    setCurrentMessages(messages);
+    // Убеждаемся, что messages является массивом
+    const messagesArray = Array.isArray(messages)
+      ? messages
+      : messages?.data || [];
+    setCurrentMessages(messagesArray);
     if (isMobile) {
       setShowChatOnMobile(true);
     }
@@ -36,6 +42,48 @@ export default function MainPage() {
   };
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const urlChatId = searchParams.get("chat");
+    if (urlChatId) {
+      console.log(
+        "MainPage: Found chatId in URL:",
+        urlChatId,
+        "Current:",
+        currentChatId
+      );
+      if (urlChatId !== currentChatId) {
+        setCurrentChatId(urlChatId);
+        const loadMessagesFromUrl = async () => {
+          try {
+            const response = await fetchWithAuth(
+              `http://127.0.0.1:8091/api/v1/chats/messages/all/?chat_id=${urlChatId}&time=${Date.now()}`
+            );
+            if (response.ok) {
+              const responseData = await response.json();
+              // API может возвращать либо массив напрямую, либо объект с полем data
+              const messagesData = Array.isArray(responseData)
+                ? responseData
+                : responseData.data || [];
+              setCurrentMessages(messagesData);
+              console.log(
+                "MainPage: Messages loaded from URL chatId:",
+                messagesData.length
+              );
+            }
+          } catch (error) {
+            console.error("MainPage: Error loading messages from URL:", error);
+          }
+        };
+        loadMessagesFromUrl();
+      }
+    } else if (currentChatId) {
+      console.log("MainPage: chatId removed from URL, clearing state");
+      setCurrentChatId(null);
+      setCurrentMessages([]);
+    }
+  }, [searchParams, currentChatId]);
+
   useEffect(() => {
     if (!isLogged()) {
       navigate("/login", { replace: true });

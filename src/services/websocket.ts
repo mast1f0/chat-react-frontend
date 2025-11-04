@@ -1,8 +1,9 @@
 // WebSocket сервис для работы с сообщениями в реальном времени
 
+import getToken from '../components/scripts/GetToken';
 import type {Message , SendMessageRequest } from './api';
 
-export type MessageHandler = (message: Message) => void;
+export type MessageHandler = (message: any) => void; // WebSocket сообщения приходят в snake_case формате
 export type ConnectionHandler = (connected: boolean) => void;
 
 class WebSocketService {
@@ -15,11 +16,7 @@ class WebSocketService {
 
   connect(): void {
     try {
-      const token = localStorage.getItem('access_token') || sessionStorage.getItem('access_token');
-      if (!token) {
-        console.error('No access token found');
-        return;
-      }
+      const token = getToken() || "";
 
       console.log('Attempting WebSocket connection...');
       console.log('Token found:', token.substring(0, 20) + '...');
@@ -55,8 +52,8 @@ class WebSocketService {
 
       this.ws.onmessage = (event) => {
         try {
-          const message: Message = JSON.parse(event.data);
-          console.log('WebSocket message received:', message);
+          // WebSocket сообщения приходят в snake_case формате, не в формате Message интерфейса
+          const message: any = JSON.parse(event.data);
           this.notifyMessageHandlers(message);
         } catch (error) {
           console.error('Error parsing WebSocket message:', error);
