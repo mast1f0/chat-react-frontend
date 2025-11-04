@@ -15,13 +15,13 @@ export interface Chat {
 
 export interface Message {
   id: string;
-  sender_id: number;
-  chat_id: string;
+  senderId: number;
+  chatId: string;
   content: string;
   timestamp: string;
   read: boolean;
   edited: boolean;
-  edited_time: string;
+  editedTime: string;
 }
 
 export interface MessagesResponse {

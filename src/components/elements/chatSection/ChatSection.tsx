@@ -81,12 +81,12 @@ export default function ChatSection({
 
         const newMessage: Message = {
           id: messageId,
-          chat_id: messageChatId,
+          chatId: messageChatId,
           content: content,
           edited: wsMessage.edited || false,
-          edited_time: wsMessage.edited_time || "",
+          editedTime: wsMessage.edited_time || "",
           read: wsMessage.read || false,
-          sender_id: senderId,
+          senderId: senderId,
           timestamp: timestamp,
         };
         setMessages((prev) => {
@@ -111,15 +111,15 @@ export default function ChatSection({
     try {
       const response = await apiService.getChatMessages(chatId);
       //проблемы со snake_case и camelCase
-      const convertedMessages: Message[] = response.data
+      const convertedMessages: Message[] = (response.data as any[])
         .map((msg: any) => ({
           id: msg.id || msg.Id,
-          chat_id: msg.chat_id || msg.ChatId,
+          chatId: msg.chat_id || msg.ChatId,
           content: msg.content || msg.Content || "",
           edited: msg.edited ?? msg.Edited ?? false,
-          edited_time: msg.edited_time || msg.EditedTime || "",
+          editedTime: msg.edited_time || msg.EditedTime || "",
           read: msg.read ?? msg.Read ?? false,
-          sender_id: msg.sender_id || msg.SenderId,
+          senderId: msg.sender_id || msg.SenderId,
           timestamp: msg.timestamp || msg.created_at || msg.CreatedAt || "",
         }))
         .filter((msg: Message) => msg.content && msg.content.trim());
@@ -204,9 +204,9 @@ export default function ChatSection({
             .map((msg, index, filteredMessages) => {
               const prevMessage =
                 index > 0 ? filteredMessages[index - 1] : null;
-              const isConsecutive = prevMessage?.sender_id === msg.sender_id;
+              const isConsecutive = prevMessage?.senderId === msg.senderId;
 
-              const msgSenderId = Number(msg.sender_id);
+              const msgSenderId = Number(msg.senderId);
               const currentUserIdNum = currentUserId
                 ? Number(currentUserId)
                 : null;
