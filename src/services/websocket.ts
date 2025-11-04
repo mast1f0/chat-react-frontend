@@ -39,7 +39,7 @@ class WebSocketService {
           token: token
         };
         
-        console.log('Sending auth message:', { type: authMessage.type, token: token.substring(0, 20) + '...' });
+        // console.log('Sending auth message:', { type: authMessage.type, token: token.substring(0, 20) + '...' });
         
         if (this.ws && this.ws.readyState === WebSocket.OPEN) {
           this.ws.send(JSON.stringify(authMessage));
@@ -56,7 +56,7 @@ class WebSocketService {
           const message: any = JSON.parse(event.data);
           this.notifyMessageHandlers(message);
         } catch (error) {
-          console.error('Error parsing WebSocket message:', error);
+          console.error(error);
         }
       };
 

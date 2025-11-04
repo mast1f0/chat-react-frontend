@@ -9,6 +9,7 @@ import type { JWT } from "../../../pages/SettingsPage";
 import { apiService } from "../../../services/api";
 import { webSocketService } from "../../../services/websocket";
 import getToken from "../../scripts/GetToken";
+import { useSearchParams } from "react-router-dom";
 
 const token = getToken();
 
@@ -160,6 +161,8 @@ export default function ChatSection({
   };
 
   const currentUserId = getCurrentUserId();
+  const [searchParams] = useSearchParams();
+  const urlChatId = searchParams.get("chat");
 
   return (
     <div className="main-section flex flex-col h-full">
@@ -184,7 +187,7 @@ export default function ChatSection({
           <div className="flex justify-center items-center h-full">
             <div className="text-white text-xl">Загрузка сообщений...</div>
           </div>
-        ) : !Array.isArray(messages) || messages.length === 0 ? (
+        ) : messages.length === 0 && !urlChatId ? (
           <div className="flex justify-center items-center h-full">
             <div className="items-center font-black mx-[15%] select-none">
               <p className=" text-3xl" style={{ color: "#403752" }}>
@@ -196,7 +199,6 @@ export default function ChatSection({
             </div>
           </div>
         ) : (
-          Array.isArray(messages) &&
           messages
             .filter((msg) => msg && msg.content && msg.content.trim())
             .map((msg, index, filteredMessages) => {

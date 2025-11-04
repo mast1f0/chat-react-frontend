@@ -73,7 +73,11 @@ class ApiService {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      return await response.json();
+      const data = await response.json();
+      const normalizedData: MessagesResponse = Array.isArray(data)
+        ? { data: data }
+        : (data && data.data ? data : { data: [] });
+      return normalizedData;
     } catch (error) {
       console.error('Error fetching messages:', error);
       throw error;

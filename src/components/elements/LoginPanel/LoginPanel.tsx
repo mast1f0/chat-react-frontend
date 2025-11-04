@@ -30,9 +30,6 @@ export default function LoginPanel() {
       }
 
       const data = await response.json();
-      console.log("JWT токен:", data.access_token);
-      console.log("Тип токена", data.token_type);
-
       if (isChecked) {
         localStorage.setItem("access_token", data.access_token);
       } else {

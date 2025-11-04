@@ -4,7 +4,7 @@ import RegistrationPage from "./pages/RegistrationPage/RegistrationPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import MainPage from "./pages/MainPage";
 import { FontSizeSetter } from "./FontSize";
-
+import ErrorPage from "./pages/errorPage";
 function App() {
   return (
     <>
@@ -14,6 +14,7 @@ function App() {
           <Route path="/" element={<MainPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/settings" element={<SettingsPage />} />
+          <Route path="*" element={<ErrorPage />} />
         </Routes>
       </FontSizeSetter>
     </>
