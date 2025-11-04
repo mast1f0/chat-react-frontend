@@ -50,11 +50,9 @@ export default function ChatSection({
 
   useEffect(() => {
     if (externalMessages) {
-      // Убеждаемся, что externalMessages является массивом
       const messagesArray = Array.isArray(externalMessages)
         ? externalMessages
         : (externalMessages as any)?.data || [];
-      // Фильтруем пустые сообщения
       const filteredMessages = messagesArray.filter(
         (msg: Message) => msg && msg.content && msg.content.trim()
       );
@@ -181,7 +179,7 @@ export default function ChatSection({
           <div className="w-8"></div>
         </div>
       )}
-      <div className="chat-section flex-1 overflow-y-auto">
+      <div className="chat-section flex-1 h-full overflow-y-auto">
         {loading ? (
           <div className="flex justify-center items-center h-full">
             <div className="text-white text-xl">Загрузка сообщений...</div>

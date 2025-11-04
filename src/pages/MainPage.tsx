@@ -27,7 +27,6 @@ export default function MainPage() {
 
   const handleMessagesLoaded = (chatId: string, messages: any) => {
     setCurrentChatId(chatId);
-    // Убеждаемся, что messages является массивом
     const messagesArray = Array.isArray(messages)
       ? messages
       : messages?.data || [];
@@ -42,48 +41,34 @@ export default function MainPage() {
   };
 
   const navigate = useNavigate();
-
   useEffect(() => {
     const urlChatId = searchParams.get("chat");
-    if (urlChatId) {
-      console.log(
-        "MainPage: Found chatId in URL:",
-        urlChatId,
-        "Current:",
-        currentChatId
-      );
-      if (urlChatId !== currentChatId) {
-        setCurrentChatId(urlChatId);
-        const loadMessagesFromUrl = async () => {
-          try {
-            const response = await fetchWithAuth(
-              `http://127.0.0.1:8091/api/v1/chats/messages/all/?chat_id=${urlChatId}&time=${Date.now()}`
-            );
-            if (response.ok) {
-              const responseData = await response.json();
-              // API может возвращать либо массив напрямую, либо объект с полем data
-              const messagesData = Array.isArray(responseData)
-                ? responseData
-                : responseData.data || [];
-              setCurrentMessages(messagesData);
-              console.log(
-                "MainPage: Messages loaded from URL chatId:",
-                messagesData.length
-              );
-            }
-          } catch (error) {
-            console.error("MainPage: Error loading messages from URL:", error);
+    if (urlChatId && urlChatId !== currentChatId) {
+      setCurrentChatId(urlChatId);
+      const loadMessagesFromUrl = async () => {
+        try {
+          const response = await fetchWithAuth(
+            `http://127.0.0.1:8091/api/v1/chats/messages/all/?chat_id=${urlChatId}&time=${Date.now()}`
+          );
+          if (response.ok) {
+            const responseData = await response.json();
+            // API может возвращать либо массив напрямую, либо объект с полем data
+            const messagesData = Array.isArray(responseData)
+              ? responseData
+              : responseData.data || [];
+            setCurrentMessages(messagesData);
           }
-        };
-        loadMessagesFromUrl();
-      }
-    } else if (currentChatId) {
-      console.log("MainPage: chatId removed from URL, clearing state");
+        } catch (error) {
+          console.error("MainPage: Error loading messages from URL:", error);
+        }
+      };
+      loadMessagesFromUrl();
+    } else if (!urlChatId && currentChatId) {
+      // Если chatId убран из URL
       setCurrentChatId(null);
       setCurrentMessages([]);
     }
-  }, [searchParams, currentChatId]);
-
+  }, [searchParams]);
   useEffect(() => {
     if (!isLogged()) {
       navigate("/login", { replace: true });
@@ -94,7 +79,6 @@ export default function MainPage() {
       try {
         const chatsData = await apiService.getAllChats();
         setChats(chatsData);
-        console.log("Chats loaded");
       } catch (error) {
         console.error(error);
       }
@@ -109,11 +93,6 @@ export default function MainPage() {
     };
 
     webSocketService.addConnectionHandler(handleConnectionChange);
-
-    return () => {
-      webSocketService.removeConnectionHandler(handleConnectionChange);
-      webSocketService.disconnect();
-    };
   }, [navigate]);
 
   useEffect(() => {
@@ -146,8 +125,13 @@ export default function MainPage() {
         <MeetFriendMenu
           isOpen={menuActive}
           onClose={() => setMenuActive(false)}
-          onChatCreated={(chat) => {
-            console.log("Новый чат создан:", chat);
+          onChatCreated={async () => {
+            try {
+              const chatsData = await apiService.getAllChats();
+              setChats(chatsData);
+            } catch (error) {
+              console.error("Error refreshing chats after creation:", error);
+            }
           }}
         />
       </div>
