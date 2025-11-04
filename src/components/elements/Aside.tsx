@@ -43,7 +43,7 @@ export default function Aside({
       onChatSelect(chatId);
     }
 
-    navigate(`/?chat=${chatId}&&`);
+    navigate(`/?chat=${chatId}`);
     try {
       const response = await fetchWithAuth(
         `http://127.0.0.1:8091/api/v1/chats/messages/all/?chat_id=${chatId}&time=${Date.now()}`
