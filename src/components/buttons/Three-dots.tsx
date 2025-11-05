@@ -1,4 +1,4 @@
-import Dots from "/src/assets/three-dots.svg";
+import Dots from "../../assets/three-dots.svg";
 import { ReactSVG } from "react-svg";
 
 export default function ThreeDots() {

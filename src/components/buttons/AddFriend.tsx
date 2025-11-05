@@ -1,4 +1,4 @@
-import addFriend from "/src/assets/meet-friend.png";
+import addFriend from "../../assets/meet-friend.png";
 
 interface AddFriendButtonProps {
   onToggleMenu: () => void;

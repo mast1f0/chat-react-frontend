@@ -68,7 +68,7 @@ export default function SettingsPage() {
               className="p-1 text-sm bg-gray-200 rounded-full hover:scale-125"
               title="Редактировать"
             >
-              <img src="./src/assets/tabler_pencil.svg" alt="" />
+              <img src={pencilIcon} alt="" />
             </button>
           )}
         </div>

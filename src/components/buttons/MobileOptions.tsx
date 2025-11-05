@@ -2,6 +2,8 @@ import { useState } from "react";
 import MeetFriendMenu from "../elements/MeetFriendMenu";
 import { useMobileMenu } from "../../contexts/MobileMenuContext";
 import SettingsButton from "./SettingsButton";
+import threeDotsIcon from "../../assets/three-dots.svg";
+import meetFriendIcon from "../../assets/meet-friend.png";
 
 export default function MobileOptions() {
   const [isOpen, setOpen] = useState(false);
@@ -26,7 +28,7 @@ export default function MobileOptions() {
           className="bg-[#E1E0E1] rounded-[15px] py-2 px-3 flex items-center justify-center transition-transform duration-200 hover:scale-110"
         >
           <img
-            src="/src/assets/three-dots.svg"
+            src={threeDotsIcon}
             alt="Настройки"
             className="w-11 h-11 object-contain"
           />
@@ -46,7 +48,7 @@ export default function MobileOptions() {
                 onClick={handleMenu}
               >
                 <img
-                  src="/src/assets/meet-friend.png"
+                  src={meetFriendIcon}
                   className="w-10 h-10"
                   alt=""
                 />

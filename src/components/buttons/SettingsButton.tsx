@@ -1,5 +1,5 @@
 import { ReactSVG } from "react-svg";
-
+import settingsIcon from "../../assets/setting-button.svg";
 export default function SettingsButton() {
   return (
     <a
@@ -9,7 +9,7 @@ export default function SettingsButton() {
     >
       <ReactSVG
         className="btn-icon"
-        src="/src/assets/setting-button.svg"
+        src={settingsIcon}
         style={{ maxWidth: 51, maxHeight: 51 }}
       />
     </a>

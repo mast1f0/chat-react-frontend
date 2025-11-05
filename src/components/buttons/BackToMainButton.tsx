@@ -16,7 +16,7 @@ export default function BackToMainButton() {
       >
         <img
           className="btn-icon"
-          src="/src/assets/Back.svg"
+          src={backIcon}
           style={{ maxWidth: 51, maxHeight: 51 }}
         />
       </button>

@@ -9,6 +9,7 @@ import { webSocketService } from "../../../services/websocket";
 import { useSearchParams } from "react-router-dom";
 import getInfoById from "../../scripts/GetInfoById";
 import getDecodedToken from "../../scripts/GetDecodedToken";
+import backIcon from "../../../assets/Back.svg";
 
 interface ChatSectionProps {
   onSendMessage?: (content: string) => void;
@@ -174,7 +175,7 @@ export default function ChatSection({
           >
             <img
               className="btn-icon"
-              src="./src/assets/Back.svg"
+              src={backIcon}
               style={{ maxWidth: 51, maxHeight: 51 }}
             />
           </button>

@@ -1,3 +1,5 @@
+import glassIcon from "../../assets/glass.png";
+
 interface SearchInputProps {
   query?: string;
   setQuery: (value: string) => void;
@@ -17,7 +19,7 @@ export default function SearchInput({ query, setQuery }: SearchInputProps) {
         style={{ height: "100%", minHeight: "60px" }}
       />
       <img
-        src="./src/assets/glass.png"
+        src={glassIcon}
         alt=""
         className="max-h-[30px] max-w-[30px] md:select-none mr-[10px]"
       />
