@@ -52,7 +52,7 @@ export default function Aside({
     navigate(`/?chat=${chatId}&ChatName=${chatName}`);
     try {
       const response = await fetchWithAuth(
-        `${API_CONFIG.baseUrl}/chats/messages/all/?chat_id=${chatId}}`
+        `${API_CONFIG.baseUrl}/chats/messages/all/?chat_id=${chatId}`
       );
       if (response.ok) {
         const messagesData = await response.json();
