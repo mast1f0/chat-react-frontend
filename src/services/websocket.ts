@@ -1,7 +1,7 @@
 // WebSocket сервис для работы с сообщениями в реальном времени
 
 import getToken from '../components/scripts/GetToken';
-import type {Message , SendMessageRequest } from './api';
+import {API_CONFIG, type Message , type SendMessageRequest } from './api';
 
 export type MessageHandler = (message: any) => void; // WebSocket сообщения приходят в snake_case формате
 export type ConnectionHandler = (connected: boolean) => void;
@@ -20,7 +20,7 @@ class WebSocketService {
 
       console.log('Attempting WebSocket connection...');
       // Подключаемся к WebSocket серверу
-      const wsUrl = 'ws://127.0.0.1:8091/ws/updates/';
+      const wsUrl = `${API_CONFIG.wsUrl}`;
       
       console.log('WebSocket URL:', wsUrl);
       console.log('Token found:', token.substring(0, 30) + '...');
