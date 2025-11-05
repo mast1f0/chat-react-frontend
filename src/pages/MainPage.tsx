@@ -5,7 +5,7 @@ import ChatSection from "../components/elements/chatSection/ChatSection";
 import MeetFriendMenu from "../components/elements/MeetFriendMenu";
 import { MobileMenuProvider } from "../contexts/MobileMenuContext";
 import { useEffect, useState } from "react";
-import { apiService } from "../services/api";
+import { API_CONFIG, apiService } from "../services/api";
 import { webSocketService } from "../services/websocket";
 import isLogged from "../components/scripts/IsLogged";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -48,7 +48,9 @@ export default function MainPage() {
       const loadMessagesFromUrl = async () => {
         try {
           const response = await fetchWithAuth(
-            `http://127.0.0.1:8091/api/v1/chats/messages/all/?chat_id=${urlChatId}&time=${Date.now()}`
+            `${
+              API_CONFIG.baseUrl
+            }/chats/messages/all/?chat_id=${urlChatId}&time=${Date.now()}`
           );
           if (response.ok) {
             const responseData = await response.json();

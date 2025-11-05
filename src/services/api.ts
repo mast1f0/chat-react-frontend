@@ -1,7 +1,9 @@
 // API сервис для работы с чатами и сообщениями
+// В dev режиме относительные пути для прокси Vite, в prod - полные URL
+const isDev = import.meta.env.DEV;
 export const API_CONFIG = {
-  baseUrl: import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8091/api/v1',
-  authUrl: import.meta.env.VITE_AUTH_BASE_URL || 'http://127.0.0.1:8090/api/v1',
+  baseUrl: import.meta.env.VITE_API_BASE_URL || (isDev ? '/api/v1' : 'http://127.0.0.1:8091/api/v1'),
+  authUrl: import.meta.env.VITE_AUTH_BASE_URL || (isDev ? '/api/v1' : 'http://127.0.0.1:8090/api/v1'),
   wsUrl: import.meta.env.VITE_WS_URL || 'ws://127.0.0.1:8091/ws/updates/',
 };
 

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import getToken from "../scripts/GetToken";
+import { API_CONFIG } from "../../services/api";
 
 interface IsOpened {
   isOpen: boolean;
@@ -32,17 +33,14 @@ export default function MeetFriendMenu({
     try {
       if (tab === 0) {
         // Создание чата
-        const response = await fetch(
-          "http://localhost:8091/api/v1/chats/create/",
-          {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ name: chatName }),
-          }
-        );
+        const response = await fetch(`${API_CONFIG.baseUrl}/chats/create/`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ name: chatName }),
+        });
 
         if (response.ok) {
           const data: ChatResponse = await response.json();
@@ -55,17 +53,14 @@ export default function MeetFriendMenu({
         }
       } else {
         // Добавление лички
-        const response = await fetch(
-          "http://localhost:8091/api/v1/friends/add/",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({ friend_id: friendId }),
-          }
-        );
+        const response = await fetch(`${API_CONFIG.baseUrl}/friends/add/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ friend_id: friendId }),
+        });
 
         if (response.ok) {
           console.log("Друг добавлен");

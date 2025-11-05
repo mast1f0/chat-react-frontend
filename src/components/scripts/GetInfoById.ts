@@ -1,10 +1,10 @@
-import type { InfoById } from "../../services/api";
+import { API_CONFIG, type InfoById } from "../../services/api";
 import getToken from "./GetToken";
 
 export default async function getInfoById(): Promise<InfoById[]> {
   try {
     const token = getToken();
-    const response = await fetch("http://localhost:8090/api/v1/users/all", {
+    const response = await fetch(`${API_CONFIG.authUrl}/users/all/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

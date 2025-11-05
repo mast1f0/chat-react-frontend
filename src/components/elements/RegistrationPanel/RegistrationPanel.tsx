@@ -1,6 +1,7 @@
 import "./RegistrationPanel.style.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { API_CONFIG } from "../../../services/api";
 
 type Form = {
   username: string;
@@ -43,19 +44,16 @@ export default function RegistrationPanel() {
 
     try {
       // Регистрация
-      const response = await fetch(
-        "http://localhost:8090/api/v1/auth/registration/",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username: form.username,
-            password: form.password,
-          }),
-        }
-      );
+      const response = await fetch(`${API_CONFIG.authUrl}/auth/registration/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: form.username,
+          password: form.password,
+        }),
+      });
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
@@ -66,19 +64,16 @@ export default function RegistrationPanel() {
       console.log("Регистрация успешна:", data.message);
 
       try {
-        const loginResponse = await fetch(
-          "http://localhost:8090/api/v1/auth/login/",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              username: form.username,
-              password: form.password,
-            }),
-          }
-        );
+        const loginResponse = await fetch(`${API_CONFIG.authUrl}/auth/login/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: form.username,
+            password: form.password,
+          }),
+        });
 
         if (!loginResponse.ok) {
           throw new Error("Ошибка при авторизации после регистрации");

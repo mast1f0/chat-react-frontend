@@ -1,6 +1,7 @@
 import "./LoginPanel.style.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { API_CONFIG } from "../../../services/api";
 
 export default function LoginPanel() {
   const [isChecked, setIsChecked] = useState(false); // запоминать токен или нет
@@ -17,7 +18,7 @@ export default function LoginPanel() {
     setError(null);
 
     try {
-      const response = await fetch("http://localhost:8090/api/v1/auth/login/", {
+      const response = await fetch(`${API_CONFIG.authUrl}/auth/login/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -5,6 +5,7 @@ import { useMobileMenu } from "../../contexts/MobileMenuContext";
 import { useNavigate } from "react-router-dom";
 import fetchWithAuth from "../scripts/FetchWithAuth";
 import MobileOptions from "../buttons/MobileOptions";
+import { API_CONFIG } from "../../services/api";
 
 export interface Chat {
   Id: string;
@@ -46,7 +47,7 @@ export default function Aside({
     navigate(`/?chat=${chatId}`);
     try {
       const response = await fetchWithAuth(
-        `http://127.0.0.1:8091/api/v1/chats/messages/all/?chat_id=${chatId}&time=${Date.now()}`
+        `${API_CONFIG.baseUrl}/chats/messages/all/?chat_id=${chatId}&time=${Date.now()}`
       );
       if (response.ok) {
         const messagesData = await response.json();
