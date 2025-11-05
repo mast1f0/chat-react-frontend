@@ -8,7 +8,7 @@ export default function BackToMainButton() {
   };
 
   return (
-    <div className="my-5 md:my-10 self-start ml-[4%]">
+    <div className="my-5 md:my-10 self-center ml-[4%]">
       <button
         onClick={handleBackClick}
         aria-label="Вернуться на главную"
@@ -16,7 +16,7 @@ export default function BackToMainButton() {
       >
         <img
           className="btn-icon"
-          src="./src/assets/Back.svg"
+          src="/src/assets/Back.svg"
           style={{ maxWidth: 51, maxHeight: 51 }}
         />
       </button>

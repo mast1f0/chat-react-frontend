@@ -3,6 +3,11 @@ import { useState, useRef } from "react";
 import BackToMainButton from "../components/buttons/BackToMainButton";
 import UserPanel from "../components/elements/UserPanel/UserPanel";
 import { useParams } from "react-router-dom";
+import { webSocketService } from "../services/websocket";
+import micIcon from "../assets/mic.svg";
+import airplaneIcon from "../assets/airplane.svg";
+import plusIcon from "../assets/plus.svg";
+import glassIcon from "../assets/purple-glass.svg";
 
 export default function MobileChatPage() {
   const { chatId: urlChatId } = useParams<{ chatId: string }>();
@@ -25,33 +30,32 @@ export default function MobileChatPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (msg.trim()) {
-      // Очистка поля ввода
+    if (msg.trim() && actualChatId) {
+      webSocketService.sendMessage({
+        chat_id: actualChatId,
+        content: msg.trim(),
+      });
       setMsg("");
     }
   };
 
   return (
     <div className="flex flex-col h-screen">
-      <div className="flex items-center justify-between px-2 sm:px-4 py-2 bg-white border-b border-gray-200 min-h-[60px]">
+      <div className="flex items-center justify-between px-2 sm:px-4 py-2 border-b border-gray-200 min-h-[30px] max-h-[12%]">
         <BackToMainButton />
         <UserPanel />
-        <button className="p-1 sm:p-2 flex-shrink-0">
-          <img
-            src="./src/assets/glass.png"
-            className="h-8 w-8 sm:h-7 sm:w-7"
-            alt="Search"
-          />
+        <button className="p-1 sm:p-2 flex-shrink-0 mt-2">
+          <img src={glassIcon} className="h-6 w-6 sm:h-7 sm:w-7" alt="Search" />
         </button>
       </div>
 
-      <div className="flex-1 overflow-hidden">
-        <ChatSection chatId={actualChatId} />
+      <div className="flex-1  overflow-hidden">
+        <ChatSection chatId={actualChatId} hideInput={true} />
       </div>
 
       <form
         onSubmit={handleSubmit}
-        className="flex items-center px-2 sm:px-4 gap-2 sm:gap-3 py-2 sm:py-3 bg-white border-t border-gray-200 min-h-[60px] sm:min-h-[70px]"
+        className="flex items-center px-2 sm:px-4 gap-2 sm:gap-3 py-2 sm:py-3 bg-white border-t border-gray-200 min-h-[60px] max-h-[15%] sm:min-h-[70px]"
       >
         <button
           type="button"
@@ -60,7 +64,7 @@ export default function MobileChatPage() {
         >
           <img
             className="w-6 h-6 sm:w-8 sm:h-8"
-            src="./src/assets/plus.svg"
+            src={plusIcon}
             alt="Добавить файл"
           />
         </button>
@@ -84,12 +88,16 @@ export default function MobileChatPage() {
         >
           {msg ? (
             <img
-              className="w-6 h-6"
-              src="./src/assets/airplane.svg"
+              className="w-6 h-6 brightness-0 invert"
+              src={airplaneIcon}
               alt="Send"
             />
           ) : (
-            <img className="w-6 h-6" src="./src/assets/mic.svg" alt="Send" />
+            <img
+              className="w-6 h-6 brightness-0 invert"
+              src={micIcon}
+              alt="Send"
+            />
           )}
         </button>
       </form>

@@ -38,13 +38,18 @@ export default function Aside({
   );
   const navigate = useNavigate();
 
-  const handleChatClick = async (chatId: string) => {
+  const handleChatClick = async (chatId: string, chatName: string) => {
     setSelectedChat(chatId);
     if (onChatSelect) {
       onChatSelect(chatId);
     }
 
-    navigate(`/?chat=${chatId}`);
+    if (isMobile) {
+      navigate(`/chat/${chatId}?ChatName=${chatName}`);
+      return;
+    }
+
+    navigate(`/?chat=${chatId}&&ChatName=${chatName}`);
     try {
       const response = await fetchWithAuth(
         `${
@@ -125,7 +130,7 @@ export default function Aside({
               .map((chat, index) => (
                 <div
                   key={chat.Id}
-                  onClick={() => handleChatClick(chat.Id)}
+                  onClick={() => handleChatClick(chat.Id, chat.Name)}
                   className={`text-white p-2.5 flex items-center gap-2.5 cursor-pointer transition-all duration-200 hover:bg-[#F5F4F7] hover:text-[#403752] hover:rounded-r-4xl ${
                     selectedChat === chat.Id ? "bg-white/20" : ""
                   } ${index === 0 ? "mt-4" : ""}`}

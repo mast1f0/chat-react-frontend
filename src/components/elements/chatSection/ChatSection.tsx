@@ -15,6 +15,7 @@ interface ChatSectionProps {
   messages?: Message[];
   chatId?: string;
   onBackToChatList?: () => void;
+  hideInput?: boolean; // Скрыть встроенный InputMessage из за мобилы
 }
 
 export default function ChatSection({
@@ -22,6 +23,7 @@ export default function ChatSection({
   messages: externalMessages,
   chatId,
   onBackToChatList,
+  hideInput = false,
 }: ChatSectionProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
@@ -214,7 +216,7 @@ export default function ChatSection({
         )}
         <div className="w-[1px] h-[1px]" ref={bottomRef} id="bottom"></div>
       </div>
-      {chatId && (
+      {chatId && !hideInput && (
         <div className="px-4 pb-4 pt-2 flex-shrink-0">
           <InputMessage onSendMessage={handleSendMessage} />
         </div>
