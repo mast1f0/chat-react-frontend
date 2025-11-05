@@ -35,21 +35,21 @@ export default function MobileOptions() {
         </button>
         {isOpen && (
           <div className="fixed flex flex-col w-screen top-[13%] right-0 justify-self-center px-2 z-30">
-            <div className="flex flex-row items-center gap-3.5 w-full">
-              <button className="bg-[#E1E0E1] rounded-[15px] flex-1 h-14 w-12 flex items-center justify-center transition-transform duration-200 hover:scale-110">
-                <span className="text-base">Some</span>
+            <div className="flex flex-row items-center gap-2 sm:gap-3.5 w-full">
+              <button className="bg-[#E1E0E1] rounded-[15px] flex-1 flex-shrink min-w-0 basis-0 h-14 flex items-center justify-center transition-transform duration-200 hover:scale-110 overflow-hidden">
+                <span className="text-sm sm:text-base truncate px-1">Some</span>
               </button>
-              <button className="bg-[#E1E0E1] rounded-[15px] flex-1 h-14 w-12 flex items-center justify-center transition-transform duration-200 hover:scale-110">
-                <span className="text-base">Some</span>
+              <button className="bg-[#E1E0E1] rounded-[15px] flex-1 flex-shrink min-w-0 basis-0 h-14 flex items-center justify-center transition-transform duration-200 hover:scale-110 overflow-hidden">
+                <span className="text-sm sm:text-base truncate px-1">Some</span>
               </button>
               <SettingsButton />
               <button
-                className="bg-[#E1E0E1] rounded-[15px] flex-1 h-14 flex w-12 items-center justify-center transition-transform duration-200 hover:scale-110"
+                className="bg-[#E1E0E1] rounded-[15px] flex-1 flex-shrink min-w-0 basis-0 h-14 flex items-center justify-center transition-transform duration-200 hover:scale-110 overflow-hidden"
                 onClick={handleMenu}
               >
                 <img
                   src={meetFriendIcon}
-                  className="w-10 h-10"
+                  className="w-8 h-8 sm:w-10 sm:h-10 flex-shrink-0 object-contain"
                   alt=""
                 />
               </button>
