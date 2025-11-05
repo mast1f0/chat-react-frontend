@@ -63,7 +63,10 @@ export default function ChatSection({
 
   useEffect(() => {
     chatIdRef.current = chatId;
-    if (!chatId) return;
+    if (!chatId) {
+      setMessages([]);
+      return;
+    }
 
     getInfoById().then(() => {
       setCurrentUserId(getCurrentUserId());
@@ -72,11 +75,18 @@ export default function ChatSection({
   }, [chatId]);
 
   useEffect(() => {
-    if (externalMessages) {
+    if (externalMessages !== undefined && externalMessages !== null) {
       const messagesArray = Array.isArray(externalMessages)
         ? externalMessages
         : (externalMessages as any).data || [];
-      setMessages(messagesArray.filter((msg: Message) => msg?.content?.trim()));
+      const filteredMessages = messagesArray.filter((msg: Message) =>
+        msg?.content?.trim()
+      );
+      // Обновляем сообщения только если они есть или если текущие сообщения пустые
+      // Это предотвращает очистку сообщений при временных пустых ответах
+      if (filteredMessages.length > 0 || messages.length === 0) {
+        setMessages(filteredMessages);
+      }
     }
   }, [externalMessages]);
 
@@ -182,7 +192,7 @@ export default function ChatSection({
         ) : messages.length === 0 && !urlChatId ? (
           <div className="flex justify-center items-center h-full">
             <div className="items-center font-black mx-[15%] select-none">
-              <p className=" text-3xl" style={{ color: "#403752" }}>
+              <p className="text-3xl" style={{ color: "#403752" }}>
                 Ой, а здесь никого нет ,
               </p>
               <p className="text-3xl" style={{ color: "#8C8098" }}>

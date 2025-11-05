@@ -43,8 +43,7 @@ export default function MainPage() {
   const navigate = useNavigate();
   useEffect(() => {
     const urlChatId = searchParams.get("chat");
-    if (urlChatId && urlChatId !== currentChatId) {
-      setCurrentChatId(urlChatId);
+    if (urlChatId) {
       const loadMessagesFromUrl = async () => {
         try {
           const response = await fetchWithAuth(

@@ -5,7 +5,8 @@
     align-content: center;
     align-items: center;
     flex: 1;
-    max-height: 80px;
+    max-height: 100px;
+    min-height: 80px;
     padding-inline: 20px;
 }
 

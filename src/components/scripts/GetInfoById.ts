@@ -4,7 +4,7 @@ import getToken from "./GetToken";
 export default async function getInfoById(): Promise<InfoById[]> {
   try {
     const token = getToken();
-    const response = await fetch(`${API_CONFIG.authUrl}/users/all/`, {
+    const response = await fetch(`${API_CONFIG.authUrl}/auth/users/all/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

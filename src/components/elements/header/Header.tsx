@@ -1,7 +1,6 @@
 import SettingsButton from "../../buttons/SettingsButton";
 import UserPanel from "../UserPanel/UserPanel";
 import "./Header.style.css";
-import getDecodedToken from "../../scripts/GetDecodedToken";
 import { useSearchParams } from "react-router-dom";
 import AddToGroupButton from "../../buttons/AddToGroupButton";
 
@@ -12,11 +11,10 @@ interface HeaderProps {
 export default function Header({ wsConnected = false }: HeaderProps) {
   const [params] = useSearchParams();
   const chatId = params.get("chat");
-  const decoded = getDecodedToken();
   return (
     <header className="header">
       <SettingsButton />
-      <UserPanel user={decoded?.username || ""} />
+      <UserPanel />
 
       <div
         className={`flex items-center gap-[8px] bg-[${

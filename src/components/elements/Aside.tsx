@@ -49,7 +49,8 @@ export default function Aside({
       return;
     }
 
-    navigate(`/?chat=${chatId}&&ChatName=${chatName}`);
+    // Добавляем timestamp для гарантии обновления URL при повторном клике
+    navigate(`/?chat=${chatId}&ChatName=${chatName}&t=${Date.now()}`);
     try {
       const response = await fetchWithAuth(
         `${
@@ -131,12 +132,12 @@ export default function Aside({
                 <div
                   key={chat.Id}
                   onClick={() => handleChatClick(chat.Id, chat.Name)}
-                  className={`text-white p-2.5 flex items-center gap-2.5 cursor-pointer transition-all duration-200 hover:bg-[#F5F4F7] hover:text-[#403752] hover:rounded-r-4xl ${
+                  className={`text-white  p-2.5 flex items-center gap-2.5 cursor-pointer transition-all duration-200 hover:bg-[#F5F4F7] hover:text-[#403752] hover:rounded-r-4xl ${
                     selectedChat === chat.Id ? "bg-white/20" : ""
                   } ${index === 0 ? "mt-4" : ""}`}
                 >
                   <div className="text-sm mt-1 flex-1">
-                    <strong className="text-[2rem] font-light ">
+                    <strong className="text-[2rem] font-light select-none">
                       {chat.Name}
                     </strong>
                   </div>
