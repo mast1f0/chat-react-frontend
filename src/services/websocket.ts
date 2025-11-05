@@ -19,8 +19,6 @@ class WebSocketService {
       const token = getToken() || "";
 
       console.log('Attempting WebSocket connection...');
-      console.log('Token found:', token.substring(0, 20) + '...');
-
       // Подключаемся к WebSocket серверу
       const wsUrl = 'ws://127.0.0.1:8091/ws/updates/';
       

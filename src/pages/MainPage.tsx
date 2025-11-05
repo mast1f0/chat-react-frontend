@@ -52,14 +52,12 @@ export default function MainPage() {
               API_CONFIG.baseUrl
             }/chats/messages/all/?chat_id=${urlChatId}&time=${Date.now()}`
           );
-          if (response.ok) {
-            const responseData = await response.json();
-            // API может возвращать либо массив напрямую, либо объект с полем data
-            const messagesData = Array.isArray(responseData)
-              ? responseData
-              : responseData.data || [];
-            setCurrentMessages(messagesData);
-          }
+          const responseData = await response.json();
+          // API может возвращать либо массив напрямую, либо объект с полем data
+          const messagesData = Array.isArray(responseData)
+            ? responseData
+            : responseData.data || [];
+          setCurrentMessages(messagesData);
         } catch (error) {
           console.error("MainPage: Error loading messages from URL:", error);
         }

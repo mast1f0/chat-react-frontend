@@ -47,7 +47,9 @@ export default function Aside({
     navigate(`/?chat=${chatId}`);
     try {
       const response = await fetchWithAuth(
-        `${API_CONFIG.baseUrl}/chats/messages/all/?chat_id=${chatId}&time=${Date.now()}`
+        `${
+          API_CONFIG.baseUrl
+        }/chats/messages/all/?chat_id=${chatId}&time=${Date.now()}`
       );
       if (response.ok) {
         const messagesData = await response.json();
@@ -108,7 +110,7 @@ export default function Aside({
           isMobileMenuOpen ? "translate-y-20 md:translate-y-0" : "translate-y-0"
         }`}
       >
-        {!chats || chats.length === 0 ? (
+        {chats.length === 0 ? (
           <div className="flex justify-center w-full items-center h-full">
             <h1 className="text-white font-black text-5xl text-center select-none">
               ПОКА ЗДЕСЬ ПУСТО

@@ -84,7 +84,7 @@ class ApiService {
       const data = await response.json();
       const normalizedData: MessagesResponse = Array.isArray(data)
         ? { data: data }
-        : (data && data.data ? data : { data: [] });
+        : (data.data ? data : { data: [] });
       return normalizedData;
     } catch (error) {
       console.error('Error fetching messages:', error);

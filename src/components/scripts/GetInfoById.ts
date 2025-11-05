@@ -24,7 +24,7 @@ export default async function getInfoById(): Promise<InfoById[]> {
 
     const users: InfoById[] = info.map((user: any) => ({
       id: Number(user.id),
-      username: String(user.username || ""),
+      username: user.username || "",
       name: user.name ?? null, 
       family: user.family ?? null,
     }));
