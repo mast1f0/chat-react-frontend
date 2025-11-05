@@ -5,6 +5,12 @@ export const API_CONFIG = {
   wsUrl: import.meta.env.VITE_WS_URL || 'ws://127.0.0.1:8091/ws/updates/',
 };
 
+export interface InfoById{
+  id: number;
+  username: string;
+  name: string | null; // пока нету
+  family: string | null; // пока нету
+}
 
 export interface Chat {
   Id: string;

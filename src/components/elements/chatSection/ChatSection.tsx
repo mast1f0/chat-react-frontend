@@ -2,25 +2,13 @@ import "./ChatSection.style.css";
 import UserMessage from "../UserMessage";
 import OtherMessage from "../OtherMessage";
 import InputMessage from "../InputMessage/InputMessage";
-import type { Message } from "../../../services/api";
+import type { Message, InfoById } from "../../../services/api";
 import { useState, useRef, useEffect } from "react";
-import { jwtDecode } from "jwt-decode";
-import type { JWT } from "../../../pages/SettingsPage";
 import { apiService } from "../../../services/api";
 import { webSocketService } from "../../../services/websocket";
-import getToken from "../../scripts/GetToken";
 import { useSearchParams } from "react-router-dom";
-
-const token = getToken();
-
-let decoded: JWT | null = null;
-if (token) {
-  try {
-    decoded = jwtDecode(token);
-  } catch (error) {
-    console.error("Ошибка декодирования JWT:", error);
-  }
-}
+import getInfoById from "../../scripts/GetInfoById";
+import getDecodedToken from "../../scripts/GetDecodedToken";
 
 interface ChatSectionProps {
   onSendMessage?: (content: string) => void;
@@ -37,81 +25,96 @@ export default function ChatSection({
 }: ChatSectionProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
+  const [currentUserId, setCurrentUserId] = useState<number | null>(null);
   const chatIdRef = useRef<string | undefined>(chatId);
+
+  //из localstorage может быть не массив, так что приводим к нему (ну или стараемся)
+  const getUsersFromStorage = (): InfoById[] => {
+    try {
+      const usersString = localStorage.getItem("users") || "[]";
+      const parsed = JSON.parse(usersString);
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      return [];
+    }
+  };
+
+  const getCurrentUserId = (): number | null => {
+    const decoded = getDecodedToken();
+    if (!decoded) return null;
+
+    const userId = (decoded as any).user_id || (decoded as any).id;
+    if (userId !== undefined) {
+      return Number(userId);
+    }
+
+    const users = getUsersFromStorage();
+    const user = users.find((u) => u.username === decoded.username);
+    return user?.id || null;
+  };
+
+  const findNameById = (id: number): string => {
+    const users = getUsersFromStorage();
+    const user = users.find((u) => u.id === id);
+    return user?.username || "";
+  };
 
   useEffect(() => {
     chatIdRef.current = chatId;
-  }, [chatId]);
+    if (!chatId) return;
 
-  useEffect(() => {
-    if (chatId) {
-      loadMessages(chatId);
-    }
+    getInfoById().then(() => {
+      setCurrentUserId(getCurrentUserId());
+    });
+    loadMessages(chatId);
   }, [chatId]);
 
   useEffect(() => {
     if (externalMessages) {
       const messagesArray = Array.isArray(externalMessages)
         ? externalMessages
-        : (externalMessages as any)?.data || [];
-      const filteredMessages = messagesArray.filter(
-        (msg: Message) => msg && msg.content && msg.content.trim()
-      );
-      setMessages(filteredMessages);
+        : (externalMessages as any).data || [];
+      setMessages(messagesArray.filter((msg: Message) => msg?.content?.trim()));
     }
   }, [externalMessages]);
 
   useEffect(() => {
     const handleWebSocketMessage = (wsMessage: any) => {
-      const currentChatId = chatIdRef.current;
-
-      const messageChatId = wsMessage.chat_id;
-      const messageId = wsMessage.id;
-      const senderId = wsMessage.sender_id;
-      const content = wsMessage.content;
-      const timestamp = wsMessage.timestamp;
-
-      const messageChatIdStr = String(messageChatId);
-      const currentChatIdStr = currentChatId ? String(currentChatId) : null;
-
-      if (currentChatIdStr && messageChatIdStr === currentChatIdStr) {
-        if (!content || !content.trim()) {
-          return;
-        }
-
-        const newMessage: Message = {
-          id: messageId,
-          chatId: messageChatId,
-          content: content,
-          edited: wsMessage.edited || false,
-          editedTime: wsMessage.edited_time || "",
-          read: wsMessage.read || false,
-          senderId: senderId,
-          timestamp: timestamp,
-        };
-        setMessages((prev) => {
-          const exists = prev.some((msg) => msg.id === messageId);
-          if (exists) {
-            return prev;
-          }
-          return [...prev, newMessage];
-        });
+      if (
+        String(chatIdRef.current) !== String(wsMessage.chat_id) ||
+        !wsMessage.content?.trim()
+      ) {
+        return;
       }
+
+      const newMessage: Message = {
+        id: wsMessage.id,
+        chatId: wsMessage.chat_id,
+        content: wsMessage.content,
+        edited: wsMessage.edited || false,
+        editedTime: wsMessage.edited_time || "",
+        read: wsMessage.read || false,
+        senderId: Number(wsMessage.sender_id),
+        timestamp: wsMessage.timestamp,
+      };
+
+      setMessages((prev) => {
+        if (prev.some((msg) => msg.id === newMessage.id)) {
+          return prev;
+        }
+        return [...prev, newMessage];
+      });
     };
 
     webSocketService.addMessageHandler(handleWebSocketMessage);
-
-    return () => {
-      webSocketService.removeMessageHandler(handleWebSocketMessage);
-    };
+    return () => webSocketService.removeMessageHandler(handleWebSocketMessage);
   }, []);
 
   const loadMessages = async (chatId: string) => {
     setLoading(true);
     try {
       const response = await apiService.getChatMessages(chatId);
-      //проблемы со snake_case и camelCase
-      const convertedMessages: Message[] = (response.data as any[])
+      const convertedMessages: Message[] = response.data
         .map((msg: any) => ({
           id: msg.id || msg.Id,
           chatId: msg.chat_id || msg.ChatId,
@@ -119,10 +122,10 @@ export default function ChatSection({
           edited: msg.edited ?? msg.Edited ?? false,
           editedTime: msg.edited_time || msg.EditedTime || "",
           read: msg.read ?? msg.Read ?? false,
-          senderId: msg.sender_id || msg.SenderId,
+          senderId: Number(msg.sender_id || msg.SenderId),
           timestamp: msg.timestamp || msg.created_at || msg.CreatedAt || "",
         }))
-        .filter((msg: Message) => msg.content && msg.content.trim());
+        .filter((msg: Message) => msg.content?.trim());
       setMessages(convertedMessages);
     } catch (error) {
       console.error("Ошибка загрузки сообщений:", error);
@@ -131,22 +134,15 @@ export default function ChatSection({
     }
   };
 
-  const handleSendMessage = async (content: string) => {
-    if (!chatId) {
-      console.error("Не выбран чат");
-      return;
-    }
-
-    if (!content.trim()) return;
+  const handleSendMessage = (content: string) => {
+    if (!chatId || !content.trim()) return;
 
     webSocketService.sendMessage({
       chat_id: chatId,
       content: content.trim(),
     });
 
-    if (onSendMessage) {
-      onSendMessage(content);
-    }
+    onSendMessage?.(content);
   };
 
   const bottomRef = useRef<HTMLDivElement | null>(null);
@@ -155,12 +151,6 @@ export default function ChatSection({
     bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
   }, [messages]);
 
-  const getCurrentUserId = (): number | null => {
-    if (!decoded) return null;
-    return (decoded as any).user_id || (decoded as any).sub || null;
-  };
-
-  const currentUserId = getCurrentUserId();
   const [searchParams] = useSearchParams();
   const urlChatId = searchParams.get("chat");
 
@@ -200,22 +190,18 @@ export default function ChatSection({
           </div>
         ) : (
           messages
-            .filter((msg) => msg && msg.content && msg.content.trim())
+            .filter((msg) => msg?.content?.trim())
             .map((msg, index, filteredMessages) => {
-              const prevMessage =
-                index > 0 ? filteredMessages[index - 1] : null;
-              const isConsecutive = prevMessage?.senderId === msg.senderId;
+              const isConsecutive =
+                filteredMessages[index - 1]?.senderId === msg.senderId;
+              const isOwnMessage = msg.senderId === currentUserId;
 
-              const msgSenderId = Number(msg.senderId);
-              const currentUserIdNum = currentUserId
-                ? Number(currentUserId)
-                : null;
-
-              return msgSenderId === currentUserIdNum ? (
+              return isOwnMessage ? (
                 <UserMessage
                   key={msg.id}
                   message={msg}
                   isConsecutive={isConsecutive}
+                  name={findNameById(msg.senderId)}
                 />
               ) : (
                 <OtherMessage
