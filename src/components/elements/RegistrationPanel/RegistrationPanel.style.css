@@ -4,9 +4,9 @@
     align-items: center;
     text-align: center;
     gap: 15px;
-    font-family: Arial, sans-serif;
-    margin: 0;
-    max-width: 410px;
+    padding: 20px;
+    box-sizing: border-box;
+    max-width: 800px;
     width: 100%;
 }
 
@@ -22,11 +22,11 @@ p, h1, a, h2, label {
 }
 
 .form-container {
-    margin-inline: 10%;
+    margin-left: auto;
+    margin-right: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-width: 600px;
     width: 100%;
     padding: 30px 20px;
     border-radius: 15px;
@@ -35,8 +35,7 @@ p, h1, a, h2, label {
 #login,
 #password,
 #repeat-password {
-    color:#8C8098 ;
-    font-weight: 600;
+    background-color: white;
     width: 100%;
     padding: 20px 30px;
     margin: 10px 0;
@@ -45,9 +44,7 @@ p, h1, a, h2, label {
     box-sizing: border-box;
     outline: none;
     font-size: 1.25rem;
-    font-style: italic;
-    outline: none;
-    box-shadow: none; 
+    color: #8C8098;
 }
 
 #password, #repeat-password {
@@ -55,7 +52,8 @@ p, h1, a, h2, label {
 }
 
 #login::placeholder, #password::placeholder, #repeat-password::placeholder {
-    color: #838383;
+    color: #8C8098;
+    opacity: 0.6;
     font-size: 1.25rem;
     font-style: italic;
     outline: none;
@@ -65,7 +63,7 @@ p, h1, a, h2, label {
 
 .form-submit {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     width: 100%;
     margin-block: 20px;
@@ -77,28 +75,31 @@ p, h1, a, h2, label {
     color: #fff;
     font-size: 0.85rem;
     text-decoration: underline;
+    align-self: center;
 }
 
 .form-submit label {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 8px;
     font-size: 0.85rem;
     color: #fff;
     cursor: pointer;
+    white-space: nowrap;
 }
 
 .reg-btn {
     background-color: #B099FF;
     border: none;
     border-radius: 15px;
-    padding: 25px 30px;
+    padding: 10px 40px;
     font-size: 1rem;
     font-weight: bold;
     cursor: pointer;
     color: #fff;
-    width: 100%;
     transition: background 0.3s;
+    width: 100%;
+    min-height: 60px;
 }
 
 .reg-btn:hover {
@@ -108,36 +109,47 @@ p, h1, a, h2, label {
 .no-account {
     font-size: 1.25rem;
     font-weight: 600;
-    /* font-style: italic; */
-    margin-top: 15px;
+    margin-top: 0;
+}
+
+form > * {
+    margin-block: 100px;
 }
 
 @media (max-width: 500px) {
     .form-container {
-        justify-content: center;
-        align-content: center;
-        margin-inline: 5%;
-        padding: 20px 15px;
+        margin-left: 0;
+        padding: 10px 15px;
     }
 
     #login, #password, #repeat-password {
         padding: 15px 20px;
+        font-size: 1rem;
+    }
+
+    #login::placeholder, #password::placeholder, #repeat-password::placeholder {
+        font-size: 1rem;
     }
 
     .form-submit {
         flex-direction: column;
         align-items: center;
         text-align: center;
+        gap: 1px;
+        margin: 0;
+    }
+
+    .form-submit button {
+        width: 100%;
+    }
+
+    .form-submit a {
+        margin-top: 10px;
     }
 
     .form-submit a,
     .form-submit label,
     .no-account {
-        font-size: 1.2rem; 
-    }
-
-    .reg-btn {
         font-size: 1.2rem;
-        width: 100%;
     }
 }

@@ -16,7 +16,6 @@ p, h1, a, h2, label {
 
 .form__name {
     font-size: 2.5rem;
-    /* font-style: italic; */
     font-weight: 400;
     margin-bottom: 20px;
 }
@@ -28,6 +27,7 @@ p, h1, a, h2, label {
     flex-direction: column;
     align-items: center;
     width: 100%;
+    max-width: 500px;
     padding: 30px 20px;
     border-radius: 15px;
     box-sizing: border-box;
@@ -42,7 +42,7 @@ p, h1, a, h2, label {
     border-radius: 21px;
     box-sizing: border-box;
     outline: none;
-    font-size: 1.25rem;
+    font-size: 1rem;
     color: #8C8098;
 }
 
@@ -51,7 +51,10 @@ p, h1, a, h2, label {
 }
 
 #login::placeholder, #password::placeholder {
+    color: #8C8098;
     opacity: 0.6;
+    font-size: 1.25rem;
+    font-style: italic;
     font-weight: 600;
 }
 
@@ -62,12 +65,11 @@ p, h1, a, h2, label {
     width: 100%;
     margin-block: 20px;
     gap: 10px;
-    flex-wrap: wrap;
 }
 
 .form-submit a {
     color: #fff;
-    font-size: 0.85rem;
+    font-size: 1rem;
     text-decoration: underline;
     align-self: center;
 }
@@ -76,16 +78,15 @@ p, h1, a, h2, label {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 0.85rem;
+    font-size: 1rem;
     color: #fff;
     cursor: pointer;
     white-space: nowrap;
 }
 
-
 .form-submit input[type="checkbox"] {
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
     cursor: pointer;
 }
 
@@ -93,12 +94,13 @@ p, h1, a, h2, label {
     background-color: #B099FF;
     border: none;
     border-radius: 15px;
-    padding: 10px 40px;
+    padding: 12px 40px;
     font-size: 1rem;
     font-weight: bold;
     cursor: pointer;
     color: #fff;
     transition: background 0.3s;
+    white-space: nowrap;
 }
 
 .submit-btn:hover {
@@ -106,45 +108,132 @@ p, h1, a, h2, label {
 }
 
 .no-account {
-    font-size: 1.25rem;
+    font-size: 1rem;
     font-weight: 600;
     margin-top: 0;
 }
 
-form > * {
-    margin-block: 100px;
+.no-account__btn {
+    text-decoration: none;
+    color: #fff;
 }
 
-@media (max-width: 500px) {
-    .form-container {
-        margin-left: 0;
-        padding: 10px 15px;
-    }
+.no-account__btn:hover {
+    text-decoration: underline;
+}
 
+/* Адаптивность для планшетов */
+@media (max-width: 768px) {
+    .form-container {
+        padding: 20px 15px;
+        max-width: 90%;
+    }
+    
+    .form__name {
+        font-size: 2rem;
+        margin-bottom: 15px;
+    }
+    
+    #login, #password {
+        padding: 18px 25px;
+        font-size: 0.95rem;
+    }
+    
+    #login::placeholder, #password::placeholder {
+        font-size: 0.95rem;
+    }
+    
+    .form-submit {
+        margin-block: 15px;
+    }
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 480px) {
+    .form-container {
+        padding: 15px 10px;
+        max-width: 95%;
+    }
+    
+    .registration-form {
+        padding: 15px;
+        gap: 12px;
+    }
+    
+    .form__name {
+        font-size: 1.8rem;
+        margin-bottom: 10px;
+    }
+    
     #login, #password {
         padding: 15px 20px;
+        font-size: 0.9rem;
+        margin: 5px 0;
     }
-
+    
+    #password {
+        margin-block: 15px;
+    }
+    
+    #login::placeholder, #password::placeholder {
+        font-size: 0.9rem;
+    }
+    
     .form-submit {
         flex-direction: column;
-        align-items: left;
-        text-align: center;
-        gap: 1px;
-        margin: 0;
+        align-items: stretch;
+        gap: 15px;
+        margin-block: 10px;
     }
-
-    .form-submit button {
-        width: 100%;
+    
+    .form-submit:first-of-type {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
     }
-
+    
+    .form-submit label {
+        font-size: 0.9rem;
+    }
+    
     .form-submit a {
-        margin-top: 10px;
+        font-size: 0.9rem;
     }
-
-    .form-submit a,
-    .form-submit label,
+    
+    .submit-btn {
+        width: 100%;
+        padding: 15px;
+        font-size: 1rem;
+    }
+    
     .no-account {
-        font-size: 1.2rem;
+        font-size: 0.9rem;
+        text-align: center;
     }
+}
 
+/* Для очень маленьких экранов */
+@media (max-width: 320px) {
+    .form-container {
+        padding: 10px 5px;
+    }
+    
+    .registration-form {
+        padding: 10px;
+    }
+    
+    .form__name {
+        font-size: 1.5rem;
+    }
+    
+    #login, #password {
+        padding: 12px 15px;
+        font-size: 0.85rem;
+    }
+    
+    .form-submit:first-of-type {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
 }
