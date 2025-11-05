@@ -49,13 +49,10 @@ export default function Aside({
       return;
     }
 
-    // Добавляем timestamp для гарантии обновления URL при повторном клике
-    navigate(`/?chat=${chatId}&ChatName=${chatName}&t=${Date.now()}`);
+    navigate(`/?chat=${chatId}&ChatName=${chatName}`);
     try {
       const response = await fetchWithAuth(
-        `${
-          API_CONFIG.baseUrl
-        }/chats/messages/all/?chat_id=${chatId}&time=${Date.now()}`
+        `${API_CONFIG.baseUrl}/chats/messages/all/?chat_id=${chatId}}`
       );
       if (response.ok) {
         const messagesData = await response.json();

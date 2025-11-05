@@ -47,9 +47,7 @@ export default function MainPage() {
       const loadMessagesFromUrl = async () => {
         try {
           const response = await fetchWithAuth(
-            `${
-              API_CONFIG.baseUrl
-            }/chats/messages/all/?chat_id=${urlChatId}&time=${Date.now()}`
+            `${API_CONFIG.baseUrl}/chats/messages/all/?chat_id=${urlChatId}`
           );
           const responseData = await response.json();
           // API может возвращать либо массив напрямую, либо объект с полем data
@@ -63,7 +61,6 @@ export default function MainPage() {
       };
       loadMessagesFromUrl();
     } else if (!urlChatId && currentChatId) {
-      // Если chatId убран из URL
       setCurrentChatId(null);
       setCurrentMessages([]);
     }

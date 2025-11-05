@@ -82,8 +82,6 @@ export default function ChatSection({
       const filteredMessages = messagesArray.filter((msg: Message) =>
         msg?.content?.trim()
       );
-      // Обновляем сообщения только если они есть или если текущие сообщения пустые
-      // Это предотвращает очистку сообщений при временных пустых ответах
       if (filteredMessages.length > 0 || messages.length === 0) {
         setMessages(filteredMessages);
       }
