@@ -125,7 +125,8 @@ export default function MeetFriendMenu({
                 ? setChatName(e.target.value)
                 : setFriendId(e.target.value)
             }
-            className="flex-1 px-3 sm:px-4 py-2 sm:py-3 border border-solid border-gray-400 rounded-[40px] focus:outline-none focus:ring-2 focus:ring-[#403752] text-[#403752] placeholder-[#8C8098] text-sm sm:text-base"
+            className="flex-1 px-3 sm:px-4 py-2 sm:py-3 border border-solid border-gray-400 rounded-[40px] focus:outline-none focus:ring-2 focus:ring-[#403752] text-[#403752] placeholder-[#8C8098] text-base max-w-full w-full box-border"
+            style={{ fontSize: '16px' }}
             required
           />
           {error && (
