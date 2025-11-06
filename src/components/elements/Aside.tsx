@@ -109,7 +109,7 @@ export default function Aside({
       </div>
       <div
         ref={sidebarRef}
-        className={`bg-[#403752] w-full h-full relative transition-transform duration-300 rounded-t-[71px] md:rounded-tl-[33px] md:rounded-tr-[0px] ${
+        className={`bg-[#403752] w-full h-full relative transition-transform duration-300 rounded-t-[33px] md:rounded-tl-[33px] md:rounded-tr-[0px] ${
           isMobileMenuOpen ? "translate-y-20 md:translate-y-0" : "translate-y-0"
         }`}
       >
