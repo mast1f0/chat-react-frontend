@@ -32,7 +32,9 @@ export default function UserMessage({
         transition: "transform 0.4s ease-out, opacity 0.4s ease-out",
       }}
     >
-      {name && <p className="text-white justify-end-safe text-xs">{name}</p>}
+      {name && !isConsecutive && (
+        <p className="text-white justify-end-safe text-xs">{name}</p>
+      )}
       <p className="text-white text-2xs break-words mb-4 whitespace-pre-wrap">
         {message.content}
       </p>
