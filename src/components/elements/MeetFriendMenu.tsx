@@ -18,11 +18,13 @@ export default function MeetFriendMenu({
   isOpen,
   onClose,
   onChatCreated,
+  onFriendAdded = () => {}, // Добавляем значение по умолчанию
 }: IsOpened) {
   const [chatName, setChatName] = useState("");
   const [friendId, setFriendId] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [tab, setTab] = useState(0);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -66,7 +68,7 @@ export default function MeetFriendMenu({
         if (response.ok) {
           console.log("Друг добавлен");
           setFriendId("");
-          onFriendAdded?.();
+          onFriendAdded(); // Теперь можно вызывать без опциональной цепочки
           onClose?.();
         } else {
           const errorData = await response.json();
@@ -79,7 +81,7 @@ export default function MeetFriendMenu({
       setIsLoading(false);
     }
   };
-  const [tab, setTab] = useState(0);
+
   if (!isOpen) return null;
   return (
     <>
