@@ -6,6 +6,7 @@ interface IsOpened {
   isOpen: boolean;
   onClose?: () => void;
   onChatCreated?: (chat: { name: string; owner_id: string }) => void;
+  onFriendAdded?: () => void;
 }
 
 interface ChatResponse {
@@ -65,6 +66,7 @@ export default function MeetFriendMenu({
         if (response.ok) {
           console.log("Друг добавлен");
           setFriendId("");
+          onFriendAdded?.();
           onClose?.();
         } else {
           const errorData = await response.json();

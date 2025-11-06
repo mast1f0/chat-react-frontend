@@ -55,7 +55,7 @@ export default function MobileChatPage() {
 
       <form
         onSubmit={handleSubmit}
-        className="flex items-center px-2 sm:px-4 gap-2 sm:gap-3 py-2 sm:py-3 bg-white border-t border-gray-200 min-h-[60px] max-h-[15%] sm:min-h-[70px] w-full max-w-full overflow-hidden"
+        className="flex items-center px-2 sm:px-4 pb-6 gap-2 sm:gap-3 py-2 sm:py-3 bg-white border-t border-gray-200 min-h-[60px] max-h-[15%] sm:min-h-[70px] w-full max-w-full overflow-hidden"
       >
         <button
           type="button"
@@ -81,7 +81,7 @@ export default function MobileChatPage() {
           value={msg}
           onChange={(e) => setMsg(e.target.value)}
           placeholder="Сообщение"
-          style={{ fontSize: '16px' }}
+          style={{ fontSize: "16px" }}
         />
         <button
           type="submit"

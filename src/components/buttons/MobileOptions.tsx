@@ -1,11 +1,13 @@
 import { useState } from "react";
 import MeetFriendMenu from "../elements/MeetFriendMenu";
 import { useMobileMenu } from "../../contexts/MobileMenuContext";
+import { useChatsRefresh } from "../../contexts/ChatsRefreshContext";
 import SettingsButton from "./SettingsButton";
 import threeDotsIcon from "../../assets/three-dots.svg";
 import meetFriendIcon from "../../assets/meet-friend.png";
 
 export default function MobileOptions() {
+  const { refreshChats } = useChatsRefresh();
   const [isOpen, setOpen] = useState(false);
   const { setIsMobileMenuOpen } = useMobileMenu();
 
@@ -60,6 +62,9 @@ export default function MobileOptions() {
       <MeetFriendMenu
         isOpen={menuIsActive}
         onClose={() => setMenuActive(false)}
+        onChatCreated={() => {
+          refreshChats();
+        }}
       />
     </>
   );

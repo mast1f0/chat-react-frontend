@@ -5,19 +5,22 @@ import LoginPage from "./pages/LoginPage/LoginPage";
 import MainPage from "./pages/MainPage";
 import MobileChatPage from "./pages/MobileChatPage";
 import { FontSizeSetter } from "./FontSize";
+import { ChatsRefreshProvider } from "./contexts/ChatsRefreshContext";
 import ErrorPage from "./pages/errorPage";
 function App() {
   return (
     <>
       <FontSizeSetter>
-        <Routes>
-          <Route path="/registration" element={<RegistrationPage />} />
-          <Route path="/" element={<MainPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/settings" element={<SettingsPage />} />
-          <Route path="/chat/:chatId" element={<MobileChatPage />} />
-          <Route path="*" element={<ErrorPage />} />
-        </Routes>
+        <ChatsRefreshProvider>
+          <Routes>
+            <Route path="/registration" element={<RegistrationPage />} />
+            <Route path="/" element={<MainPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/settings" element={<SettingsPage />} />
+            <Route path="/chat/:chatId" element={<MobileChatPage />} />
+            <Route path="*" element={<ErrorPage />} />
+          </Routes>
+        </ChatsRefreshProvider>
       </FontSizeSetter>
     </>
   );

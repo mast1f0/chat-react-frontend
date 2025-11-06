@@ -2,10 +2,11 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import SearchInput from "./SearchInput";
 import AddFriendButton from "../buttons/AddFriend";
 import { useMobileMenu } from "../../contexts/MobileMenuContext";
+import { useChatsRefresh } from "../../contexts/ChatsRefreshContext";
 import { useNavigate } from "react-router-dom";
 import fetchWithAuth from "../scripts/FetchWithAuth";
 import MobileOptions from "../buttons/MobileOptions";
-import { API_CONFIG } from "../../services/api";
+import { API_CONFIG, apiService } from "../../services/api";
 
 export interface Chat {
   Id: string;
@@ -28,6 +29,8 @@ export default function Aside({
   onChatSelect,
 }: AsideProps) {
   const { isMobileMenuOpen } = useMobileMenu();
+  const { registerRefreshCallback } = useChatsRefresh();
+  const [localChats, setLocalChats] = useState<Chat[]>(chats);
   const [query, setQuery] = useState("");
   const sidebarRef = useRef<HTMLDivElement>(null);
   const [isResizing, setIsResizing] = useState(false);
@@ -37,6 +40,22 @@ export default function Aside({
     () => Number(localStorage.getItem("asideWidth")) || 413
   );
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setLocalChats(chats);
+  }, [chats]);
+
+  useEffect(() => {
+    const refreshChats = async () => {
+      try {
+        const chatsData = await apiService.getAllChats();
+        setLocalChats(chatsData);
+      } catch (error) {
+        console.error("Error refreshing chats:", error);
+      }
+    };
+    registerRefreshCallback(refreshChats);
+  }, [registerRefreshCallback]);
 
   const handleChatClick = async (chatId: string, chatName: string) => {
     setSelectedChat(chatId);
@@ -113,7 +132,7 @@ export default function Aside({
           isMobileMenuOpen ? "translate-y-20 md:translate-y-0" : "translate-y-0"
         }`}
       >
-        {!chats || chats.length === 0 ? (
+        {!localChats || localChats.length === 0 ? (
           <div className="flex justify-center w-full items-center h-full">
             <h1 className="text-white font-black text-5xl text-center select-none">
               ПОКА ЗДЕСЬ ПУСТО
@@ -121,7 +140,7 @@ export default function Aside({
           </div>
         ) : (
           <div className="h-full overflow-y-auto">
-            {chats
+            {localChats
               .filter((chat) =>
                 chat.Name.toLowerCase().includes(query.toLowerCase())
               )

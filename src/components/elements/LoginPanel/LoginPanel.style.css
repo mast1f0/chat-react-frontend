@@ -72,6 +72,8 @@ p, h1, a, h2, label {
     font-size: 1rem;
     text-decoration: underline;
     align-self: center;
+    justify-self: center;
+    margin: auto;
 }
 
 .form-submit label {
@@ -82,6 +84,7 @@ p, h1, a, h2, label {
     color: #fff;
     cursor: pointer;
     white-space: nowrap;
+    margin: auto;
 }
 
 .form-submit input[type="checkbox"] {

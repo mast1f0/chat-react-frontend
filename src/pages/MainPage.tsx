@@ -114,6 +114,7 @@ export default function MainPage() {
           </div>
         </div>
         <Aside
+          key={chats.length}
           chats={chats}
           onToggleMenu={toggleMenu}
           onMessagesLoaded={handleMessagesLoaded}
@@ -121,7 +122,7 @@ export default function MainPage() {
         <MeetFriendMenu
           isOpen={menuActive}
           onClose={() => setMenuActive(false)}
-          onChatCreated={async () => {
+          onChatCreated={async (_newChat) => {
             try {
               const chatsData = await apiService.getAllChats();
               setChats(chatsData);
