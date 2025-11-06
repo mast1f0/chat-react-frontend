@@ -163,6 +163,17 @@ export default function ChatSection({
 
   const [searchParams] = useSearchParams();
   const urlChatId = searchParams.get("chat");
+  const newMessage2: Message = {
+    id: String(42),
+    chatId: String(7),
+    content:
+      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus alias cum facere? Nesciunt consequatur inventore porro perferendis velit eligendi mollitia illo aliquid temporibus ducimus. Omnis excepturi modi quae nihil illum?",
+    edited: false,
+    editedTime: "",
+    read: true,
+    senderId: 101,
+    timestamp: "2025-11-06T18:32:00Z",
+  };
 
   return (
     <div className="main-section flex flex-col h-full">
@@ -183,6 +194,12 @@ export default function ChatSection({
         </div>
       )}
       <div className="chat-section flex-1 h-full overflow-y-auto">
+        {/* test */}
+
+        <OtherMessage isConsecutive={false} message={newMessage2} />
+        <UserMessage isConsecutive={false} message={newMessage2} />
+        <UserMessage isConsecutive={false} message={newMessage2} />
+
         {loading ? (
           <div className="flex justify-center items-center h-full">
             <div className="text-white text-xl">Загрузка сообщений...</div>

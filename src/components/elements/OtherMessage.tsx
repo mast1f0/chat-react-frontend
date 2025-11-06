@@ -20,7 +20,7 @@ export default function OtherMessage({
 
   return (
     <div
-      className={`bg-white relative max-w-[85%] md:max-w-[500px] min-w-[100px] p-2 rounded-3xl rounded-bl-sm ${
+      className={`bg-white relative max-w-[85%] inline-block md:max-w-[500px] min-w-[100px] p-2 rounded-3xl rounded-bl-sm ${
         isConsecutive ? "mt-1" : "my-2"
       }`}
       style={{
@@ -31,7 +31,7 @@ export default function OtherMessage({
     >
       <p
         style={{ color: "black" }}
-        className="text-2xs break-words mb-4 whitespace-pre-wrap text-right"
+        className="text-2xs break-words mb-4 whitespace-pre-wrap ml-[3%]"
       >
         {message.content}
       </p>
