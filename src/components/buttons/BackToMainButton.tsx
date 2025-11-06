@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import backIcon from "../../assets/Back.svg";
 
 export default function BackToMainButton() {
   const navigate = useNavigate();

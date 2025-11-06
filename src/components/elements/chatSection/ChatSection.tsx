@@ -68,8 +68,7 @@ export default function ChatSection({
       setMessages([]);
       return;
     }
-
-    getInfoById().then(() => {
+    getInfoById(chatId).then(() => {
       setCurrentUserId(getCurrentUserId());
     });
     loadMessages(chatId);

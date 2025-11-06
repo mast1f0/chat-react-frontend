@@ -3,6 +3,7 @@ import FontSizeControl from "../components/elements/FontSizeEdit";
 import BackToMainButton from "../components/buttons/BackToMainButton";
 import getDecodedToken from "../components/scripts/GetDecodedToken";
 import logout from "../components/scripts/Logout";
+import pencilIcon from "../assets/tabler_pencil.svg"
 
 export interface JWT {
   sub?: string;
