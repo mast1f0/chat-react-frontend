@@ -96,7 +96,6 @@ export default function ChatSection({
       ) {
         return;
       }
-
       const newMessage: Message = {
         id: wsMessage.id,
         chatId: wsMessage.chat_id,
@@ -160,7 +159,6 @@ export default function ChatSection({
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
   }, [messages]);
-
   const [searchParams] = useSearchParams();
   const urlChatId = searchParams.get("chat");
   return (
