@@ -1,7 +1,7 @@
 import { API_CONFIG, type InfoById } from "../../services/api";
 import getToken from "./GetToken";
 
-export default async function getInfoById(chatId): Promise<InfoById[]> {
+export default async function getInfoById(chatId: string): Promise<InfoById[]> {
   try {
     const token = getToken();
     const response = await fetch(`${API_CONFIG.authUrl}/chats/members/?chat_id=${chatId}`, {
@@ -17,9 +17,9 @@ export default async function getInfoById(chatId): Promise<InfoById[]> {
       return [];
     }
     const usersListen = await response.json();
-    let usersIds = [];
+    let usersIds: Array<number> = [];
 
-    usersListen.forEach(userEl => {
+    usersListen.forEach((userEl: any) => {
       usersIds.push(userEl.user_id) // пока не сделал на сервере
     })
     console.log(usersIds) // TODO дальше с этими id надо работать(простите за колхоз). Отправляем ids в auth - в ответ получаем пи**.. список юзеров
