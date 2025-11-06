@@ -1,6 +1,5 @@
 import { API_CONFIG, type InfoById } from "../../services/api";
 import getToken from "./GetToken";
-
 export default async function getInfoById(chatId: string): Promise<InfoById[]> {
   try {
     const token = getToken();
@@ -17,19 +16,16 @@ export default async function getInfoById(chatId: string): Promise<InfoById[]> {
       return [];
     }
     const usersListen = await response.json();
-    let usersIds: Array<number> = [];
+    const usersIds = usersListen.map((userEl: any) => userEl.user_id);
 
-    usersListen.forEach((userEl: any) => {
-      usersIds.push(userEl.user_id) // пока не сделал на сервере
-    })
-    console.log(usersIds) // TODO дальше с этими id надо работать(простите за колхоз). Отправляем ids в auth - в ответ получаем пи**.. список юзеров
+    console.log(usersIds) // TODO дальше с этими id надо работать. Отправляем ids в auth - в ответ получаем список юзеров
 
     const info = await response.json();
     if (!Array.isArray(info)) {
       return [];
     }
 
-    const users: InfoById[] = info.map((user: any) => ({
+    const users: InfoById[] = info.map((user: InfoById) => ({
       id: Number(user.id),
       username: user.username || "",
       name: user.name ?? null, 

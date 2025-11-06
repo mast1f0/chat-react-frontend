@@ -2,7 +2,13 @@ import type { Message } from "../../services/api";
 import formatTime from "../scripts/FormatTime";
 import { useState, useEffect } from "react";
 
-export default function OtherMessage({ message, isConsecutive }: { message: Message; isConsecutive?: boolean }) {
+export default function OtherMessage({
+  message,
+  isConsecutive,
+}: {
+  message: Message;
+  isConsecutive?: boolean;
+}) {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -13,18 +19,23 @@ export default function OtherMessage({ message, isConsecutive }: { message: Mess
   }, []);
 
   return (
-    <div 
-      className={`bg-white relative max-w-[500px] min-w-[100px] p-4 rounded-3xl rounded-bl-sm ${isConsecutive ? 'mt-1' : 'my-2'}`}
+    <div
+      className={`bg-white relative max-w-[85%] md:max-w-[500px] min-w-[100px] p-2 rounded-3xl rounded-bl-sm ${
+        isConsecutive ? "mt-1" : "my-2"
+      }`}
       style={{
-        transform: isVisible ? 'translateX(0)' : 'translateX(-30px)',
+        transform: isVisible ? "translateX(0)" : "translateX(-30px)",
         opacity: isVisible ? 1 : 0,
-        transition: 'transform 0.4s ease-out, opacity 0.4s ease-out'
+        transition: "transform 0.4s ease-out, opacity 0.4s ease-out",
       }}
     >
-      <p style={{ color: "black" }} className="text-2xs break-words mb-5 whitespace-pre-wrap">
+      <p
+        style={{ color: "black" }}
+        className="text-2xs break-words mb-4 whitespace-pre-wrap text-right"
+      >
         {message.content}
       </p>
-      <span className="absolute bottom-1 mr-[5px] right-1  text-[#8C8C8C] text-[0.8rem]">
+      <span className="absolute bottom-1 left-1 text-[#8C8C8C] text-[0.8rem]">
         {formatTime(message.timestamp)}
       </span>
     </div>

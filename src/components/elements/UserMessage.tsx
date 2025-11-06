@@ -23,7 +23,7 @@ export default function UserMessage({
 
   return (
     <div
-      className={`bg-[#5D4A7A] h-auto relative max-w-[500px] min-w-[100px] p-4 rounded-3xl rounded-br-sm justify-self-end ${
+      className={`bg-[#5D4A7A] h-auto relative max-w-[80%] md:max-w-[500px] min-w-[100px] p-2 rounded-3xl rounded-br-sm justify-self-end ${
         isConsecutive ? "mt-1" : "my-2"
       }`}
       style={{
@@ -32,8 +32,8 @@ export default function UserMessage({
         transition: "transform 0.4s ease-out, opacity 0.4s ease-out",
       }}
     >
-      {name && <p className="">{name}</p>}
-      <p className="text-white text-2xs break-words mb-5 whitespace-pre-wrap">
+      {name && <p className="text-white justify-end-safe text-xs">{name}</p>}
+      <p className="text-white text-2xs break-words mb-4 whitespace-pre-wrap">
         {message.content}
       </p>
       <span className="absolute bottom-1 right-1 text-white text-[0.8rem]">

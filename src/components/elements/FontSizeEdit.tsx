@@ -17,17 +17,23 @@ export default function FontSizeControl() {
   };
 
   return (
-    <div style={{ marginBottom: "1rem" }}>
-      <label style={{color:"black"}} className="text-2xl" htmlFor="font-size">Шрифт :</label>
+    <div className="w-full my-4 flex justify-center items-center">
+      <label
+        htmlFor="font-size"
+        className="text-2xl"
+        style={{ color: "black" }}
+      >
+        Шрифт:
+      </label>
       <input
         id="font-size"
-        type="numeric"
+        type="number"
         min="10"
         max="50"
         value={temp}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
-        style={{ marginLeft: "0.5rem" }}
+        className="ml-2 w-16 text-center border border-gray-300 rounded"
       />
     </div>
   );
