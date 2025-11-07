@@ -48,7 +48,7 @@ export default function MobileChatPage() {
         </button>
       </div>
 
-      <div className="flex-1  overflow-hidden">
+      <div className="flex-1 mx-0 overflow-hidden">
         <ChatSection chatId={actualChatId} hideInput={true} />
       </div>
 
