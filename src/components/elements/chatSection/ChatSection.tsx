@@ -17,7 +17,7 @@ interface ChatSectionProps {
   chatId?: string;
   onBackToChatList?: () => void;
   hideInput?: boolean; // Скрыть встроенный InputMessage из за мобилы
-  hasChatsInAside?: boolean; // Есть ли чаты в Aside
+  hasChatsInAside?: boolean;
 }
 
 export default function ChatSection({
@@ -186,13 +186,22 @@ export default function ChatSection({
           <div className="flex justify-center items-center h-full">
             <div className="text-white text-xl">Загрузка сообщений...</div>
           </div>
-        ) : messages.length === 0 && !urlChatId && !chatId && !hasChatsInAside ? (
+        ) : messages.length === 0 &&
+          !urlChatId &&
+          !chatId &&
+          !hasChatsInAside ? (
           <div className="hidden md:flex justify-center items-center h-full px-4">
             <div className="items-center font-black select-none max-w-full w-full px-4 md:mx-[15%] md:px-0">
-              <p className="text-xl md:text-3xl break-words text-center" style={{ color: "#403752" }}>
+              <p
+                className="text-xl md:text-3xl break-words text-center"
+                style={{ color: "#403752" }}
+              >
                 Ой, а здесь никого нет ,
               </p>
-              <p className="text-xl md:text-3xl break-words text-center" style={{ color: "#8C8098" }}>
+              <p
+                className="text-xl md:text-3xl break-words text-center"
+                style={{ color: "#8C8098" }}
+              >
                 но собеседника всегда можно завести
               </p>
             </div>

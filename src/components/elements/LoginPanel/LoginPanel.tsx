@@ -11,7 +11,7 @@ export default function LoginPanel() {
   const navigate = useNavigate();
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setIsChecked(event.target.checked); // при проверке инвертировать
+    setIsChecked(event.target.checked);
   };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

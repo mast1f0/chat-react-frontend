@@ -43,7 +43,6 @@ export default function RegistrationPanel() {
     setError(null);
 
     try {
-      // Регистрация
       const response = await fetch(`${API_CONFIG.authUrl}/auth/registration/`, {
         method: "POST",
         headers: {
@@ -80,7 +79,6 @@ export default function RegistrationPanel() {
         }
 
         const loginData = await loginResponse.json();
-        console.log("Автоматический логин выполнен");
 
         localStorage.setItem("access_token", loginData.access_token);
         navigate("/", { replace: true });
@@ -126,7 +124,12 @@ export default function RegistrationPanel() {
           className="bg-white"
           autoComplete="new-password webauthn"
           required
-          style={{ fontSize: '1.25rem', letterSpacing: '0', fontFamily: 'inherit', lineHeight: '1.5' }}
+          style={{
+            fontSize: "1.25rem",
+            letterSpacing: "0",
+            fontFamily: "inherit",
+            lineHeight: "1.5",
+          }}
         />
 
         {error && (

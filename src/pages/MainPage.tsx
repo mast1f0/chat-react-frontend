@@ -111,7 +111,7 @@ export default function MainPage() {
           setChats(chatsData);
         }
       } catch (error) {
-        console.error("Error refreshing chats periodically:", error);
+        console.error(error);
       }
     }, 2000);
 

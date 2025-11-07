@@ -18,7 +18,7 @@ export default function MeetFriendMenu({
   isOpen,
   onClose,
   onChatCreated,
-  onFriendAdded = () => {}, // Добавляем значение по умолчанию
+  onFriendAdded = () => {},
 }: IsOpened) {
   const [chatName, setChatName] = useState("");
   const [friendId, setFriendId] = useState("");
@@ -68,7 +68,7 @@ export default function MeetFriendMenu({
         if (response.ok) {
           console.log("Друг добавлен");
           setFriendId("");
-          onFriendAdded(); // Теперь можно вызывать без опциональной цепочки
+          onFriendAdded();
           onClose?.();
         } else {
           const errorData = await response.json();
@@ -119,7 +119,10 @@ export default function MeetFriendMenu({
             ✕
           </button>
         </div>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-2 sm:gap-3 w-full">
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col gap-2 sm:gap-3 w-full"
+        >
           <input
             type="text"
             placeholder={tab === 0 ? "Название чата" : "ID друга"}
@@ -130,11 +133,13 @@ export default function MeetFriendMenu({
                 : setFriendId(e.target.value)
             }
             className="flex-1 px-3 sm:px-4 py-2 sm:py-3 border border-solid border-gray-400 rounded-[40px] focus:outline-none focus:ring-2 focus:ring-[#403752] text-[#403752] placeholder-[#8C8098] text-base max-w-full w-full box-border"
-            style={{ fontSize: '16px' }}
+            style={{ fontSize: "16px" }}
             required
           />
           {error && (
-            <div className="text-red-500 text-xs sm:text-sm text-center">{error}</div>
+            <div className="text-red-500 text-xs sm:text-sm text-center">
+              {error}
+            </div>
           )}
           <button
             type="submit"
