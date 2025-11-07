@@ -35,7 +35,7 @@ export default async function getInfoById(chatId: string): Promise<InfoById[]> {
     localStorage.setItem("users", JSON.stringify(users));
     return users;
   } catch (error) {
-    console.error("Error fetching users:", error);
+    // console.error("Error fetching users:", error);
     return [];
   }
 }

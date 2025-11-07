@@ -7,8 +7,7 @@ import { webSocketService } from "../services/websocket";
 import micIcon from "../assets/mic.svg";
 import airplaneIcon from "../assets/airplane.svg";
 import plusIcon from "../assets/plus.svg";
-import glassIcon from "../assets/purple-glass.svg";
-
+import AddToGroupButton from "../components/buttons/AddToGroupButton";
 export default function MobileChatPage() {
   const { chatId: urlChatId } = useParams<{ chatId: string }>();
   const [msg, setMsg] = useState("");
@@ -45,7 +44,7 @@ export default function MobileChatPage() {
         <BackToMainButton />
         <UserPanel />
         <button className="p-1 sm:p-2 flex-shrink-0 mt-2">
-          <img src={glassIcon} className="h-6 w-6 sm:h-7 sm:w-7" alt="Search" />
+          <AddToGroupButton chatId={actualChatId || undefined} />
         </button>
       </div>
 

@@ -41,6 +41,17 @@ export interface SendMessageRequest {
   content: string;
 }
 
+export interface Member {
+  chat_id: string;
+  user_id: number;
+  joined_at: string;
+}
+
+export interface AddMemberRequest {
+  chat_id: string;
+  user_id: number;
+}
+
 class ApiService {
   private baseUrl = API_CONFIG.baseUrl;
 
@@ -91,6 +102,58 @@ class ApiService {
       throw error;
     }
   }
+
+  async addMemberToChat(request: AddMemberRequest): Promise<{ message: string }> {
+    try {
+      console.log('Adding member to chat:', request);
+      const response = await fetch(`${this.baseUrl}/chats/add/member/`, {
+        method: 'POST',
+        headers: this.getAuthHeaders(),
+        body: JSON.stringify(request),
+      });
+
+      console.log('Add member response status:', response.status);
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Error response text:', errorText);
+        let errorData;
+        try {
+          errorData = JSON.parse(errorText);
+        } catch {
+          errorData = { error: errorText || 'Unknown error' };
+        }
+        console.error('Error data:', errorData);
+        throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      console.log('Member added successfully:', result);
+      return result;
+    } catch (error) {
+      console.error('Error adding member to chat:', error);
+      throw error;
+    }
+  }
+
+  async getChatMembers(chatId: string): Promise<Member[]> {
+    try {
+      const response = await fetch(`${this.baseUrl}/chats/members/?chat_id=${chatId}`, {
+        method: 'GET',
+        headers: this.getAuthHeaders(),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching chat members:', error);
+      throw error;
+    }
+  }
+
 }
 
 export const apiService = new ApiService();

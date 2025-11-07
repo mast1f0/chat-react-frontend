@@ -44,11 +44,24 @@ p, h1, a, h2, label {
     box-sizing: border-box;
     outline: none;
     font-size: 1.25rem;
+    font-family: inherit;
     color: #8C8098;
+    line-height: 1.5;
 }
 
-#password, #repeat-password {
-    margin-block: 20px;
+#password,
+#repeat-password {
+    font-size: 1.25rem !important;
+    letter-spacing: 0 !important;
+    font-family: inherit !important;
+    line-height: 1.5 !important;
+}
+
+input[type="password"]#repeat-password {
+    font-size: 1.25rem !important;
+    letter-spacing: 0 !important;
+    font-family: inherit !important;
+    line-height: 1.5 !important;
 }
 
 #login::placeholder, #password::placeholder, #repeat-password::placeholder {

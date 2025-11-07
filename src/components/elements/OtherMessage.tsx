@@ -19,9 +19,9 @@ export default function OtherMessage({
   }, []);
 
   return (
-    <div className="block">
+    <div className="flex justify-start w-full">
       <div
-        className={`bg-white relative max-w-[85%] inline-block md:max-w-[500px] min-w-[100px] p-2 rounded-3xl rounded-bl-sm ${
+        className={`bg-white relative max-w-[65%] md:max-w-[400px] min-w-[100px] p-2 rounded-3xl rounded-bl-sm ${
           isConsecutive ? "mt-1" : "my-2"
         }`}
         style={{

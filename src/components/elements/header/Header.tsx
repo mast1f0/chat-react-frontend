@@ -30,7 +30,7 @@ export default function Header({ wsConnected = false }: HeaderProps) {
           {wsConnected ? "Online" : "Offline"}
         </p>
       </div>
-      {chatId && <AddToGroupButton />}
+      {chatId && <AddToGroupButton chatId={chatId} />}
     </header>
   );
 }

@@ -104,7 +104,7 @@ export default function RegistrationPanel() {
           value={form.username}
           onChange={(e) => setForm({ ...form, username: e.target.value })}
           className="bg-white"
-          autoComplete="name webauthn"
+          autoComplete="username"
           required
         />
         <input
@@ -126,6 +126,7 @@ export default function RegistrationPanel() {
           className="bg-white"
           autoComplete="new-password webauthn"
           required
+          style={{ fontSize: '1.25rem', letterSpacing: '0', fontFamily: 'inherit', lineHeight: '1.5' }}
         />
 
         {error && (
