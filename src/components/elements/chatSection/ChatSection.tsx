@@ -179,7 +179,7 @@ export default function ChatSection({
           <div className="w-8"></div>
         </div>
       )}
-      <div className="chat-section flex-1 h-full overflow-y-auto">
+      <div className="chat-section h-full overflow-y-auto">
         {loading ? (
           <div className="flex justify-center items-center h-full">
             <div className="text-white text-xl">Загрузка сообщений...</div>

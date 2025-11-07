@@ -22,7 +22,7 @@ export default function UserMessage({
   }, []);
 
   return (
-    <div className="flex justify-end w-full">
+    <div className="flex justify-end w-full ">
       <div
         className={`bg-[#5D4A7A] h-auto relative max-w-[65%] md:max-w-[400px] min-w-[100px] p-2 rounded-3xl rounded-br-sm ${
           isConsecutive ? "mt-1" : "my-2"
