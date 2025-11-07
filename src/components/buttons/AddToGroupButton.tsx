@@ -95,8 +95,8 @@ export default function AddToGroupButton({
         title={chatId ? "Добавить пользователя в чат" : "Выберите чат"}
       >
         <img
+          alt=""
           src={AddIcon}
-          alt="Добавить в группу"
           className={`w-6 h-6 hover:scale-125 transition-transform ${
             !chatId ? "opacity-50 cursor-not-allowed" : ""
           }`}
@@ -113,9 +113,6 @@ export default function AddToGroupButton({
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-center text-[#403752]">
-                Добавить пользователя в чат
-              </h2>
               <button
                 onClick={handleClose}
                 className="text-[#8C8098] hover:text-[#403752] text-xl font-bold transition-colors"

@@ -96,6 +96,27 @@ export default function MainPage() {
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, []);
+
+  useEffect(() => {
+    const intervalId = setInterval(async () => {
+      try {
+        const chatsData = await apiService.getAllChats();
+        const currentChatsCount = chats.length;
+        const newChatsCount = chatsData.length;
+
+        if (currentChatsCount !== newChatsCount) {
+          console.log(
+            `Chats count changed: ${currentChatsCount} -> ${newChatsCount}`
+          );
+          setChats(chatsData);
+        }
+      } catch (error) {
+        console.error("Error refreshing chats periodically:", error);
+      }
+    }, 2000);
+
+    return () => clearInterval(intervalId);
+  }, [chats.length]);
   return (
     <MobileMenuProvider>
       <div className="flex h-full md:h-screen flex-col md:flex-row">
