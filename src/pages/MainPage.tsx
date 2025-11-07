@@ -110,6 +110,7 @@ export default function MainPage() {
               messages={currentMessages}
               chatId={currentChatId || undefined}
               onBackToChatList={isMobile ? handleBackToChatList : undefined}
+              hasChatsInAside={chats.length > 0}
             />
           </div>
         </div>
